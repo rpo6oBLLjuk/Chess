@@ -4,25 +4,24 @@ using UnityEngine.UI;
 
 public class UIWidget : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup canvasGroup;
-    [SerializeField] private Button HideButton;
+    [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
+    [field: SerializeField] public Button HideButton { get; private set; }
 
 
-    public void InitWidget(float Duration) => HideButton.onClick.AddListener(() => HideWidget(Duration));
-
-    public void ShowWidget(float duration)
+    public virtual Tween ShowWidget(float showDuration)
     {
-        canvasGroup.DOFade(1, duration)
-            .From(0);
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
+        CanvasGroup.interactable = true;
+        CanvasGroup.blocksRaycasts = true;
+
+        return CanvasGroup.DOFade(1, showDuration);
     }
 
-    public void HideWidget(float duration)
+    public virtual Tween HideWidget(float hideDuration)
     {
-        canvasGroup.DOFade(0, duration)
-            .From(1);
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
+        CanvasGroup.interactable = false;
+        CanvasGroup.blocksRaycasts = false;
+
+        return CanvasGroup.DOFade(0, hideDuration);
+
     }
 }
