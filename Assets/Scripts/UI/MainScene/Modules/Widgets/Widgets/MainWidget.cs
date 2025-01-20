@@ -1,4 +1,4 @@
-public class MainWidget : UIWidget
+public class MainWidget : Widget
 {
     // Start is called before the first frame update
     void Start()

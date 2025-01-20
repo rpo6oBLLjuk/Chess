@@ -11,7 +11,7 @@ public class WidgetSwitcher : MonoBehaviour
     [Serializable]
     private class WidgetContainer
     {
-        public UIWidget widget;
+        public Widget widget;
         public Button showButton;
     }
     [SerializeField] private List<WidgetContainer> widgets;

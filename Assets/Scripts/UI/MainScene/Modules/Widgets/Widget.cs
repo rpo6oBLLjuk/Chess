@@ -2,7 +2,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIWidget : MonoBehaviour
+public class Widget : MonoBehaviour
 {
     [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
     [field: SerializeField] public Button HideButton { get; private set; }
