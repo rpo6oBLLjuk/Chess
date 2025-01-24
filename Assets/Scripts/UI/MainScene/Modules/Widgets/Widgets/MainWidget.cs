@@ -1,4 +1,4 @@
-public class MainWidget : Widget
+public class MainWidget : Panel
 {
     // Start is called before the first frame update
     void Start()

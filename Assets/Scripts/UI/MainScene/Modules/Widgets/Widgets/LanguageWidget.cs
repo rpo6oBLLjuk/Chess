@@ -1,4 +1,4 @@
-public class LanguageWidget : Widget
+public class LanguageWidget : Panel
 {
 
 }

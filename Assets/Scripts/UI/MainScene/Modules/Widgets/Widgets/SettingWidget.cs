@@ -1,4 +1,4 @@
-public class SettingWidget : Widget
+public class SettingWidget : Panel
 {
     
 }
