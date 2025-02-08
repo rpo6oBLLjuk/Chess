@@ -5,3 +5,10 @@ PrefabImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 199010
+  packageName: Dark Theme UI
+  packageVersion: 
+  assetPath: Assets/Prefabs/MainScene/UI/Panels/Common/Settings.prefab
+  uploadId: 0

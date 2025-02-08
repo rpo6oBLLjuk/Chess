@@ -9,6 +9,11 @@ public class GridLayoutGroupAutosize : MonoBehaviour
     [SerializeField] private GridLayoutGroup gridLayoutGroup;
     [SerializeField] private RectTransform rectTransform;
 
+    [Header("Settings")]
+    [SerializeField] private bool isSquare = true;
+    [SerializeField] private bool countingInactiveChildren = false;
+
+    [Header("Debug")]
     [SerializeField] private bool logging = false;
 
     private struct GridLayoutGroupState
@@ -20,6 +25,9 @@ public class GridLayoutGroupAutosize : MonoBehaviour
         public Vector2 spacing;
         public TextAnchor childAlignment;
         public bool startAxisVertical;
+        public int childCount;
+        public bool isSquare;
+        public bool countingInactiveChildren;
     }
     private struct RectTransformState
     {
@@ -69,7 +77,10 @@ public class GridLayoutGroupAutosize : MonoBehaviour
             cellSize = gridLayoutGroup.cellSize,
             spacing = gridLayoutGroup.spacing,
             childAlignment = gridLayoutGroup.childAlignment,
-            startAxisVertical = (gridLayoutGroup.startAxis == GridLayoutGroup.Axis.Vertical)
+            startAxisVertical = (gridLayoutGroup.startAxis == GridLayoutGroup.Axis.Vertical),
+            childCount = GetChildren(),
+            isSquare = this.isSquare,
+            countingInactiveChildren = this.countingInactiveChildren,
         };
 
         previousRectState = new RectTransformState
@@ -89,7 +100,10 @@ public class GridLayoutGroupAutosize : MonoBehaviour
             previousGridState.cellSize != gridLayoutGroup.cellSize ||
             previousGridState.spacing != gridLayoutGroup.spacing ||
             previousGridState.childAlignment != gridLayoutGroup.childAlignment ||
-            previousGridState.startAxisVertical != (gridLayoutGroup.startAxis == GridLayoutGroup.Axis.Vertical))
+            previousGridState.startAxisVertical != (gridLayoutGroup.startAxis == GridLayoutGroup.Axis.Vertical ||
+            previousGridState.childCount != GetChildren() ||
+            previousGridState.isSquare != isSquare ||
+            previousGridState.countingInactiveChildren != countingInactiveChildren))
         {
             return true;
         }
@@ -122,21 +136,22 @@ public class GridLayoutGroupAutosize : MonoBehaviour
             return;
         }
 
-        float cellSize = CalculateCellSize();
-        gridLayoutGroup.cellSize = new Vector2(cellSize, cellSize);
+        CalculateCellSize();
 
         if (logging)
             Debug.Log("Resized", this);
     }
-    private float CalculateCellSize()
+    private void CalculateCellSize()
     {
         float verticalPadding = gridLayoutGroup.padding.bottom + gridLayoutGroup.padding.top;
         float horizontalPadding = gridLayoutGroup.padding.left + gridLayoutGroup.padding.right;
         float verticalSpacing = gridLayoutGroup.spacing.y;
         float horizontalSpacing = gridLayoutGroup.spacing.x;
 
-        float childCount = gridLayoutGroup.transform.childCount;
-        float countOnOtherAxis = Mathf.FloorToInt(childCount / gridLayoutGroup.constraintCount);
+        float childCount = GetChildren();
+        float countOnOtherAxis = Mathf.Ceil(childCount / (float)gridLayoutGroup.constraintCount);
+
+        countOnOtherAxis = countOnOtherAxis > 0 ? countOnOtherAxis : 1;
 
         float minWidth = 0;
         float minHeight = 0;
@@ -152,7 +167,38 @@ public class GridLayoutGroupAutosize : MonoBehaviour
             minHeight = (rectTransform.rect.height - (verticalPadding + verticalSpacing * (countOnOtherAxis - 1))) / countOnOtherAxis;
         }
 
-        return Mathf.Min(minWidth, minHeight);
+        if (isSquare)
+        {
+            float cellSize = Mathf.Min(minWidth, minHeight);
+            gridLayoutGroup.cellSize = new Vector2(cellSize, cellSize);
+        }
+        else
+        {
+            gridLayoutGroup.cellSize = new Vector2(minWidth, minHeight);
+        }
+
+    }
+
+    private int GetChildren()
+    {
+        if (countingInactiveChildren)
+        {
+            return gridLayoutGroup.transform.childCount;
+        }
+        else
+        {
+            int activeChildCount = 0;
+
+            foreach (Transform child in transform)
+            {
+                if (child.gameObject.activeInHierarchy)
+                {
+                    activeChildCount++;
+                }
+            }
+
+            return activeChildCount;
+        }
     }
 
     private void Reset()

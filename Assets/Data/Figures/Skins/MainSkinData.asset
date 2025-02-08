@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5cfe43bd30784c4a80ee13d9c6aa757, type: 3}
+  m_Name: MainSkinData
+  m_EditorClassIdentifier: 
+  Pawn:
+    WhiteSkin: {fileID: -931804659, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    BlackSkin: {fileID: -2103288121, guid: b277623a6b6185e48940a033ae824366, type: 3}
+  Knight:
+    WhiteSkin: {fileID: -1918918513, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    BlackSkin: {fileID: -1522506525, guid: b277623a6b6185e48940a033ae824366, type: 3}
+  Bishop:
+    WhiteSkin: {fileID: -1635506964, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    BlackSkin: {fileID: 1388687789, guid: b277623a6b6185e48940a033ae824366, type: 3}
+  Rook:
+    WhiteSkin: {fileID: -280016254, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    BlackSkin: {fileID: 1975961072, guid: b277623a6b6185e48940a033ae824366, type: 3}
+  Queen:
+    WhiteSkin: {fileID: -1350833425, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    BlackSkin: {fileID: 1544855795, guid: b277623a6b6185e48940a033ae824366, type: 3}
+  King:
+    WhiteSkin: {fileID: 2145688461, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    BlackSkin: {fileID: -379450193, guid: b277623a6b6185e48940a033ae824366, type: 3}
