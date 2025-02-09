@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class AnimatedPanel : Panel
 {
+    [Header("Animated Panel settings")]
+    [SerializeField] private AnimatedPanelData data;
     [SerializeField] private List<AnimatedElement> AnimatedWidgetElements;
 
 
     public override void Initialize() => AnimatedWidgetElements.ForEach(element => element.Initialize());
 
-    public void Show(float showDuration, float delay = 0)
+    public override void Show()
     {
         base.Show();
 
-        CanvasGroup.DOFade(1, showDuration)
-            .SetDelay(delay);
+        CanvasGroup.DOFade(1, data.showDuration);
 
-        AnimatedWidgetElements.ForEach(element => element.Show(showDuration, delay));
+        AnimatedWidgetElements.ForEach(element => element.Show(data.showDuration));
     }
-    public void Hide(float hideDuration, float delay = 0)
+    public override void Hide()
     {
         base.Hide();
 
-        CanvasGroup.DOFade(0, hideDuration)
-            .SetDelay(delay);
+        CanvasGroup.DOFade(0, data.showDuration);
 
-        AnimatedWidgetElements.ForEach(element => element.Hide(hideDuration, delay));
+        AnimatedWidgetElements.ForEach(element => element.Hide(data.showDuration));
     }
 
     public void ForceShow()

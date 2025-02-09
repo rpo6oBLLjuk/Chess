@@ -58,23 +58,25 @@ public class PopupMessageController
     private void AnimatePopup(GameObject popup, Action showCallback = null, Action hideCallback = null)
     {
         CanvasGroup canvasGroup = popup.GetComponentInChildren<CanvasGroup>();
+        RectTransform rectTransform = popup.GetComponent<RectTransform>();
+        Vector2 initialSize = rectTransform.sizeDelta;
 
-        Sequence animationSequence;
+        rectTransform.sizeDelta = Vector2.zero;
 
-        canvasGroup.DOFade(1, data.showTime)
-            .From(0)
-            .OnComplete(() =>
-            {
-                showCallback?.Invoke();
-                canvasGroup.DOFade(0, data.hideTime)
-                    .From(1)
-                    .SetDelay(data.duration)
-                    .OnComplete(() =>
-                    {
-                        hideCallback?.Invoke();
-                        DestroyPopup(popup);
-                    });
-            });
+        Sequence sequence = DOTween.Sequence();
+
+        sequence.Append(canvasGroup.DOFade(1, data.showTime))
+                .Join(DOTween.To(() => rectTransform.sizeDelta, x => rectTransform.sizeDelta = x, initialSize, data.showTime))
+                .OnComplete(() => showCallback?.Invoke())
+                .AppendInterval(data.duration)
+                .Append(canvasGroup.DOFade(0, data.hideTime))
+                .Join(DOTween.To(() => rectTransform.sizeDelta, x => rectTransform.sizeDelta = x, Vector2.zero, data.hideTime))
+                .OnComplete(() => {
+                    hideCallback?.Invoke();
+                    DestroyPopup(popup);
+                });
+
+        sequence.Play();
     }
 
     private GameObject AddToList(GameObject popup)

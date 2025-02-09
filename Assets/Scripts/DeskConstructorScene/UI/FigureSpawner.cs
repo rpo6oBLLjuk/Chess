@@ -3,18 +3,18 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FigureSpawner : MonoBehaviour
+public class PieceSpawner : MonoBehaviour
 {
     [SerializeField] private Button defaultButton;
-    [SerializeField] private SaveUI saveUI;
+    [SerializeField] private DeskSaverUI saveUI;
 
     private void Awake()
     {
         defaultButton.gameObject.SetActive(false);
 
-        foreach (FigureType type in Enum.GetValues(typeof(FigureType)))
+        foreach (PieceType type in Enum.GetValues(typeof(PieceType)))
         {
-            if (type != FigureType.None)
+            if (type != PieceType.None)
             {
                 GameObject buttonInstance = InstantiateButton(type.ToString());
                 buttonInstance.GetComponent<Button>().onClick.AddListener(() => SpawnerButtonCallback(type));
@@ -37,7 +37,7 @@ public class FigureSpawner : MonoBehaviour
         return buttonInstance;
     }
 
-    private void SpawnerButtonCallback(FigureType type)
+    private void SpawnerButtonCallback(PieceType type)
     {
         Debug.Log($"Button {type} on click");
     }

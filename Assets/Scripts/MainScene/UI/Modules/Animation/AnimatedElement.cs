@@ -33,7 +33,7 @@ public class AnimatedElement : MonoBehaviour
         defaultData.scale = rectTransform.localScale;
     }
 
-    public virtual Tween Show(float showDuration = 0, float delay = 0, bool forceShow = false)
+    public virtual Tween Show(float showDuration = 0, bool forceShow = false)
     {
         return PlayAnim(rectTransform,
                 defaultData.position,
@@ -44,9 +44,9 @@ public class AnimatedElement : MonoBehaviour
                 animStartData.scale,
                 animStartData.easeType,
                 showDuration,
-                (forceShow) ? 0 : animStartData.delay + delay);
+                (forceShow) ? 0 : animStartData.delay);
     }
-    public virtual Tween Hide(float hideDuration = 0, float delay = 0, bool forceHide = false)
+    public virtual Tween Hide(float hideDuration = 0, bool forceHide = false)
     {
         return PlayAnim(rectTransform,
                 defaultData.position + animEndData.position,
@@ -57,7 +57,7 @@ public class AnimatedElement : MonoBehaviour
                 defaultData.scale,
                 animEndData.easeType,
                 hideDuration,
-                (forceHide) ? 0 : animEndData.delay + delay);
+                (forceHide) ? 0 : animEndData.delay);
     }
 
     private Tween PlayAnim(RectTransform rectTransform, Vector3 toPosition, Vector3 fromPosition, Quaternion toRotation, Quaternion fromRotation, Vector3 toScale, Vector3 fromScale, Ease easeType, float duration, float delay = 0)

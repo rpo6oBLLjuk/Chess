@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CellHandler : MonoBehaviour
 {
-    public Action<Vector2Int, GameObject> OnFigurePlaced;
+    public Action<Vector2Int, GameObject> OnPiecePlaced;
 
     public Vector2Int cellIndex;
 
@@ -13,8 +13,8 @@ public class CellHandler : MonoBehaviour
         cellIndex = new Vector2Int(x, y);
     }
 
-    public void FigurePlaced(GameObject figure)
+    public void PiecePlaced(GameObject Piece)
     {
-        OnFigurePlaced?.Invoke(cellIndex, figure);
+        OnPiecePlaced?.Invoke(cellIndex, Piece);
     }
 }

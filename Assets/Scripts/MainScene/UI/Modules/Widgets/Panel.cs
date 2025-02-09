@@ -3,9 +3,14 @@ using UnityEngine.UI;
 
 public class Panel : MonoBehaviour
 {
-    [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
-    [field: SerializeField] public Button HideButton { get; private set; }
+    public Button HideButton => hideButton;
 
+    [Header("Panel settings")]
+    [SerializeField] protected Button hideButton;
+    [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
+
+
+    protected virtual void Start() => hideButton?.onClick.AddListener(Hide);
 
     public virtual void Initialize() { }
 

@@ -15,12 +15,6 @@ public class MainPanelSwitcher : MonoBehaviour
     }
     [SerializeField] private List<PanelContainer> widgets;
 
-    [SerializeField] private float mainPanelShowDuration = 0.1f;
-    [SerializeField] private float mainPanelHideDuration = 0.1f;
-
-    [SerializeField] private float showDuration = 0.2f;
-    [SerializeField] private float hideDuration = 0.2f;
-
 
     private void OnEnable()
     {
@@ -33,20 +27,17 @@ public class MainPanelSwitcher : MonoBehaviour
 
             panelContainer.showButton.onClick.AddListener(() =>
             {
-                mainPanel.Hide(mainPanelHideDuration);
-                panelContainer.panel.Show(showDuration, mainPanelHideDuration);
+                mainPanel.Hide();
+                panelContainer.panel.Show();
             });
-            panelContainer.panel.HideButton?.onClick.AddListener(() =>
-            {
-                panelContainer.panel.Hide(hideDuration);
-                mainPanel.ForceShow();
-            });
+
+            panelContainer.panel.HideButton.onClick.AddListener(mainPanel.ForceShow);
 
             panelContainer.panel.Initialize();
             panelContainer.panel.ForceHide();
         }
 
-        mainPanel.Show(mainPanelShowDuration);
+        mainPanel.Show();
     }
 }
 

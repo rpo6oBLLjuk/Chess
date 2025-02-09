@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PopupData", menuName = "Scriptable Objects/PopupData")]
+[CreateAssetMenu(fileName = "PopupData", menuName = "Scriptable Objects/UI/PopupData")]
 public class PopupData : ScriptableObject
 {
     [Header("References")]
@@ -8,9 +8,9 @@ public class PopupData : ScriptableObject
     public Sprite infoSprite;
     public Color infoColor = Color.white;
     public Sprite warningSprite;
-    public Color warningColor = Color.white;
+    public Color warningColor = Color.yellow;
     public Sprite errorSprite;
-    public Color errorColor = Color.white;
+    public Color errorColor = Color.red;
 
     [Header("Values")]
     public float duration = 2f;
