@@ -270,8 +270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6fe601167b15d146ba4f0812f10444a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceManager: {fileID: 0}
-  boardManager: {fileID: 0}
+  pieceManager: {fileID: 722973481}
+  boardManager: {fileID: 2006162263}
+  forceLoadCustomData: 1
   deskData:
     boardSize: {x: 8, y: 8}
 --- !u!4 &54253954
@@ -1946,7 +1947,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1084050255}
   - component: {fileID: 1084050257}
-  - component: {fileID: 1084050256}
+  - component: {fileID: 1084050258}
   m_Layer: 0
   m_Name: DeskSaver
   m_TagString: Untagged
@@ -1969,19 +1970,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 54253954}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1084050256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1084050254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de703b9f1b008da46b342af63e5be951, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveDirectory: Saves/Desk/
 --- !u!114 &1084050257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1994,7 +1982,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34ee31cbcfa90e47bc43259643626c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  service: {fileID: 1084050256}
+  service: {fileID: 1084050258}
+--- !u!114 &1084050258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084050254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de703b9f1b008da46b342af63e5be951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveDirectory: Saves/Desk/
 --- !u!1 &1179945753
 GameObject:
   m_ObjectHideFlags: 0
@@ -3231,6 +3232,22 @@ PrefabInstance:
     - target: {fileID: 1327060991414627418, guid: 695c535952e7af641b57b56bcb981164, type: 3}
       propertyPath: m_Name
       value: NotificationGroup
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931077501144829133, guid: 695c535952e7af641b57b56bcb981164, type: 3}
+      propertyPath: m_VerticalFit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339504371520290362, guid: 695c535952e7af641b57b56bcb981164, type: 3}
+      propertyPath: m_ChildScaleWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339504371520290362, guid: 695c535952e7af641b57b56bcb981164, type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339504371520290362, guid: 695c535952e7af641b57b56bcb981164, type: 3}
+      propertyPath: m_ChildForceExpandWidth
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6372818183547548777, guid: 695c535952e7af641b57b56bcb981164, type: 3}
       propertyPath: m_Pivot.x

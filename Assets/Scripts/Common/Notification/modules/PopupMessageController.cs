@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PopupMessageController
@@ -59,23 +60,28 @@ public class PopupMessageController
     {
         CanvasGroup canvasGroup = popup.GetComponentInChildren<CanvasGroup>();
         RectTransform rectTransform = popup.GetComponent<RectTransform>();
-        Vector2 initialSize = rectTransform.sizeDelta;
 
+        VerticalLayoutGroup verticalLayoutGroup = popup.GetComponentInParent<VerticalLayoutGroup>();
+        RectTransform parentRectTransform = verticalLayoutGroup.GetComponent<RectTransform>();
+
+        Vector2 initialSize = rectTransform.sizeDelta;
         rectTransform.sizeDelta = Vector2.zero;
+        Debug.Log(initialSize);
 
         Sequence sequence = DOTween.Sequence();
-
         sequence.Append(canvasGroup.DOFade(1, data.showTime))
+                .OnUpdate(() => LayoutRebuilder.ForceRebuildLayoutImmediate(parentRectTransform)) // Принудительное обновление
                 .Join(DOTween.To(() => rectTransform.sizeDelta, x => rectTransform.sizeDelta = x, initialSize, data.showTime))
                 .OnComplete(() => showCallback?.Invoke())
                 .AppendInterval(data.duration)
                 .Append(canvasGroup.DOFade(0, data.hideTime))
-                .Join(DOTween.To(() => rectTransform.sizeDelta, x => rectTransform.sizeDelta = x, Vector2.zero, data.hideTime))
-                .OnComplete(() => {
+                .OnUpdate(() => LayoutRebuilder.ForceRebuildLayoutImmediate(parentRectTransform)) // Принудительное обновление
+                .Join(DOTween.To(() => rectTransform.sizeDelta, x => rectTransform.sizeDelta = x, new(initialSize.x, 0), data.hideTime))
+                .OnComplete(() =>
+                {
                     hideCallback?.Invoke();
                     DestroyPopup(popup);
                 });
-
         sequence.Play();
     }
 
