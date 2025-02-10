@@ -1,10 +1,8 @@
 using DG.Tweening;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PopupMessageController
@@ -21,16 +19,18 @@ public class PopupMessageController
         this.parent = parent;
     }
 
-    public void Show(string message, PopupType popupType = PopupType.None)
+    public void Show(string message, string sender = default, PopupType popupType = PopupType.None)
     {
         GameObject popup = AddToList(data.popup);
-        ConfiguratePopup(popup, message, popupType);
+        ConfiguratePopup(popup, message, sender, popupType);
         AnimatePopup(popup);
     }
 
-    private void ConfiguratePopup(GameObject popup, string message, PopupType popupType = PopupType.None)
+    private void ConfiguratePopup(GameObject popup, string message, string sender = default, PopupType popupType = PopupType.None)
     {
         popup.transform.Find("PopupText").GetComponent<TextMeshProUGUI>().text = message;
+        popup.transform.Find("PopupSender").GetComponent<TextMeshProUGUI>().text = sender;
+
         Image popupImg = popup.transform.Find("PopupIcon").GetComponent<Image>();
 
         popupImg.sprite = popupType switch

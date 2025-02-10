@@ -64,19 +64,9 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         }
 
         transform.SetParent(prevousParent);
-        transform.localPosition = Vector3.zero; 
-
-
-        ///////DO local position with magnetDuration
+        transform.DOLocalMove(Vector3.zero, magnetDuration);
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        transform.DOScale(Vector3.one * scaleMultiplier, scaleDuration);
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        transform.DOScale(Vector3.one, scaleDuration);
-    }
+    public void OnPointerDown(PointerEventData eventData) => transform.DOScale(Vector3.one * scaleMultiplier, scaleDuration);
+    public void OnPointerUp(PointerEventData eventData) => transform.DOScale(Vector3.one, scaleDuration);
 }

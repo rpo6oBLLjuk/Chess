@@ -11,7 +11,7 @@ public class PopupService : MonoBehaviour
 
     private void Awake() => popupMessageController = new PopupMessageController(popupData, popupParent);
 
-    public void Show(string message, PopupType popupType = PopupType.None) => popupMessageController.Show(message, popupType);
+    public void Show(string message, string sender = default, PopupType popupType = PopupType.None) => popupMessageController.Show(message, sender, popupType);
 }
 
 public enum PopupType

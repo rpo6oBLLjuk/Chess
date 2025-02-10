@@ -22,6 +22,6 @@ public class DeskSaverUI : AnimatedPanel
     private void Save()
     {
         PopupType saveStatus = deskSaver.SaveBoard(new DeskData(), saveNameInput.text, out string status);
-        popupService.Show(status, popupType: saveStatus);
+        popupService.Show(status, "Saver", popupType: saveStatus);
     }
 }
