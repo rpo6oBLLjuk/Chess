@@ -13,7 +13,7 @@ public class PopupData : ScriptableObject
     public Color errorColor = Color.red;
 
     [Header("Values")]
-    public float duration = 2f;
+    public float duration = 1f;
     public float showTime = 0.25f;
     public float hideTime = 0.25f;
 
@@ -23,5 +23,5 @@ public class PopupData : ScriptableObject
 
     [Header("PopupList")]
     public bool useList;
-    [Tooltip("Only if useList")] public int listSize = 3;
+    [Tooltip("Only if useList"), Min(2)] public int listSize = 3;
 }

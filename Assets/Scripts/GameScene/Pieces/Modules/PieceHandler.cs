@@ -1,11 +1,17 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     [field: SerializeField] public GraphicRaycaster graphicRaycaster { get; set; }
+
+    [SerializeField] private float scaleMultiplier = 1.5f;
+    [SerializeField] private float scaleDuration = 0.25f;
+
+    [SerializeField] private float magnetDuration = 0.1f;
 
     private RectTransform rectTransform;
     private Canvas canvas;
@@ -56,8 +62,21 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                 cellHandler.PiecePlaced(this.gameObject);
             }
         }
-        
+
         transform.SetParent(prevousParent);
-        transform.localPosition = Vector3.zero;
+        transform.localPosition = Vector3.zero; 
+
+
+        ///////DO local position with magnetDuration
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        transform.DOScale(Vector3.one * scaleMultiplier, scaleDuration);
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        transform.DOScale(Vector3.one, scaleDuration);
     }
 }

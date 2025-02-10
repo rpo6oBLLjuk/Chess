@@ -13,12 +13,12 @@ public class DeskSaverService : MonoBehaviour
             Directory.CreateDirectory(fullPath);
     }
 
-    public bool SaveBoard(DeskData boardData, string saveName, out string status)
+    public PopupType SaveBoard(DeskData boardData, string saveName, out string status)
     {
         if (string.IsNullOrWhiteSpace(saveName))
         {
             status = "Имя сохранения не может быть пустым!"; //hardcode
-            return false;
+            return PopupType.Error;
         }
         
 
@@ -28,14 +28,14 @@ public class DeskSaverService : MonoBehaviour
         if (File.Exists(fullPath))
         {
             status = "Файл с таким именем уже существует!";
-            return false;
+            return PopupType.Warning;
         }
 
         string json = JsonUtility.ToJson(boardData, true);
 
         File.WriteAllText(fullPath, json);
         status = $"Доска сохранена в {fullPath}";
-        return true;
+        return PopupType.Info;
     }
 
     public DeskData LoadBoard(string saveName, out string status)

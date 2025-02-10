@@ -21,11 +21,11 @@ public class PopupMessageController
         this.parent = parent;
     }
 
-    public void Show(string message, PopupType popupType = PopupType.None, Action showCallback = null, Action hideCallback = null)
+    public void Show(string message, PopupType popupType = PopupType.None)
     {
         GameObject popup = AddToList(data.popup);
         ConfiguratePopup(popup, message, popupType);
-        AnimatePopup(popup, showCallback, hideCallback);
+        AnimatePopup(popup);
     }
 
     private void ConfiguratePopup(GameObject popup, string message, PopupType popupType = PopupType.None)
@@ -56,7 +56,7 @@ public class PopupMessageController
             popupImg.color = new Color(0, 0, 0, 0);
         }
     }
-    private void AnimatePopup(GameObject popup, Action showCallback = null, Action hideCallback = null)
+    private void AnimatePopup(GameObject popup)
     {
         CanvasGroup canvasGroup = popup.GetComponentInChildren<CanvasGroup>();
         RectTransform rectTransform = popup.GetComponent<RectTransform>();
@@ -64,24 +64,16 @@ public class PopupMessageController
         VerticalLayoutGroup verticalLayoutGroup = popup.GetComponentInParent<VerticalLayoutGroup>();
         RectTransform parentRectTransform = verticalLayoutGroup.GetComponent<RectTransform>();
 
-        Vector2 initialSize = rectTransform.sizeDelta;
-        rectTransform.sizeDelta = Vector2.zero;
-        Debug.Log(initialSize);
+        Vector3 initialScale = rectTransform.localScale;
+        rectTransform.localScale = Vector3.zero;
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(canvasGroup.DOFade(1, data.showTime))
-                .OnUpdate(() => LayoutRebuilder.ForceRebuildLayoutImmediate(parentRectTransform)) // Принудительное обновление
-                .Join(DOTween.To(() => rectTransform.sizeDelta, x => rectTransform.sizeDelta = x, initialSize, data.showTime))
-                .OnComplete(() => showCallback?.Invoke())
+                .OnUpdate(() => LayoutRebuilder.ForceRebuildLayoutImmediate(parentRectTransform))
+                .Join(rectTransform.DOScale(initialScale, data.showTime)
+                    .From(Vector3.zero))
                 .AppendInterval(data.duration)
-                .Append(canvasGroup.DOFade(0, data.hideTime))
-                .OnUpdate(() => LayoutRebuilder.ForceRebuildLayoutImmediate(parentRectTransform)) // Принудительное обновление
-                .Join(DOTween.To(() => rectTransform.sizeDelta, x => rectTransform.sizeDelta = x, new(initialSize.x, 0), data.hideTime))
-                .OnComplete(() =>
-                {
-                    hideCallback?.Invoke();
-                    DestroyPopup(popup);
-                });
+                .OnComplete(() => DestroyPopup(popup));
         sequence.Play();
     }
 
@@ -100,8 +92,23 @@ public class PopupMessageController
     }
     private void DestroyPopup(GameObject popup)
     {
-        popup.transform.DOKillAllTweens();
         popupList.Remove(popup);
-        UnityEngine.Object.Destroy(popup);
+
+        CanvasGroup canvasGroup = popup.GetComponentInChildren<CanvasGroup>();
+        RectTransform rectTransform = popup.GetComponent<RectTransform>();
+
+        VerticalLayoutGroup verticalLayoutGroup = popup.GetComponentInParent<VerticalLayoutGroup>();
+        RectTransform parentRectTransform = verticalLayoutGroup.GetComponent<RectTransform>();
+
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(canvasGroup.DOFade(0, data.hideTime))
+                .OnUpdate(() => LayoutRebuilder.ForceRebuildLayoutImmediate(parentRectTransform))
+                .Join(rectTransform.DOScaleY(0, data.hideTime))
+                .OnComplete(() =>
+                {
+                    popup.transform.DOKillAllTweens();
+                    UnityEngine.Object.Destroy(popup);
+                });
+        sequence.Play();
     }
 }

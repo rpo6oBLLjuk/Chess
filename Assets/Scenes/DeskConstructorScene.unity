@@ -3233,20 +3233,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: NotificationGroup
       objectReference: {fileID: 0}
-    - target: {fileID: 1931077501144829133, guid: 695c535952e7af641b57b56bcb981164, type: 3}
-      propertyPath: m_VerticalFit
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6339504371520290362, guid: 695c535952e7af641b57b56bcb981164, type: 3}
-      propertyPath: m_ChildScaleWidth
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6339504371520290362, guid: 695c535952e7af641b57b56bcb981164, type: 3}
-      propertyPath: m_ChildControlWidth
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6339504371520290362, guid: 695c535952e7af641b57b56bcb981164, type: 3}
-      propertyPath: m_ChildForceExpandWidth
+      propertyPath: m_ChildScaleHeight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6372818183547548777, guid: 695c535952e7af641b57b56bcb981164, type: 3}
