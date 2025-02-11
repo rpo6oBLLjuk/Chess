@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5cfe43bd30784c4a80ee13d9c6aa757, type: 3}
   m_Name: MainSkinData
   m_EditorClassIdentifier: 
+  <AnimationData>k__BackingField: {fileID: 11400000, guid: 2e6dd5c12e4ca6a4394142222724940d, type: 2}
   Pawn:
     WhiteSkin: {fileID: -931804659, guid: b277623a6b6185e48940a033ae824366, type: 3}
     BlackSkin: {fileID: -2103288121, guid: b277623a6b6185e48940a033ae824366, type: 3}

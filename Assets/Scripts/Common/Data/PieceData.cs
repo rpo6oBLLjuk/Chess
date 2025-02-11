@@ -2,6 +2,14 @@ public class PieceData
 {
     public PieceType Type { get; set; }
     public PieceColor Color { get; set; }
+
+    public PieceData(PieceType type, PieceColor color)
+    {
+        Type = type;
+        Color = color;
+    }
+
+    public PieceData Clone() => new(Type, Color);
 }
 
 public enum PieceType

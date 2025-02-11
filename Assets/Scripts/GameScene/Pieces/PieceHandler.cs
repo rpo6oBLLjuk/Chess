@@ -6,23 +6,24 @@ using UnityEngine.UI;
 
 public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
 {
-    [field: SerializeField] public GraphicRaycaster graphicRaycaster { get; set; }
+    public PieceAnimationData PieceAnimationData { get; set; }
 
-    [SerializeField] private float scaleMultiplier = 1.5f;
-    [SerializeField] private float scaleDuration = 0.25f;
-
-    [SerializeField] private float magnetDuration = 0.1f;
+    public CellHandler PreviousCell { get; private set; }
 
     private RectTransform rectTransform;
     private Canvas canvas;
+    private GraphicRaycaster graphicRaycaster;
 
-    private Transform prevousParent;
+    private Transform previousParent;
 
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
+
         canvas = GetComponentInParent<Canvas>();
+        graphicRaycaster = GetComponentInParent<GraphicRaycaster>();
+
 
         if (canvas.renderMode != RenderMode.ScreenSpaceCamera)
         {
@@ -32,7 +33,10 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        prevousParent = transform.parent;
+        previousParent = transform.parent;
+
+        if(GetCell(eventData, out CellHandler cellHandler))
+            PreviousCell = cellHandler;
         transform.SetParent(GetComponentInParent<Canvas>().transform);
     }
 
@@ -51,22 +55,35 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!GetCell(eventData, out CellHandler cellHandler))
+            return;
+
+        cellHandler.PiecePlaced(this);
+
+        previousParent = cellHandler.transform;
+        transform.SetParent(previousParent);
+        transform.DOLocalMove(Vector3.zero, PieceAnimationData.magnetDuration);
+    }
+
+    public void OnPointerDown(PointerEventData eventData) => transform.DOScale(Vector3.one * PieceAnimationData.scaleMultiplier, PieceAnimationData.scaleDuration);
+    public void OnPointerUp(PointerEventData eventData) => transform.DOScale(Vector3.one, PieceAnimationData.scaleDuration);
+
+    private bool GetCell(PointerEventData eventData, out CellHandler cellHandler)
+    {
+        cellHandler = null;
+
         List<RaycastResult> results = new();
         graphicRaycaster.Raycast(eventData, results);
 
         foreach (RaycastResult result in results)
         {
-            if (result.gameObject != this && result.gameObject.TryGetComponent(out CellHandler cellHandler))
+            if (result.gameObject != this && result.gameObject.TryGetComponent(out cellHandler))
             {
-                prevousParent = result.gameObject.transform;
-                cellHandler.PiecePlaced(this.gameObject);
+                return true;
             }
         }
 
-        transform.SetParent(prevousParent);
-        transform.DOLocalMove(Vector3.zero, magnetDuration);
+        Debug.LogError("Piece not have cell");
+        return false;
     }
-
-    public void OnPointerDown(PointerEventData eventData) => transform.DOScale(Vector3.one * scaleMultiplier, scaleDuration);
-    public void OnPointerUp(PointerEventData eventData) => transform.DOScale(Vector3.one, scaleDuration);
 }

@@ -11,6 +11,8 @@ public class PiecesSkinData : ScriptableObject
         public Sprite BlackSkin;
     }
 
+    [field: SerializeField] public PieceAnimationData AnimationData { get; private set; }
+
     [SerializeField] private PieceSkinData Pawn;
     [SerializeField] private PieceSkinData Knight;
     [SerializeField] private PieceSkinData Bishop;
@@ -19,16 +21,16 @@ public class PiecesSkinData : ScriptableObject
     [SerializeField] private PieceSkinData King;
 
 
-    public Sprite Get(PieceType type, PieceColor color)
+    public Sprite Get(PieceData data)
     {
-        return type switch
+        return data.Type switch
         {
-            PieceType.Pawn => (color == PieceColor.White) ? Pawn.WhiteSkin : Pawn.BlackSkin,
-            PieceType.Knight => (color == PieceColor.White) ? Knight.WhiteSkin : Knight.BlackSkin,
-            PieceType.Bishop => (color == PieceColor.White) ? Bishop.WhiteSkin : Bishop.BlackSkin,
-            PieceType.Rook => (color == PieceColor.White) ? Rook.WhiteSkin : Rook.BlackSkin,
-            PieceType.Queen => (color == PieceColor.White) ? Queen.WhiteSkin : Queen.BlackSkin,
-            PieceType.King => (color == PieceColor.White) ? King.WhiteSkin : King.BlackSkin,
+            PieceType.Pawn => (data.Color == PieceColor.White) ? Pawn.WhiteSkin : Pawn.BlackSkin,
+            PieceType.Knight => (data.Color == PieceColor.White) ? Knight.WhiteSkin : Knight.BlackSkin,
+            PieceType.Bishop => (data.Color == PieceColor.White) ? Bishop.WhiteSkin : Bishop.BlackSkin,
+            PieceType.Rook => (data.Color == PieceColor.White) ? Rook.WhiteSkin : Rook.BlackSkin,
+            PieceType.Queen => (data.Color == PieceColor.White) ? Queen.WhiteSkin : Queen.BlackSkin,
+            PieceType.King => (data.Color == PieceColor.White) ? King.WhiteSkin : King.BlackSkin,
             _ => throw new NotImplementedException()
         };
     }

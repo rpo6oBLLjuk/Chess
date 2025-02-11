@@ -5,8 +5,6 @@ public class BoardBuilder : MonoBehaviour
 {
     public Vector2Int BoardSize { get; private set; }
 
-    public Transform[,] Cells { get; private set; }
-
     [Header("References")]
     [SerializeField] private GridLayoutGroup boardGridLayout;
     [SerializeField] private GameObject whiteCell;
@@ -15,12 +13,22 @@ public class BoardBuilder : MonoBehaviour
     [Header("Board data")]
     [SerializeField] private bool leftUpCellIsWhite = true;
 
+    private PieceManager pieceManager;
+    private BoardManager boardManager;
+
+
+    public void Init(BoardManager boardManager, PieceManager pieceManager)
+    {
+        this.boardManager = boardManager;
+        this.pieceManager = pieceManager;
+    }
+
 
     public void SetupBoard(DeskData deskData)
     {
         BoardSize = deskData.boardSize;
 
-        Cells = new Transform[deskData.boardSize.x, deskData.boardSize.y]; //board Init
+        boardManager.cells = new CellHandler[deskData.boardSize.x, deskData.boardSize.y]; //board Init
 
         boardGridLayout.constraint = (deskData.boardSize.x > deskData.boardSize.y) ?
             GridLayoutGroup.Constraint.FixedColumnCount : GridLayoutGroup.Constraint.FixedRowCount;
@@ -37,13 +45,14 @@ public class BoardBuilder : MonoBehaviour
             for (int x = 0; x < deskData.boardSize.x; x++)
             {
                 GameObject cell = Instantiate(isWhite ? whiteCell : blackCell, boardGridLayout.transform);
-                Cells[x, y] = cell.transform;
                 isWhite = !isWhite;
 
-                if(!cell.TryGetComponent(out CellHandler cellHandler))
+                if (!cell.TryGetComponent(out CellHandler cellHandler))
                     cellHandler = cell.AddComponent<CellHandler>();
 
+                boardManager.cells[x, y] = cellHandler;
                 cellHandler.Init(x, y);
+
                 AddCallbackListener(cellHandler);
             }
         }
@@ -54,8 +63,8 @@ public class BoardBuilder : MonoBehaviour
         cellHandler.OnPiecePlaced += CellCallback;
     }
 
-    private void CellCallback(Vector2Int index, GameObject Piece)
+    private void CellCallback(CellHandler cellHandler, PieceHandler pieceHandler)
     {
-        Debug.Log($"Piece {Piece.name} at cell {index} placed", Piece);
+        pieceManager.MovePiece(pieceHandler, cellHandler);
     }
 }

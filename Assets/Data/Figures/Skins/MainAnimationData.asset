@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4db116399e5d17e42875c4582044a169, type: 3}
+  m_Name: MainAnimationData
+  m_EditorClassIdentifier: 
+  scaleMultiplier: 1.5
+  scaleDuration: 0.25
+  magnetDuration: 0.1
