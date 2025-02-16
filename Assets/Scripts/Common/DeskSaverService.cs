@@ -1,8 +1,11 @@
 using System.IO;
 using UnityEngine;
+using Zenject;
 
 public class DeskSaverService : MonoService
 {
+    [Inject] NotificationService notificationService;
+
     [SerializeField] private string saveDirectory = "Saves/Desk/";
 
     public override void OnInstantiated()
@@ -12,36 +15,38 @@ public class DeskSaverService : MonoService
             Directory.CreateDirectory(fullPath);
     }
 
-    public PopupType SaveBoard(DeskData boardData, string saveName, out string status)
+    public bool? SaveBoard(DeskData boardData, string saveName)
     {
         if (string.IsNullOrWhiteSpace(saveName))
         {
-            status = "Имя сохранения не может быть пустым!"; //hardcode
-            return PopupType.Error;
+            notificationService.ShowPopup("Имя сохранения не может быть пустым!", "Saver", PopupType.Error);
+
+            return false;
         }
-        
 
         string fileName = saveName + ".json";
         string fullPath = Path.Combine(Application.persistentDataPath, saveDirectory, fileName);
 
-        if (File.Exists(fullPath))
-        {
-            status = "Файл с таким именем уже существует!";
-            return PopupType.Warning;
-        }
-
         string json = JsonUtility.ToJson(boardData, true);
 
-        File.WriteAllText(fullPath, json);
-        status = $"Доска сохранена в {fullPath}";
-        return PopupType.Info;
+        if (File.Exists(fullPath))
+        {
+            notificationService.ShowDialog((overwrite) => OverwriteSaveFile(overwrite, fullPath, json), "Перезаписать файл?", "Saver", DialogType.OkCancel);
+            return null;
+        }
+        else
+        {
+            File.WriteAllText(fullPath, json);
+            notificationService.ShowPopup($"Доска сохранена в {fullPath}", "Saver", PopupType.Info);
+            return true;
+        }
     }
 
-    public DeskData LoadBoard(string saveName, out string status)
+    public DeskData LoadBoard(string saveName)
     {
         if (string.IsNullOrWhiteSpace(saveName))
         {
-            status = "Имя сохранения не может быть пустым!";
+            notificationService.ShowPopup("Имя сохранения не может быть пустым!", "Saver", PopupType.Error);
             return null;
         }
 
@@ -50,16 +55,27 @@ public class DeskSaverService : MonoService
 
         if (!File.Exists(fullPath))
         {
-            status = $"Файл сохранения {saveName} не найден!";
+            notificationService.ShowPopup($"Файл сохранения {saveName} не найден!", "Saver", PopupType.Error);
             return null;
         }
 
         string json = File.ReadAllText(fullPath);
         DeskData boardData = JsonUtility.FromJson<DeskData>(json);
 
-        status = "Board Loaded";
-
         return boardData;
+    }
+
+    public void OverwriteSaveFile(bool overwrite, string fullPath, string json)
+    {
+        if (overwrite)
+        {
+            File.WriteAllText(fullPath, json);
+            notificationService.ShowPopup("File is overwritten", "Saver", PopupType.Info);
+        }
+        else
+        {
+            notificationService.ShowPopup("File is not overwritten", "Saver", PopupType.Info);
+        }
     }
 
     public string[] GetAllSaves()

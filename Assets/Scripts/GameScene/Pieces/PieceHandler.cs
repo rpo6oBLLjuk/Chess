@@ -7,8 +7,10 @@ using Zenject;
 
 public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
 {
-    [Inject] PopupService popupService;
+    [Inject] NotificationService notificationService;
+    [Inject] PieceService pieceService;
 
+    public PieceData PieceData { get; private set; }
     public CellHandler PreviousCell { get; private set; }
     public CellHandler CurrentCell { get; private set; }
 
@@ -21,9 +23,10 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     private Transform parentCell;
 
 
-    public void Init(PieceAnimationData pieceAnimationData)
+    public void Init(PieceAnimationData pieceAnimationData, PieceData pieceData)
     {
         this.pieceAnimationData = pieceAnimationData;
+        this.PieceData = pieceData;
     }
 
     private void Awake()
@@ -49,33 +52,28 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         transform.SetParent(GetComponentInParent<Canvas>().transform);
     }
 
-    public void OnDrag(PointerEventData eventData)
-    {
-        SetDraggedPosition(eventData);
-    }
-
+    public void OnDrag(PointerEventData eventData) => SetDraggedPosition(eventData);
     private void SetDraggedPosition(PointerEventData data)
     {
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, data.position, data.pressEventCamera, out Vector3 globalMousePos))
-        {
             rectTransform.position = globalMousePos;
-        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         if (GetCell(eventData, out CellHandler cellHandler))
         {
-            cellHandler.PiecePlaced(this);
-
             CurrentCell = cellHandler;
 
-            parentCell = cellHandler.transform;
+            if (pieceService.CanBeMove(this))
+            {
+                parentCell = cellHandler.transform;
+                cellHandler.PiecePlaced(this);
+            }
         }
 
-        
-        transform.SetParent(parentCell);
-        transform.DOLocalMove(Vector3.zero, pieceAnimationData.magnetDuration);
+        transform.DOMove(parentCell.position, pieceAnimationData.magnetDuration)
+            .OnComplete(() => transform.SetParent(parentCell));
     }
 
     public void OnPointerDown(PointerEventData eventData) => transform.DOScale(Vector3.one * pieceAnimationData.scaleMultiplier, pieceAnimationData.scaleDuration);
@@ -96,7 +94,9 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             }
         }
 
-        popupService.Show("Piece not on a board", "Piece Handler", PopupType.Warning);
+        notificationService.ShowPopup("Piece not on a board", "Piece Handler", PopupType.Warning);
         return false;
     }
+
+
 }

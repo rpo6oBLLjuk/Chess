@@ -15,7 +15,8 @@ public class AnimatedPanel : Panel
     {
         base.Show();
 
-        CanvasGroup.DOFade(1, data.showDuration);
+        CanvasGroup.DOFade(1, data.showDuration)
+            .From(0);
 
         AnimatedWidgetElements.ForEach(element => element.Show(data.showDuration));
     }
@@ -23,7 +24,8 @@ public class AnimatedPanel : Panel
     {
         base.Hide();
 
-        CanvasGroup.DOFade(0, data.showDuration);
+        CanvasGroup.DOFade(0, data.showDuration)
+            .From(1);
 
         AnimatedWidgetElements.ForEach(element => element.Hide(data.showDuration));
     }

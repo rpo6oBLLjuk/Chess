@@ -3,17 +3,23 @@ using Zenject;
 
 public class BoardService : MonoService
 {
+    [Inject] GameController gameController;
     [Inject] private PieceService pieceService;
 
     [SerializeField] private BoardBuilder boardBuilder;
 
     public CellHandler[,] cells;
-    public Vector2Int BoardSize => boardBuilder.BoardSize;
 
 
-    public void Setup(DeskData deskData)
+    public override void OnInstantiated()
     {
-        boardBuilder.Init(this, pieceService);
-        boardBuilder.SetupBoard(deskData);
+        base.OnInstantiated();
+
+        boardBuilder.Init(this, pieceService); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+
+    public void Setup()
+    {
+        boardBuilder.SetupBoard(gameController.DeskData);
     }
 }

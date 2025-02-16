@@ -24,14 +24,16 @@ public class PopupMessageController
         GameObject popup = AddToList(data.popup);
         ConfiguratePopup(popup, message, sender, popupType);
         AnimatePopup(popup);
+
+        DebugExtensions.Log(message, sender);
     }
 
     private void ConfiguratePopup(GameObject popup, string message, string sender = default, PopupType popupType = PopupType.None)
     {
-        popup.transform.Find("PopupText").GetComponent<TextMeshProUGUI>().text = message;
-        popup.transform.Find("PopupSender").GetComponent<TextMeshProUGUI>().text = sender;
+        popup.transform.FindDeepChild("PopupText").GetComponent<TextMeshProUGUI>().text = message;
+        popup.transform.FindDeepChild("PopupSender").GetComponent<TextMeshProUGUI>().text = sender;
 
-        Image popupImg = popup.transform.Find("PopupIcon").GetComponent<Image>();
+        Image popupImg = popup.transform.FindDeepChild("PopupIcon").GetComponent<Image>();
 
         popupImg.sprite = popupType switch
         {
@@ -56,26 +58,6 @@ public class PopupMessageController
             popupImg.color = new Color(0, 0, 0, 0);
         }
     }
-    private void AnimatePopup(GameObject popup)
-    {
-        CanvasGroup canvasGroup = popup.GetComponentInChildren<CanvasGroup>();
-        RectTransform rectTransform = popup.GetComponent<RectTransform>();
-
-        VerticalLayoutGroup verticalLayoutGroup = popup.GetComponentInParent<VerticalLayoutGroup>();
-        RectTransform parentRectTransform = verticalLayoutGroup.GetComponent<RectTransform>();
-
-        Vector3 initialScale = rectTransform.localScale;
-        rectTransform.localScale = Vector3.zero;
-
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(canvasGroup.DOFade(1, data.showTime))
-                .OnUpdate(() => LayoutRebuilder.ForceRebuildLayoutImmediate(parentRectTransform))
-                .Join(rectTransform.DOScale(initialScale, data.showTime)
-                    .From(Vector3.zero))
-                .AppendInterval(data.duration)
-                .OnComplete(() => DestroyPopup(popup));
-        sequence.Play();
-    }
 
     private GameObject AddToList(GameObject popup)
     {
@@ -86,9 +68,30 @@ public class PopupMessageController
                 DestroyPopup(popupList.First());
             }
         }
-        GameObject instance = UnityEngine.Object.Instantiate(popup, parent);
+        GameObject instance = Object.Instantiate(popup, parent);
         popupList.Add(instance);
         return instance;
+    }
+
+
+    private void AnimatePopup(GameObject popup)
+    {
+        CanvasGroup canvasGroup = popup.GetComponentInChildren<CanvasGroup>();
+        RectTransform rectTransform = popup.GetComponent<RectTransform>();
+
+        VerticalLayoutGroup verticalLayoutGroup = popup.GetComponentInParent<VerticalLayoutGroup>();
+        RectTransform parentRectTransform = verticalLayoutGroup.GetComponent<RectTransform>();
+
+        Vector3 initialScale = rectTransform.localScale;
+
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(canvasGroup.DOFade(1, data.showTime))
+                .OnUpdate(() => LayoutRebuilder.ForceRebuildLayoutImmediate(parentRectTransform))
+                .Join(rectTransform.DOScaleY(initialScale.y, data.showTime)
+                    .From(0))
+                .AppendInterval(data.duration)
+                .OnComplete(() => DestroyPopup(popup));
+        sequence.Play();
     }
     private void DestroyPopup(GameObject popup)
     {

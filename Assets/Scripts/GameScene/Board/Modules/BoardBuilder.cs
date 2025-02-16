@@ -5,8 +5,6 @@ using UnityEngine.UI;
 [Serializable]
 public class BoardBuilder
 {
-    public Vector2Int BoardSize { get; private set; }
-
     [Header("References")]
     [SerializeField] private GridLayoutGroup boardGridLayout;
     [SerializeField] private GameObject whiteCell;
@@ -28,21 +26,21 @@ public class BoardBuilder
 
     public void SetupBoard(DeskData deskData)
     {
-        BoardSize = deskData.boardSize;
+        boardService.cells = new CellHandler[deskData.BoardSize.x, deskData.BoardSize.y]; //board Init
 
-        boardService.cells = new CellHandler[deskData.boardSize.x, deskData.boardSize.y]; //board Init
-
-        boardGridLayout.constraint = (deskData.boardSize.x > deskData.boardSize.y) ?
+        boardGridLayout.constraint = (deskData.BoardSize.x > deskData.BoardSize.y) ?
             GridLayoutGroup.Constraint.FixedColumnCount : GridLayoutGroup.Constraint.FixedRowCount;
-        boardGridLayout.constraintCount = (deskData.boardSize.x >= deskData.boardSize.y) ? deskData.boardSize.x : deskData.boardSize.y;
+        boardGridLayout.constraintCount = (deskData.BoardSize.x >= deskData.BoardSize.y) ? deskData.BoardSize.x : deskData.BoardSize.y;
 
         bool isWhite = !leftUpCellIsWhite;
-        for (int y = 0; y < deskData.boardSize.y; y++)
+
+        Debug.Log(deskData.BoardSize);
+        for (int y = 0; y < deskData.BoardSize.y; y++)
         {
-            if (deskData.boardSize.x % 2 == 0)
+            if (deskData.BoardSize.x % 2 == 0)
                 isWhite = !isWhite;
 
-            for (int x = 0; x < deskData.boardSize.x; x++)
+            for (int x = 0; x < deskData.BoardSize.x; x++)
             {
                 GameObject cell = UnityEngine.Object.Instantiate(isWhite ? whiteCell : blackCell, boardGridLayout.transform);
                 isWhite = !isWhite;
@@ -75,6 +73,6 @@ public class BoardBuilder
 
     private void CellCallback(CellHandler cellHandler, PieceHandler pieceHandler)
     {
-        pieceService.MovePiece(pieceHandler, cellHandler);
+        pieceService.MovePiece(pieceHandler);
     }
 }
