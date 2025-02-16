@@ -1,35 +1,40 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 [Serializable]
 public class PieceBuilder
 {
-    [SerializeField] private BoardManager boardManager;
-    [SerializeField] private BoardBuilder boardCellBuilder;
-    [SerializeField] private PieceFactory pooler = new();
-    [SerializeField] private PiecesSkinData piecesSkinData;
+    [Inject] DiContainer container;
 
-    private PieceManager pieceManager;
+    private PieceFactory pooler = new();
+    private PieceSkinsData piecesSkinData;
+
+    private BoardService boardService;
+    private PieceService pieceService;
 
 
-    public void Init(PieceManager pieceManager)
+    public void Init(PieceService pieceService, BoardService boardService, PieceSkinsData piecesSkinData, PiecePrefabs piecePrefabs)
     {
-        this.pieceManager = pieceManager;
+        this.pieceService = pieceService;
+        this.boardService = boardService;
+        this.piecesSkinData = piecesSkinData;
+        pooler.PiecesPrefabs = piecePrefabs;
     }
 
     public void SetupPieces()
     {
-        pieceManager.DeskData.PieceData = new PieceData[boardCellBuilder.BoardSize.x, boardCellBuilder.BoardSize.y];
-        pieceManager.PieceInstances = new Transform[boardCellBuilder.BoardSize.x, boardCellBuilder.BoardSize.y];
+        pieceService.DeskData.PieceData = new PieceData[boardService.BoardSize.x, boardService.BoardSize.y];
+        pieceService.PieceInstances = new Transform[boardService.BoardSize.x, boardService.BoardSize.y];
 
-        for (int y = 0; y < boardCellBuilder.BoardSize.y; y++)
+        for (int y = 0; y < boardService.BoardSize.y; y++)
         {
-            for (int x = 0; x < boardCellBuilder.BoardSize.x; x++)
+            for (int x = 0; x < boardService.BoardSize.x; x++)
             {
-                if (pieceManager.DeskData.PieceData[x, y] != null)
+                if (pieceService.DeskData.PieceData[x, y] != null)
                 {
-                    Instantiate(pieceManager.DeskData.PieceData[x, y], boardManager.cells[x, y]);
+                    Instantiate(pieceService.DeskData.PieceData[x, y], boardService.cells[x, y]);
                 }
             }
         }
@@ -37,15 +42,22 @@ public class PieceBuilder
 
     public GameObject Instantiate(PieceData pieceData, CellHandler boardCell)
     {
-        GameObject instance = UnityEngine.Object.Instantiate(pooler.Get(pieceData.Type), boardCell.transform);
+        GameObject instance = container.InstantiatePrefab(pooler.Get(pieceData.Type), boardCell.transform);
         instance.GetComponentInChildren<Image>().sprite = piecesSkinData.Get(pieceData);
 
         if (!instance.TryGetComponent(out PieceHandler pieceHandler))
             pieceHandler = instance.AddComponent<PieceHandler>();
-        pieceHandler.PieceAnimationData = piecesSkinData.AnimationData;
+        pieceHandler.Init(piecesSkinData.AnimationData);
 
-        pieceManager.PieceInstances[boardCell.CellIndex.x, boardCell.CellIndex.y] = instance.transform;
-        pieceManager.DeskData.PieceData[boardCell.CellIndex.x, boardCell.CellIndex.y] = pieceData;
+        RectTransform rectTransform = instance.GetComponent<RectTransform>();
+        rectTransform.anchorMin = Vector2.zero;
+        rectTransform.anchorMax = Vector2.one;
+        rectTransform.offsetMin = Vector2.zero;
+        rectTransform.offsetMax = Vector2.zero;
+
+
+        pieceService.PieceInstances[boardCell.CellIndex.x, boardCell.CellIndex.y] = instance.transform;
+        pieceService.DeskData.PieceData[boardCell.CellIndex.x, boardCell.CellIndex.y] = pieceData;
 
 
         Debug.Log(instance, instance);

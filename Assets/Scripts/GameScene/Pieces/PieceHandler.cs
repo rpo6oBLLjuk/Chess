@@ -3,19 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Zenject;
 
 public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
 {
-    public PieceAnimationData PieceAnimationData { get; set; }
+    [Inject] PopupService popupService;
 
     public CellHandler PreviousCell { get; private set; }
+    public CellHandler CurrentCell { get; private set; }
+
+    private PieceAnimationData pieceAnimationData;
 
     private RectTransform rectTransform;
     private Canvas canvas;
     private GraphicRaycaster graphicRaycaster;
 
-    private Transform previousParent;
+    private Transform parentCell;
 
+
+    public void Init(PieceAnimationData pieceAnimationData)
+    {
+        this.pieceAnimationData = pieceAnimationData;
+    }
 
     private void Awake()
     {
@@ -33,9 +42,9 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        previousParent = transform.parent;
+        parentCell = transform.parent;
 
-        if(GetCell(eventData, out CellHandler cellHandler))
+        if (GetCell(eventData, out CellHandler cellHandler))
             PreviousCell = cellHandler;
         transform.SetParent(GetComponentInParent<Canvas>().transform);
     }
@@ -55,18 +64,22 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!GetCell(eventData, out CellHandler cellHandler))
-            return;
+        if (GetCell(eventData, out CellHandler cellHandler))
+        {
+            cellHandler.PiecePlaced(this);
 
-        cellHandler.PiecePlaced(this);
+            CurrentCell = cellHandler;
 
-        previousParent = cellHandler.transform;
-        transform.SetParent(previousParent);
-        transform.DOLocalMove(Vector3.zero, PieceAnimationData.magnetDuration);
+            parentCell = cellHandler.transform;
+        }
+
+        
+        transform.SetParent(parentCell);
+        transform.DOLocalMove(Vector3.zero, pieceAnimationData.magnetDuration);
     }
 
-    public void OnPointerDown(PointerEventData eventData) => transform.DOScale(Vector3.one * PieceAnimationData.scaleMultiplier, PieceAnimationData.scaleDuration);
-    public void OnPointerUp(PointerEventData eventData) => transform.DOScale(Vector3.one, PieceAnimationData.scaleDuration);
+    public void OnPointerDown(PointerEventData eventData) => transform.DOScale(Vector3.one * pieceAnimationData.scaleMultiplier, pieceAnimationData.scaleDuration);
+    public void OnPointerUp(PointerEventData eventData) => transform.DOScale(Vector3.one, pieceAnimationData.scaleDuration);
 
     private bool GetCell(PointerEventData eventData, out CellHandler cellHandler)
     {
@@ -83,7 +96,7 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             }
         }
 
-        Debug.LogError("Piece not have cell");
+        popupService.Show("Piece not on a board", "Piece Handler", PopupType.Warning);
         return false;
     }
 }

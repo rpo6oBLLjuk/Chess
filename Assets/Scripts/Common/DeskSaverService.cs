@@ -1,12 +1,11 @@
 using System.IO;
 using UnityEngine;
 
-public class DeskSaverService : MonoBehaviour
+public class DeskSaverService : MonoService
 {
     [SerializeField] private string saveDirectory = "Saves/Desk/";
 
-
-    private void Awake()
+    public override void OnInstantiated()
     {
         string fullPath = Path.Combine(Application.persistentDataPath, saveDirectory);
         if (!Directory.Exists(fullPath))

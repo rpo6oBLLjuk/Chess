@@ -270,8 +270,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6fe601167b15d146ba4f0812f10444a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceManager: {fileID: 722973481}
-  boardManager: {fileID: 2006162263}
   forceLoadCustomData: 1
   deskData:
     boardSize: {x: 8, y: 8}
@@ -293,6 +291,7 @@ Transform:
   - {fileID: 2006162262}
   - {fileID: 1084050255}
   - {fileID: 727343827}
+  - {fileID: 619310402}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &54253955
@@ -309,8 +308,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
+  - {fileID: 619310404}
   - {fileID: 1084050257}
   - {fileID: 2006162264}
+  - {fileID: 727343829}
+  - {fileID: 722973484}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -970,6 +972,64 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &619310401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 619310402}
+  - component: {fileID: 619310404}
+  - component: {fileID: 619310403}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &619310402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619310401}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 54253954}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &619310403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619310401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b25b87416a3c934c9eb2c0f91e9d6bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &619310404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619310401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c930d5953c1e4a9bdf97edc2d04ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  service: {fileID: 619310403}
 --- !u!1 &710500808
 GameObject:
   m_ObjectHideFlags: 0
@@ -1115,6 +1175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 722973483}
+  - component: {fileID: 722973484}
   - component: {fileID: 722973481}
   m_Layer: 0
   m_Name: Pieces
@@ -1132,17 +1193,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 722973480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87df511a920062244837ddec20429597, type: 3}
+  m_Script: {fileID: 11500000, guid: 1041d6120889ec744b339e697676b433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceBuilder:
-    boardManager: {fileID: 2006162263}
-    boardCellBuilder: {fileID: 2006162261}
-    pooler:
-      container: {fileID: 2017389623}
-      pool: []
-      PiecesPrefabs: {fileID: 11400000, guid: 559c076231dce4c45a5b70c73624e5c4, type: 2}
-    piecesSkinData: {fileID: 11400000, guid: cac427bf486aec94fb7c4076ad0ec637, type: 2}
+  pieceSkinsData: {fileID: 11400000, guid: cac427bf486aec94fb7c4076ad0ec637, type: 2}
+  piecePrefabs: {fileID: 11400000, guid: 559c076231dce4c45a5b70c73624e5c4, type: 2}
   DeskData:
     boardSize: {x: 8, y: 8}
 --- !u!4 &722973483
@@ -1160,6 +1215,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 54253954}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &722973484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722973480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4d219bec97a9fe4980684046cf5a44a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  service: {fileID: 722973481}
 --- !u!1 &727343826
 GameObject:
   m_ObjectHideFlags: 0
@@ -1169,6 +1237,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 727343827}
+  - component: {fileID: 727343829}
   - component: {fileID: 727343828}
   m_Layer: 0
   m_Name: Popup
@@ -1206,6 +1275,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popupData: {fileID: 11400000, guid: 029cfc7aa80d35b4cbe09892ffce2a51, type: 2}
   popupParent: {fileID: 2078844351}
+--- !u!114 &727343829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727343826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d5e30d2907687148a50bce1dbc2a06d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  service: {fileID: 727343828}
 --- !u!1 &841686946
 GameObject:
   m_ObjectHideFlags: 0
@@ -1350,7 +1432,6 @@ MonoBehaviour:
   <CanvasGroup>k__BackingField: {fileID: 872777337}
   data: {fileID: 11400000, guid: 0a7b3ba00b19ecb4f9459f9283c078b4, type: 2}
   AnimatedWidgetElements: []
-  popupService: {fileID: 727343828}
   saveNameInput: {fileID: 984727771}
   saveButton: {fileID: 40180170}
 --- !u!1 &892418537
@@ -1568,6 +1649,8 @@ GameObject:
   - component: {fileID: 984211131}
   - component: {fileID: 984211133}
   - component: {fileID: 984211132}
+  - component: {fileID: 984211136}
+  - component: {fileID: 984211135}
   m_Layer: 5
   m_Name: BoardCellContainer
   m_TagString: Untagged
@@ -1624,17 +1707,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 35
-    m_Right: 35
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 2
+    m_Right: 2
+    m_Top: 2
+    m_Bottom: 2
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 126.249985, y: 126.249985}
-  m_Spacing: {x: 0, y: 0}
+  m_CellSize: {x: 132.74998, y: 132.74998}
+  m_Spacing: {x: 2, y: 2}
   m_Constraint: 1
   m_ConstraintCount: 8
+--- !u!114 &984211135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984211130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.5622641, g: 0.5622641, b: 0.5622641, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &984211136
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984211130}
+  m_CullTransparentMesh: 1
 --- !u!1 &984727769
 GameObject:
   m_ObjectHideFlags: 0
@@ -2631,8 +2752,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2006162262}
   - component: {fileID: 2006162264}
-  - component: {fileID: 2006162263}
-  - component: {fileID: 2006162261}
+  - component: {fileID: 2006162265}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -2640,22 +2760,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2006162261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2006162259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9827008c13679a4290ea73745061543, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boardGridLayout: {fileID: 984211133}
-  whiteCell: {fileID: 5545716411984168211, guid: 9c6cb19bc14ed2f49b857df4c44e905e, type: 3}
-  blackCell: {fileID: 3127997117501680987, guid: b825f61fa14a77c419d929d62c781c23, type: 3}
-  leftUpCellIsWhite: 0
 --- !u!4 &2006162262
 Transform:
   m_ObjectHideFlags: 0
@@ -2671,20 +2775,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 54253954}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2006162263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2006162259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccc431d08b003484e8d705f40c0bea6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pieceManager: {fileID: 722973481}
-  boardBuilder: {fileID: 2006162261}
 --- !u!114 &2006162264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2697,7 +2787,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d455865ffdbc8bf4a92bbd75d8597178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  service: {fileID: 2006162263}
+  service: {fileID: 2006162265}
+--- !u!114 &2006162265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006162259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c0c6aa323e137448ebd0b253458217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boardBuilder:
+    boardGridLayout: {fileID: 984211133}
+    whiteCell: {fileID: 5545716411984168211, guid: 9c6cb19bc14ed2f49b857df4c44e905e, type: 3}
+    blackCell: {fileID: 3127997117501680987, guid: b825f61fa14a77c419d929d62c781c23, type: 3}
+    leftUpCellIsWhite: 1
 --- !u!1 &2017389622
 GameObject:
   m_ObjectHideFlags: 0
@@ -2777,9 +2884,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98aba693bfafbb84e8afdbfb4389474c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popupService: {fileID: 727343828}
-  pieceManager: {fileID: 722973481}
-  boardManager: {fileID: 2006162263}
   defaultButton: {fileID: 2119184992}
   saveUI: {fileID: 872777338}
 --- !u!224 &2078844351 stripped

@@ -20,12 +20,14 @@ public enum PieceType
     Bishop,
     Rook,
     Queen,
-    King
+    King,
+    Other = 100
 }
 
 public enum PieceColor
 {
     None = -1,
     White,
-    Black
+    Black,
+    Other = 100
 }

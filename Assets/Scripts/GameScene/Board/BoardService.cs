@@ -1,17 +1,19 @@
 using UnityEngine;
+using Zenject;
 
-public class BoardManager : MonoBehaviour
+public class BoardService : MonoService
 {
-    [SerializeField] private PieceManager pieceManager;
+    [Inject] private PieceService pieceService;
 
     [SerializeField] private BoardBuilder boardBuilder;
 
     public CellHandler[,] cells;
+    public Vector2Int BoardSize => boardBuilder.BoardSize;
 
 
     public void Setup(DeskData deskData)
     {
-        boardBuilder.Init(this, pieceManager);
+        boardBuilder.Init(this, pieceService);
         boardBuilder.SetupBoard(deskData);
     }
 }

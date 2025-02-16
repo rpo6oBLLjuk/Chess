@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PieceSkinData", menuName = "Scriptable Objects/Piece/SkinData")]
-public class PiecesSkinData : ScriptableObject
+public class PieceSkinsData : ScriptableObject
 {
     [Serializable]
     private class PieceSkinData

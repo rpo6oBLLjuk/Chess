@@ -1,9 +1,15 @@
 using UnityEngine;
+using Zenject;
 
-public class PieceManager : MonoBehaviour
+public class PieceService : MonoService
 {
-    [SerializeField] private PieceBuilder pieceBuilder;
-    [SerializeField] private PieceMovementController pieceMovementController;
+    [Inject] BoardService boardService;
+
+    private PieceBuilder pieceBuilder;
+    private PieceMovementController pieceMovementController = new();
+
+    [SerializeField] PieceSkinsData pieceSkinsData;
+    [SerializeField] PiecePrefabs piecePrefabs;
 
     public Transform[,] PieceInstances { get; set; }
 
@@ -14,7 +20,9 @@ public class PieceManager : MonoBehaviour
     {
         this.DeskData = deskData;
 
-        pieceBuilder.Init(this);
+        pieceBuilder = container.Instantiate<PieceBuilder>();
+
+        pieceBuilder.Init(this, boardService, pieceSkinsData, piecePrefabs);
         pieceMovementController.Init(this);
 
         pieceBuilder.SetupPieces();

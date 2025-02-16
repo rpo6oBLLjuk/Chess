@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
+using Zenject;
 
-public class PopupService : MonoBehaviour
+public class PopupService : MonoService
 {
     public PopupData popupData;
     public Transform popupParent;
@@ -9,7 +10,7 @@ public class PopupService : MonoBehaviour
     private PopupMessageController popupMessageController;
 
 
-    private void Awake() => popupMessageController = new PopupMessageController(popupData, popupParent);
+    public override void OnInstantiated() => popupMessageController = new PopupMessageController(popupData, popupParent);
 
     public void Show(string message, string sender = default, PopupType popupType = PopupType.None) => popupMessageController.Show(message, sender, popupType);
 }

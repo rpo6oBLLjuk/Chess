@@ -11,20 +11,20 @@ public class PieceMovementController
     /// <param name="to">End cell handler.</param>
     public event Action<PieceData, CellHandler, CellHandler> PieceMoved;
 
-    private PieceManager pieceManager;
+    private PieceService pieceService;
 
 
-    public void Init(PieceManager pieceManager)
+    public void Init(PieceService pieceService)
     {
-        this.pieceManager = pieceManager;
+        this.pieceService = pieceService;
     }
 
     public void Move(PieceHandler pieceHandler, CellHandler endCellHandler)
     {
         CellHandler startCellHandler = pieceHandler.PreviousCell;
 
-        PieceData pieceData = pieceManager.DeskData.PieceData[startCellHandler.CellIndex.x, startCellHandler.CellIndex.y]?.Clone();
-        pieceManager.DeskData.PieceData[startCellHandler.CellIndex.x, startCellHandler.CellIndex.y] = null;
-        pieceManager.DeskData.PieceData[endCellHandler.CellIndex.x, endCellHandler.CellIndex.y] = pieceData;
+        PieceData pieceData = pieceService.DeskData.PieceData[startCellHandler.CellIndex.x, startCellHandler.CellIndex.y]?.Clone();
+        pieceService.DeskData.PieceData[startCellHandler.CellIndex.x, startCellHandler.CellIndex.y] = null;
+        pieceService.DeskData.PieceData[endCellHandler.CellIndex.x, endCellHandler.CellIndex.y] = pieceData;
     }
 }

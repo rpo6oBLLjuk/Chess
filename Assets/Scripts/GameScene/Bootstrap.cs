@@ -4,8 +4,9 @@ using Zenject;
 public class Bootstrap : MonoBehaviour
 {
     [Inject] private DeskSaverService deskSaver;
-    [SerializeField] private PieceManager pieceManager;
-    [SerializeField] private BoardManager boardManager;
+    [Inject] private PopupService popupService;
+    [Inject] private PieceService pieceService;
+    [Inject] private BoardService boardService;
 
     [Header("Custom Data")]
     [SerializeField] private bool forceLoadCustomData = false;
@@ -15,19 +16,24 @@ public class Bootstrap : MonoBehaviour
     private void Awake()
     {
         DeskData data = deskSaver.LoadBoard("main", out string status);
-        if (data != null)
+
+        if (forceLoadCustomData)
         {
-            boardManager.Setup(data);
-            pieceManager.Setup(data);
+            popupService.Show("Custom Data loaded", "Bootstrap", PopupType.Info);
+
+            boardService.Setup(deskData);
+            pieceService.Setup(deskData);
         }
-        else if (forceLoadCustomData)
+        else if (data != null)
         {
-            boardManager.Setup(deskData);
-            pieceManager.Setup(deskData);
+            popupService.Show(status, "Bootstrap", PopupType.Info);
+
+            boardService.Setup(data);
+            pieceService.Setup(data);
         }
         else
         {
-            Debug.Log(status);
+            popupService.Show(status, "Bootstrap", PopupType.Error);
         }
     }
 }

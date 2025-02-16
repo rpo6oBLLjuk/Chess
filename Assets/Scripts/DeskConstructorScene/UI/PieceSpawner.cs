@@ -3,13 +3,14 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class PieceSpawner : MonoBehaviour
 {
-    [SerializeField] PopupService popupService;
+    [Inject] PopupService popupService;
 
-    [SerializeField] private PieceManager pieceManager;
-    [SerializeField] private BoardManager boardManager;
+    [Inject] private PieceService pieceService;
+    [Inject] private BoardService boardService;
 
     [SerializeField] private Button defaultButton;
     [SerializeField] private DeskSaverUI saveUI;
@@ -56,9 +57,9 @@ public class PieceSpawner : MonoBehaviour
 
     private void SpawnerButtonCallback(PieceType type)
     {
-        var foundIndex = (from x in Enumerable.Range(0, pieceManager.DeskData.PieceData.GetLength(0))
-                          from y in Enumerable.Range(0, pieceManager.DeskData.PieceData.GetLength(1))
-                          where pieceManager.DeskData.PieceData[x, y] == null
+        var foundIndex = (from x in Enumerable.Range(0, pieceService.DeskData.PieceData.GetLength(0))
+                          from y in Enumerable.Range(0, pieceService.DeskData.PieceData.GetLength(1))
+                          where pieceService.DeskData.PieceData[x, y] == null
                           select (x, y)).Cast<(int, int)?>().FirstOrDefault();
 
         if (!foundIndex.HasValue)
@@ -67,7 +68,7 @@ public class PieceSpawner : MonoBehaviour
         }
         else
         {
-            pieceManager.SpawnPiece(type, currectPieceColor, boardManager.cells[foundIndex.Value.Item1, foundIndex.Value.Item2]);
+            pieceService.SpawnPiece(type, currectPieceColor, boardService.cells[foundIndex.Value.Item1, foundIndex.Value.Item2]);
         }
     }
 }

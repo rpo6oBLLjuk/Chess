@@ -5,8 +5,7 @@ using Zenject;
 
 public class DeskSaverUI : AnimatedPanel
 {
-    [SerializeField] private PopupService popupService;
-
+    [Inject] private PopupService popupService;
     [Inject] private DeskSaverService deskSaver;
 
     [SerializeField] private TMP_InputField saveNameInput;

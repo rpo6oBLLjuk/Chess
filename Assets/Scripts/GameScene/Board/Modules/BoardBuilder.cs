@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BoardBuilder : MonoBehaviour
+[Serializable]
+public class BoardBuilder
 {
     public Vector2Int BoardSize { get; private set; }
 
@@ -13,14 +15,14 @@ public class BoardBuilder : MonoBehaviour
     [Header("Board data")]
     [SerializeField] private bool leftUpCellIsWhite = true;
 
-    private PieceManager pieceManager;
-    private BoardManager boardManager;
+    private PieceService pieceService;
+    private BoardService boardService;
 
 
-    public void Init(BoardManager boardManager, PieceManager pieceManager)
+    public void Init(BoardService boardService, PieceService pieceService)
     {
-        this.boardManager = boardManager;
-        this.pieceManager = pieceManager;
+        this.boardService = boardService;
+        this.pieceService = pieceService;
     }
 
 
@@ -28,13 +30,11 @@ public class BoardBuilder : MonoBehaviour
     {
         BoardSize = deskData.boardSize;
 
-        boardManager.cells = new CellHandler[deskData.boardSize.x, deskData.boardSize.y]; //board Init
+        boardService.cells = new CellHandler[deskData.boardSize.x, deskData.boardSize.y]; //board Init
 
         boardGridLayout.constraint = (deskData.boardSize.x > deskData.boardSize.y) ?
             GridLayoutGroup.Constraint.FixedColumnCount : GridLayoutGroup.Constraint.FixedRowCount;
-
         boardGridLayout.constraintCount = (deskData.boardSize.x >= deskData.boardSize.y) ? deskData.boardSize.x : deskData.boardSize.y;
-
 
         bool isWhite = !leftUpCellIsWhite;
         for (int y = 0; y < deskData.boardSize.y; y++)
@@ -44,18 +44,28 @@ public class BoardBuilder : MonoBehaviour
 
             for (int x = 0; x < deskData.boardSize.x; x++)
             {
-                GameObject cell = Instantiate(isWhite ? whiteCell : blackCell, boardGridLayout.transform);
+                GameObject cell = UnityEngine.Object.Instantiate(isWhite ? whiteCell : blackCell, boardGridLayout.transform);
                 isWhite = !isWhite;
 
                 if (!cell.TryGetComponent(out CellHandler cellHandler))
                     cellHandler = cell.AddComponent<CellHandler>();
 
-                boardManager.cells[x, y] = cellHandler;
+                boardService.cells[x, y] = cellHandler;
                 cellHandler.Init(x, y);
 
                 AddCallbackListener(cellHandler);
+
+                //float r = Random.Range(0f, 1f);
+                //float g = Random.Range(0f, 1f);
+                //float b = Random.Range(0f, 1f);
+
+                //cell.GetComponentInChildren<CellTargetController>().SetAnimColor(new Color(r, g, b), 2f);
             }
         }
+
+        ContentSizeFitter fitter = boardGridLayout.gameObject.AddComponent<ContentSizeFitter>();
+        fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
     }
 
     public void AddCallbackListener(CellHandler cellHandler)
@@ -65,6 +75,6 @@ public class BoardBuilder : MonoBehaviour
 
     private void CellCallback(CellHandler cellHandler, PieceHandler pieceHandler)
     {
-        pieceManager.MovePiece(pieceHandler, cellHandler);
+        pieceService.MovePiece(pieceHandler, cellHandler);
     }
 }
