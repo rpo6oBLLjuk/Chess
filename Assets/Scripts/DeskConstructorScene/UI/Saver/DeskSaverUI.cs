@@ -21,6 +21,6 @@ public class DeskSaverUI : AnimatedPanel
 
     private void Save()
     {
-        deskSaver.SaveBoard(gameController.DeskData, saveNameInput.text);
+        deskSaver.SaveBoard(gameController.PiecesData, saveNameInput.text);
     }
 }

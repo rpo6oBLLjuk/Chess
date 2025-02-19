@@ -6,40 +6,42 @@ using Zenject;
 public class PieceMovementController
 {
     [Inject] GameController gameController;
-    [Inject] PieceService pieceService;
-
-    /// <summary>
-    /// </summary>
-    /// <param name="piece">Moved piece data</param>
-    /// <param name="from">Start cell handler</param>
-    /// <param name="to">End cell handler.</param>
-    public event Action<PieceData, CellHandler, CellHandler> PieceMoved;
 
 
     public bool CanBeMove(PieceHandler pieceHandler)
     {
-        PieceData endCellData = gameController.DeskData.BoardData[pieceHandler.CurrentCell.CellIndex.x, pieceHandler.CurrentCell.CellIndex.y];
-        if (endCellData == null)
+        PieceData endPieceData = gameController.PiecesData.Get(pieceHandler.CurrentCell.CellIndex);
+        if (endPieceData == new PieceData())
             return true;
 
-        return endCellData.Color switch
+        switch (endPieceData.Color)
         {
-            PieceColor.None => true,
-            PieceColor.Other => false,
-            _ => endCellData.Color != pieceHandler.PieceData.Color,
-        };
+            case PieceColor.None:
+            return true;
+            case PieceColor.Other:
+            return false;
+            default:
+            {
+                if (endPieceData.Color != pieceHandler.PieceData.Color)
+                {
+                    gameController.EatPiece(pieceHandler.CurrentCell);
+                    return true;
+                }
+                else
+                    return false;
+            }
+        }
     }
 
     public void Move(PieceHandler pieceHandler)
     {
         MovePieceData(pieceHandler.PreviousCell.CellIndex, pieceHandler.CurrentCell.CellIndex);
-        PieceMoved?.Invoke(pieceHandler.PieceData, pieceHandler.PreviousCell, pieceHandler.CurrentCell);
     }
 
     private void MovePieceData(Vector2Int startCell, Vector2Int endCell)
     {
-        PieceData pieceData = gameController.DeskData.BoardData[startCell.x, startCell.y]?.Clone();
-        gameController.DeskData.BoardData[startCell.x, startCell.y] = null;
-        gameController.DeskData.BoardData[endCell.x, endCell.y] = pieceData;
+        PieceData pieceData = gameController.PiecesData.Get(startCell)?.Clone();
+        gameController.PiecesData.Set(startCell, new PieceData());
+        gameController.PiecesData.Set(endCell, pieceData);
     }
 }

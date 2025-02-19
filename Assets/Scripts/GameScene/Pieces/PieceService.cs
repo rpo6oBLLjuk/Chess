@@ -3,10 +3,12 @@ using Zenject;
 
 public class PieceService : MonoService
 {
+    [Inject] GameController gameController;
     [Inject] NotificationService notificationService;
 
     private PieceBuilder pieceBuilder;
     private PieceMovementController pieceMovementController;
+    private PieceDestroyer pieceDestroyer;
 
     [SerializeField] PieceSkinsData pieceSkinsData;
     [SerializeField] PiecePrefabs piecePrefabs;
@@ -18,6 +20,7 @@ public class PieceService : MonoService
 
         pieceBuilder = container.Instantiate<PieceBuilder>();
         pieceMovementController = container.Instantiate<PieceMovementController>();
+        pieceDestroyer = container.Instantiate<PieceDestroyer>();
 
         pieceBuilder.Init(pieceSkinsData, piecePrefabs);
     }
@@ -26,17 +29,18 @@ public class PieceService : MonoService
     {
         pieceBuilder.SetupPieces();
 
-        pieceMovementController.PieceMoved += PieceMoved;
+        gameController.PieceMoved += PieceMoved;
     }
 
-    public void SpawnPiece(PieceData pieceData, CellHandler cellHandler)
+    private void OnDisable()
     {
-        pieceBuilder.Instantiate(pieceData, cellHandler);
+        gameController.PieceMoved -= PieceMoved;
     }
-    public void SpawnPiece(PieceType type, PieceColor color, CellHandler cellHandler)
-    {
-        SpawnPiece(new PieceData(type, color), cellHandler);
-    }
+
+    public void SpawnPiece(PieceData pieceData, CellHandler cellHandler) => pieceBuilder.Instantiate(pieceData, cellHandler);
+    public void SpawnPiece(PieceType type, PieceColor color, CellHandler cellHandler) => SpawnPiece(new PieceData(type, color), cellHandler);
+
+    public void DestroyPiece(CellHandler cellHandler) => pieceDestroyer.DestroyPiece(cellHandler);
 
     public bool CanBeMove(PieceHandler pieceHandler)
     {
@@ -47,8 +51,8 @@ public class PieceService : MonoService
     }
     public void MovePiece(PieceHandler pieceHandler) => pieceMovementController.Move(pieceHandler);
 
-    protected void PieceMoved(PieceData pieceData, CellHandler startCellHandler, CellHandler endCellHandler)
+    protected void PieceMoved(PieceHandler pieceHandler)
     {
-        DebugExtensions.Log($"Piece '{pieceData.Type}' move from {startCellHandler.CellIndex} to {endCellHandler.CellIndex}", "PieceService");
+        DebugExtensions.Log($"Piece '{pieceHandler.PieceData.Type}' move from {pieceHandler.PreviousCell.CellIndex} to {pieceHandler.CurrentCell.CellIndex}", "PieceService");
     }
 }

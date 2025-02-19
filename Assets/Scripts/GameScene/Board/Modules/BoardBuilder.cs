@@ -1,10 +1,13 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 [Serializable]
 public class BoardBuilder
 {
+    private GameController gameController;
+
     [Header("References")]
     [SerializeField] private GridLayoutGroup boardGridLayout;
     [SerializeField] private GameObject whiteCell;
@@ -17,30 +20,30 @@ public class BoardBuilder
     private BoardService boardService;
 
 
-    public void Init(BoardService boardService, PieceService pieceService)
+    public void Init(BoardService boardService, PieceService pieceService, GameController gameController)
     {
+        this.gameController = gameController;
         this.boardService = boardService;
         this.pieceService = pieceService;
     }
 
 
-    public void SetupBoard(DeskData deskData)
+    public void SetupBoard(BoardPiecesData deskData)
     {
-        boardService.cells = new CellHandler[deskData.BoardSize.x, deskData.BoardSize.y]; //board Init
+        gameController.CellsData.SetSize(deskData.Size);
 
-        boardGridLayout.constraint = (deskData.BoardSize.x > deskData.BoardSize.y) ?
+        boardGridLayout.constraint = (deskData.Size.x > deskData.Size.y) ?
             GridLayoutGroup.Constraint.FixedColumnCount : GridLayoutGroup.Constraint.FixedRowCount;
-        boardGridLayout.constraintCount = (deskData.BoardSize.x >= deskData.BoardSize.y) ? deskData.BoardSize.x : deskData.BoardSize.y;
+        boardGridLayout.constraintCount = (deskData.Size.x >= deskData.Size.y) ? deskData.Size.x : deskData.Size.y;
 
         bool isWhite = !leftUpCellIsWhite;
 
-        Debug.Log(deskData.BoardSize);
-        for (int y = 0; y < deskData.BoardSize.y; y++)
+        for (int y = 0; y < deskData.Size.y; y++)
         {
-            if (deskData.BoardSize.x % 2 == 0)
+            if (deskData.Size.x % 2 == 0)
                 isWhite = !isWhite;
 
-            for (int x = 0; x < deskData.BoardSize.x; x++)
+            for (int x = 0; x < deskData.Size.x; x++)
             {
                 GameObject cell = UnityEngine.Object.Instantiate(isWhite ? whiteCell : blackCell, boardGridLayout.transform);
                 isWhite = !isWhite;
@@ -48,10 +51,10 @@ public class BoardBuilder
                 if (!cell.TryGetComponent(out CellHandler cellHandler))
                     cellHandler = cell.AddComponent<CellHandler>();
 
-                boardService.cells[x, y] = cellHandler;
+                gameController.CellsData.Set(x, y, cellHandler);
                 cellHandler.Init(x, y);
 
-                AddCallbackListener(cellHandler);
+                //AddCallbackListener(cellHandler);
 
                 //float r = Random.Range(0f, 1f);
                 //float g = Random.Range(0f, 1f);
@@ -66,13 +69,13 @@ public class BoardBuilder
         fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
     }
 
-    public void AddCallbackListener(CellHandler cellHandler)
-    {
-        cellHandler.OnPiecePlaced += CellCallback;
-    }
+    //public void AddCallbackListener(CellHandler cellHandler)
+    //{
+    //    cellHandler.OnPiecePlaced += CellCallback;
+    //}
 
-    private void CellCallback(CellHandler cellHandler, PieceHandler pieceHandler)
-    {
-        pieceService.MovePiece(pieceHandler);
-    }
+    //private void CellCallback(CellHandler cellHandler, PieceHandler pieceHandler)
+    //{
+    //    pieceService.MovePiece(pieceHandler);
+    //}
 }

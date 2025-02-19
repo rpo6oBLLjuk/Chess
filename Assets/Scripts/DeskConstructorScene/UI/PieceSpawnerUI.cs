@@ -20,11 +20,17 @@ public class PieceSpawnerUI : MonoBehaviour
 
     private Button saveButton;
     private Button colorButton;
+    private Button destroyButton;
+
+    private bool destroyerIsActive;
 
     private PieceColor currectPieceColor = PieceColor.White;
 
+
     private void Awake()
     {
+        destroyerIsActive = false;
+
         defaultButton.gameObject.SetActive(false);
 
         foreach (PieceType type in Enum.GetValues(typeof(PieceType)))
@@ -45,6 +51,9 @@ public class PieceSpawnerUI : MonoBehaviour
             currectPieceColor = (currectPieceColor == PieceColor.White) ? PieceColor.Black : PieceColor.White;
             colorButton.GetComponentInChildren<TextMeshProUGUI>().text = currectPieceColor.ToString();
         });
+
+        destroyButton = InstantiateButton("Destroy (inactive)", systemButtonsParent).GetComponent<Button>();
+        destroyButton.onClick.AddListener(() => DestroyButtonCallback());
     }
 
     private GameObject InstantiateButton(string name, Transform parent)
@@ -60,18 +69,35 @@ public class PieceSpawnerUI : MonoBehaviour
 
     private void SpawnerButtonCallback(PieceType type)
     {
-        var foundIndex = (from x in Enumerable.Range(0, gameController.DeskData.BoardData.GetLength(0))
-                          from y in Enumerable.Range(0, gameController.DeskData.BoardData.GetLength(1))
-                          where gameController.DeskData.BoardData[x, y] == null
-                          select (x, y)).Cast<(int, int)?>().FirstOrDefault();
+        var foundIndex = gameController.PiecesData.Data.FindIndex(piece => piece.Type == PieceType.None);
 
-        if (!foundIndex.HasValue)
+        if (foundIndex == -1)
         {
             notificationService.ShowPopup("Board full", "Spawner", PopupType.Error);
         }
         else
         {
-            pieceService.SpawnPiece(type, currectPieceColor, boardService.cells[foundIndex.Value.Item1, foundIndex.Value.Item2]);
+            pieceService.SpawnPiece(type, currectPieceColor, gameController.CellsData.Data[foundIndex]);
         }
+    }
+
+    private void DestroyButtonCallback()
+    {
+        destroyerIsActive = !destroyerIsActive;
+
+        if (destroyerIsActive)
+        {
+            gameController.PiecePointerDown += DestroyPiece;
+            destroyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Destroy (active)";
+        }
+        else
+        {
+            gameController.PiecePointerDown -= DestroyPiece;
+            destroyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Destroy (inactive)";
+        }
+    }
+    private void DestroyPiece(PieceHandler pieceHandler)
+    {
+        gameController.DestroyPiece(pieceHandler);
     }
 }

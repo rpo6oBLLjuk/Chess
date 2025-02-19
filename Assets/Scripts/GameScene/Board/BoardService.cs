@@ -8,18 +8,16 @@ public class BoardService : MonoService
 
     [SerializeField] private BoardBuilder boardBuilder;
 
-    public CellHandler[,] cells;
-
 
     public override void OnInstantiated()
     {
         base.OnInstantiated();
 
-        boardBuilder.Init(this, pieceService); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        boardBuilder.Init(this, pieceService, gameController); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     public void Setup()
     {
-        boardBuilder.SetupBoard(gameController.DeskData);
+        boardBuilder.SetupBoard(gameController.PiecesData);
     }
 }

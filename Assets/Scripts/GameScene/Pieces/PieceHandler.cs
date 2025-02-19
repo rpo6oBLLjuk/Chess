@@ -5,10 +5,11 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
-public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
+public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
 {
     [Inject] NotificationService notificationService;
     [Inject] PieceService pieceService;
+    [Inject] GameController gameController;
 
     public PieceData PieceData { get; private set; }
     public CellHandler PreviousCell { get; private set; }
@@ -23,10 +24,12 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     private Transform parentCell;
 
 
-    public void Init(PieceAnimationData pieceAnimationData, PieceData pieceData)
+    public void Init(PieceAnimationData pieceAnimationData, PieceData pieceData, CellHandler cellHandler)
     {
         this.pieceAnimationData = pieceAnimationData;
         this.PieceData = pieceData;
+
+        PreviousCell = CurrentCell = cellHandler;
     }
 
     private void Awake()
@@ -35,7 +38,6 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
         canvas = GetComponentInParent<Canvas>();
         graphicRaycaster = GetComponentInParent<GraphicRaycaster>();
-
 
         if (canvas.renderMode != RenderMode.ScreenSpaceCamera)
         {
@@ -48,7 +50,7 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         parentCell = transform.parent;
 
         if (GetCell(eventData, out CellHandler cellHandler))
-            PreviousCell = cellHandler;
+            CurrentCell = cellHandler;
         transform.SetParent(GetComponentInParent<Canvas>().transform);
     }
 
@@ -61,14 +63,21 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (GetCell(eventData, out CellHandler cellHandler))
+        if (GetCell(eventData, out CellHandler cellHandler) && CurrentCell != cellHandler)
         {
+            PreviousCell = CurrentCell;
             CurrentCell = cellHandler;
 
-            if (pieceService.CanBeMove(this))
+            if(pieceService.CanBeMove(this))
             {
                 parentCell = cellHandler.transform;
                 cellHandler.PiecePlaced(this);
+
+                gameController.MovePiece(this);
+            }
+            else
+            {
+                CurrentCell = PreviousCell;
             }
         }
 
@@ -76,8 +85,20 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             .OnComplete(() => transform.SetParent(parentCell));
     }
 
-    public void OnPointerDown(PointerEventData eventData) => transform.DOScale(Vector3.one * pieceAnimationData.scaleMultiplier, pieceAnimationData.scaleDuration);
-    public void OnPointerUp(PointerEventData eventData) => transform.DOScale(Vector3.one, pieceAnimationData.scaleDuration);
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        transform.DOScale(Vector3.one * pieceAnimationData.scaleMultiplier, pieceAnimationData.scaleDuration);
+        gameController.DownOnPiece(this);
+    }
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        transform.DOScale(Vector3.one, pieceAnimationData.scaleDuration);
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        gameController.ClickOnPiece(this);
+    }
+
 
     private bool GetCell(PointerEventData eventData, out CellHandler cellHandler)
     {
@@ -97,6 +118,4 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         notificationService.ShowPopup("Piece not on a board", "Piece Handler", PopupType.Warning);
         return false;
     }
-
-
 }

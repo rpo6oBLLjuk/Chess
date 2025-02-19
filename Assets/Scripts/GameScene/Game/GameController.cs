@@ -1,20 +1,26 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
 public class GameController : MonoService
 {
     [Inject] DeskSaverService deskSaver;
-    [Inject] NotificationService notificationService;
     [Inject] PieceService pieceService;
     [Inject] BoardService boardService;
 
-    public event Action<PieceHandler, CellHandler, CellHandler> PieceMoved;
-    public event Action<PieceHandler, PieceHandler, CellHandler> PieceEaten;
+    public string mainSaveName = "main";
+
+    public event Action<PieceHandler> PiecePointerClicked;
+    public event Action<PieceHandler> PiecePointerDown;
+
+    public event Action<PieceHandler> PieceMoved;
+    public event Action<PieceHandler, PieceHandler> PieceEaten;
 
     public event Action<PieceHandler, CellHandler> PieceDestroyed;
 
-    public DeskData DeskData { get; private set; }
+    [field: SerializeField] public BoardPiecesData PiecesData { get; private set; }
+    [field: SerializeField] public BoardCellsData CellsData { get; private set; }
 
 
     public void Setup()
@@ -22,31 +28,51 @@ public class GameController : MonoService
         StartDataLoad();
     }
 
-    public void MovePiece(PieceHandler piece, CellHandler startCell, PieceHandler endCell)
+    public void MovePiece(PieceHandler pieceHandler)
     {
-
+        pieceService.MovePiece(pieceHandler);
+        PieceMoved(pieceHandler);
     }
-    public void EatPiece(PieceHandler eater, PieceHandler eatenPiece, CellHandler eatenPieceHandler)
+    public void EatPiece(CellHandler eatenPieceHandler)
     {
-
+        pieceService.DestroyPiece(eatenPieceHandler);
+        Debug.Log("Piece eaten");
     }
-    public void DestroyPiece(PieceHandler pieceHandler, CellHandler cellHandler)
-    {
 
+    public void DestroyPiece(CellHandler cellHandler)
+    {
+        pieceService.DestroyPiece(cellHandler);
+    }
+    public void DestroyPiece(PieceHandler pieceHandler)
+    {
+        pieceService.DestroyPiece(pieceHandler.CurrentCell);
+    }
+
+    public void ClickOnPiece(PieceHandler pieceHandler)
+    {
+        PiecePointerClicked?.Invoke(pieceHandler);
+    }
+    public void DownOnPiece(PieceHandler pieceHandler)
+    {
+        PiecePointerDown?.Invoke(pieceHandler);
     }
 
     private void StartDataLoad()
     {
-        DeskData = deskSaver.LoadBoard("main");
+        PiecesData = deskSaver.LoadBoard(mainSaveName);
 
-        if (DeskData != null)
+        if (PiecesData != null)
         {
-            Debug.Log(DeskData.BoardSize);
+            Debug.Log(PiecesData.Size);
         }
         else
         {
-            DeskData = new DeskData();
+            PiecesData = new BoardPiecesData(8, 8);
         }
+
+        Debug.Log($"First: {PiecesData.Data.First().Type}");
+
+        CellsData = new(PiecesData.Size);
 
         boardService.Setup();
         pieceService.Setup();

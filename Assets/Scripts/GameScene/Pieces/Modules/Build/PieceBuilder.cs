@@ -10,9 +10,6 @@ public class PieceBuilder
 
     [Inject] GameController gameController;
 
-    [Inject] BoardService boardService;
-    [Inject] PieceService pieceService;
-
     private PieceFactory pooler = new();
     private PieceSkinsData piecesSkinData;
 
@@ -25,34 +22,35 @@ public class PieceBuilder
 
     public void SetupPieces()
     {
-        for (int y = 0; y < gameController.DeskData.BoardSize.y; y++)
+        PieceData currentPiece;
+        for (int y = 0; y < gameController.PiecesData.Size.y; y++)
         {
-            for (int x = 0; x < gameController.DeskData.BoardSize.x; x++)
+            for (int x = 0; x < gameController.PiecesData.Size.x; x++)
             {
-                if (gameController.DeskData.BoardData[x, y] != null)
+                currentPiece = gameController.PiecesData.Get(x, y);
+                if (currentPiece != null)
                 {
-                    Instantiate(gameController.DeskData.BoardData[x, y], boardService.cells[x, y]);
+                    Instantiate(currentPiece, gameController.CellsData.Get(x, y));
                 }
             }
         }
     }
 
-    public GameObject Instantiate(PieceData pieceData, CellHandler boardCell)
+    public GameObject Instantiate(PieceData pieceData, CellHandler cellHandler)
     {
-        GameObject instance = container.InstantiatePrefab(pooler.Get(pieceData.Type), boardCell.transform);
+        if (pieceData.Type == PieceType.None)
+            return null;
+
+        GameObject instance = container.InstantiatePrefab(pooler.Get(pieceData.Type), cellHandler.transform);
         instance.GetComponentInChildren<Image>().sprite = piecesSkinData.Get(pieceData);
 
         if (!instance.TryGetComponent(out PieceHandler pieceHandler))
             pieceHandler = instance.AddComponent<PieceHandler>();
-        pieceHandler.Init(piecesSkinData.AnimationData, pieceData);
+        pieceHandler.Init(piecesSkinData.AnimationData, pieceData, cellHandler);
 
-        //RectTransform rectTransform = instance.GetComponent<RectTransform>();
-        //rectTransform.anchorMin = Vector2.zero;
-        //rectTransform.anchorMax = Vector2.one;
-        //rectTransform.offsetMin = Vector2.zero;
-        //rectTransform.offsetMax = Vector2.zero;
+        cellHandler.PiecePlaced(pieceHandler);
 
-        gameController.DeskData.BoardData[boardCell.CellIndex.x, boardCell.CellIndex.y] = pieceData;
+        gameController.PiecesData.Set(cellHandler.CellIndex, pieceData);
 
         Debug.Log(instance, instance);
         return instance;
