@@ -1307,7 +1307,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: -17.5, y: -30}
+  m_CellSize: {x: 138.16664, y: 300}
   m_Spacing: {x: 5, y: 5}
   m_Constraint: 1
   m_ConstraintCount: 2
@@ -1538,7 +1538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b25b87416a3c934c9eb2c0f91e9d6bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainSaveName: main1
+  mainSaveName: main
   <PiecesData>k__BackingField:
     size: {x: 0, y: 0}
     data: []
@@ -3527,7 +3527,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: -17.5, y: -30}
+  m_CellSize: {x: 138.16664, y: 300}
   m_Spacing: {x: 5, y: 5}
   m_Constraint: 1
   m_ConstraintCount: 2

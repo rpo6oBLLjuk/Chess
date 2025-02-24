@@ -23,6 +23,9 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     private Transform parentCell;
 
+    public bool IsDragging => isDragging;
+    private bool isDragging;
+
 
     public void Init(PieceAnimationData pieceAnimationData, PieceData pieceData, CellHandler cellHandler)
     {
@@ -52,6 +55,9 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         if (GetCell(eventData, out CellHandler cellHandler))
             CurrentCell = cellHandler;
         transform.SetParent(GetComponentInParent<Canvas>().transform);
+
+        isDragging = true;
+        transform.DOScale(Vector3.one * pieceAnimationData.scaleMultiplier, pieceAnimationData.scaleDuration);
     }
 
     public void OnDrag(PointerEventData eventData) => SetDraggedPosition(eventData);
@@ -68,7 +74,7 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             PreviousCell = CurrentCell;
             CurrentCell = cellHandler;
 
-            if(pieceService.CanBeMove(this))
+            if (pieceService.CanBeMove(this))
             {
                 parentCell = cellHandler.transform;
                 cellHandler.PiecePlaced(this);
@@ -83,20 +89,25 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
         transform.DOMove(parentCell.position, pieceAnimationData.magnetDuration)
             .OnComplete(() => transform.SetParent(parentCell));
+
+        isDragging = false;
+        transform.DOScale(Vector3.one, pieceAnimationData.scaleDuration);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        transform.DOScale(Vector3.one * pieceAnimationData.scaleMultiplier, pieceAnimationData.scaleDuration);
         gameController.DownOnPiece(this);
     }
     public void OnPointerUp(PointerEventData eventData)
     {
-        transform.DOScale(Vector3.one, pieceAnimationData.scaleDuration);
+        
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        gameController.ClickOnPiece(this);
+        if (!isDragging)
+            gameController.ClickOnPiece(this);
+
+
     }
 
 

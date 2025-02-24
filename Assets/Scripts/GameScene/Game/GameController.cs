@@ -51,6 +51,7 @@ public class GameController : MonoService
     public void ClickOnPiece(PieceHandler pieceHandler)
     {
         PiecePointerClicked?.Invoke(pieceHandler);
+        Debug.Log("Piece clicked");
     }
     public void DownOnPiece(PieceHandler pieceHandler)
     {

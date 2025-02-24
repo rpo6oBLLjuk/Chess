@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -87,12 +87,12 @@ public class PieceSpawnerUI : MonoBehaviour
 
         if (destroyerIsActive)
         {
-            gameController.PiecePointerDown += DestroyPiece;
+            gameController.PiecePointerClicked += DestroyPiece;
             destroyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Destroy (active)";
         }
         else
         {
-            gameController.PiecePointerDown -= DestroyPiece;
+            gameController.PiecePointerClicked -= DestroyPiece;
             destroyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Destroy (inactive)";
         }
     }
