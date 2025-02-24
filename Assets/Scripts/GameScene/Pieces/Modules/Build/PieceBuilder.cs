@@ -11,10 +11,10 @@ public class PieceBuilder
     [Inject] GameController gameController;
 
     private PieceFactory pooler = new();
-    private PieceSkinsData piecesSkinData;
+    private PiecesSkinData piecesSkinData;
 
 
-    public void Init(PieceSkinsData piecesSkinData, PiecePrefabs piecePrefabs)
+    public void Init(PiecesSkinData piecesSkinData, PiecePrefabs piecePrefabs)
     {
         this.piecesSkinData = piecesSkinData;
         pooler.PiecesPrefabs = piecePrefabs;

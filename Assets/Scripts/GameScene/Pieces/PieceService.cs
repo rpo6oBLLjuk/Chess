@@ -10,7 +10,7 @@ public class PieceService : MonoService
     private PieceMovementController pieceMovementController;
     private PieceDestroyer pieceDestroyer;
 
-    [SerializeField] PieceSkinsData pieceSkinsData;
+    public PiecesSkinData pieceSkinsData;
     [SerializeField] PiecePrefabs piecePrefabs;
 
 

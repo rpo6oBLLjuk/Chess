@@ -5,10 +5,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
-public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
+public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerClickHandler
 {
     [Inject] NotificationService notificationService;
-    [Inject] PieceService pieceService;
     [Inject] GameController gameController;
 
     public PieceData PieceData { get; private set; }
@@ -41,11 +40,6 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
         canvas = GetComponentInParent<Canvas>();
         graphicRaycaster = GetComponentInParent<GraphicRaycaster>();
-
-        if (canvas.renderMode != RenderMode.ScreenSpaceCamera)
-        {
-            Debug.LogError("Canvas должен быть в режиме Screen Space - Camera!");
-        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -54,7 +48,7 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
         if (GetCell(eventData, out CellHandler cellHandler))
             CurrentCell = cellHandler;
-        transform.SetParent(GetComponentInParent<Canvas>().transform);
+        transform.SetParent(canvas.transform);
 
         isDragging = true;
         transform.DOScale(Vector3.one * pieceAnimationData.scaleMultiplier, pieceAnimationData.scaleDuration);
@@ -74,7 +68,7 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             PreviousCell = CurrentCell;
             CurrentCell = cellHandler;
 
-            if (pieceService.CanBeMove(this))
+            if (gameController.CanBeMove(this))
             {
                 parentCell = cellHandler.transform;
                 cellHandler.PiecePlaced(this);
@@ -98,16 +92,10 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     {
         gameController.DownOnPiece(this);
     }
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        
-    }
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!isDragging)
             gameController.ClickOnPiece(this);
-
-
     }
 
 

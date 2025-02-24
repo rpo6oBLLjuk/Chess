@@ -10,9 +10,6 @@ public class PieceSpawnerUI : MonoBehaviour
     [Inject] NotificationService notificationService;
     [Inject] GameController gameController;
 
-    [Inject] PieceService pieceService;
-    [Inject] BoardService boardService;
-
     [SerializeField] private Button defaultButton;
     [SerializeField] private Transform pieceButtonsParent;
     [SerializeField] private Transform systemButtonsParent;
@@ -77,7 +74,7 @@ public class PieceSpawnerUI : MonoBehaviour
         }
         else
         {
-            pieceService.SpawnPiece(type, currectPieceColor, gameController.CellsData.Data[foundIndex]);
+            gameController.SpawnPiece(type, currectPieceColor, gameController.CellsData.Data[foundIndex]);
         }
     }
 

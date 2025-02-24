@@ -4,20 +4,20 @@ using Zenject;
 public class BoardService : MonoService
 {
     [Inject] GameController gameController;
-    [Inject] private PieceService pieceService;
 
     [SerializeField] private BoardBuilder boardBuilder;
+    public CellsSkinData cellsSkinData;
 
 
     public override void OnInstantiated()
     {
         base.OnInstantiated();
 
-        boardBuilder.Init(this, pieceService, gameController); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        boardBuilder.Init(gameController, cellsSkinData); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     public void Setup()
     {
-        boardBuilder.SetupBoard(gameController.PiecesData);
+        boardBuilder.SetupBoard();
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 [Serializable]
 public class BoardBuilder
@@ -10,33 +9,31 @@ public class BoardBuilder
 
     [Header("References")]
     [SerializeField] private GridLayoutGroup boardGridLayout;
-    [SerializeField] private GameObject whiteCell;
-    [SerializeField] private GameObject blackCell;
+    [SerializeField] private GameObject cell;
 
     [Header("Board data")]
     [SerializeField] private bool leftUpCellIsWhite = true;
 
-    private PieceService pieceService;
-    private BoardService boardService;
+    private CellsSkinData cellsSkinData;
 
 
-    public void Init(BoardService boardService, PieceService pieceService, GameController gameController)
+    public void Init(GameController gameController, CellsSkinData cellsSkinData)
     {
         this.gameController = gameController;
-        this.boardService = boardService;
-        this.pieceService = pieceService;
+        this.cellsSkinData = cellsSkinData;
     }
 
 
-    public void SetupBoard(BoardPiecesData deskData)
+    public void SetupBoard()
     {
+        BoardPiecesData deskData = gameController.PiecesData;
         gameController.CellsData.SetSize(deskData.Size);
 
         boardGridLayout.constraint = (deskData.Size.x > deskData.Size.y) ?
             GridLayoutGroup.Constraint.FixedColumnCount : GridLayoutGroup.Constraint.FixedRowCount;
         boardGridLayout.constraintCount = (deskData.Size.x >= deskData.Size.y) ? deskData.Size.x : deskData.Size.y;
 
-        bool isWhite = !leftUpCellIsWhite;
+        bool isWhite = leftUpCellIsWhite;
 
         for (int y = 0; y < deskData.Size.y; y++)
         {
@@ -45,14 +42,17 @@ public class BoardBuilder
 
             for (int x = 0; x < deskData.Size.x; x++)
             {
-                GameObject cell = UnityEngine.Object.Instantiate(isWhite ? whiteCell : blackCell, boardGridLayout.transform);
                 isWhite = !isWhite;
 
-                if (!cell.TryGetComponent(out CellHandler cellHandler))
-                    cellHandler = cell.AddComponent<CellHandler>();
+                GameObject instance = UnityEngine.Object.Instantiate(cell, boardGridLayout.transform);
+                instance.GetComponentInChildren<Image>().sprite = isWhite ? cellsSkinData.WhiteCell : cellsSkinData.BlackCell;
+
+                if (!instance.TryGetComponent(out CellHandler cellHandler))
+                    cellHandler = instance.AddComponent<CellHandler>();
 
                 gameController.CellsData.Set(x, y, cellHandler);
                 cellHandler.Init(x, y);
+                cellHandler.CellEffectController.Init(cellsSkinData);
 
                 //AddCallbackListener(cellHandler);
 

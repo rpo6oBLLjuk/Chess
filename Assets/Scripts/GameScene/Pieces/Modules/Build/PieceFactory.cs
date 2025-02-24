@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class PieceFactory : AbstractFactory
+public class PieceFactory
 {
     public PiecePrefabs PiecesPrefabs;
 
