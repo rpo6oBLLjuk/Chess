@@ -1,26 +1,28 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 [Serializable]
 public class BoardBuilder
 {
-    private GameController gameController;
+    [Inject] DiContainer container;
+    [Inject] private GameController gameController;
 
-    [Header("References")]
-    [SerializeField] private GridLayoutGroup boardGridLayout;
-    [SerializeField] private GameObject cell;
+    private GridLayoutGroup boardGridLayout;
+    private GameObject cellPrefab;
 
-    [Header("Board data")]
-    [SerializeField] private bool leftUpCellIsWhite = true;
 
     private CellsSkinData cellsSkinData;
+    
+    private bool leftUpCellIsWhite = true;
 
 
-    public void Init(GameController gameController, CellsSkinData cellsSkinData)
+    public void Init(CellsSkinData cellsSkinData, GridLayoutGroup boardGridLayout, GameObject cellPrefab)
     {
-        this.gameController = gameController;
         this.cellsSkinData = cellsSkinData;
+        this.boardGridLayout = boardGridLayout;
+        this.cellPrefab = cellPrefab;
     }
 
 
@@ -44,11 +46,10 @@ public class BoardBuilder
             {
                 isWhite = !isWhite;
 
-                GameObject instance = UnityEngine.Object.Instantiate(cell, boardGridLayout.transform);
+                GameObject instance = container.InstantiatePrefab(cellPrefab, boardGridLayout.transform);
                 instance.GetComponentInChildren<Image>().sprite = isWhite ? cellsSkinData.WhiteCell : cellsSkinData.BlackCell;
 
-                if (!instance.TryGetComponent(out CellHandler cellHandler))
-                    cellHandler = instance.AddComponent<CellHandler>();
+                CellHandler cellHandler = instance.GetComponentInChildren<CellHandler>();
 
                 gameController.CellsData.Set(x, y, cellHandler);
                 cellHandler.Init(x, y);

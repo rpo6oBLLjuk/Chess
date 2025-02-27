@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 7197042669348147891}
   - component: {fileID: 8633875025092353219}
   - component: {fileID: 4248256439567732126}
+  - component: {fileID: 4744221795285012739}
   - component: {fileID: 5312521048358492284}
   m_Layer: 5
   m_Name: Cell
@@ -156,6 +157,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4744221795285012739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3127997117501680987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f738c48b9deb4e4e8122f9edb5893a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CellEffectController>k__BackingField: {fileID: 5312521048358492284}
 --- !u!114 &5312521048358492284
 MonoBehaviour:
   m_ObjectHideFlags: 0

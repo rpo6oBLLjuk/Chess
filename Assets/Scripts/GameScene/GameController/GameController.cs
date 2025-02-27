@@ -11,8 +11,8 @@ public class GameController : MonoService
 
     public string mainSaveName = "main";
 
-    public event Action<PieceHandler> PiecePointerClicked;
-    public event Action<PieceHandler> PiecePointerDown;
+    public event Action<CellHandler> CellClicked;
+    public event Action<CellHandler> CellPointerDown;
 
     public event Action<PieceHandler> PieceMoved;
     public event Action<PieceHandler, PieceHandler> PieceEaten;
@@ -34,12 +34,12 @@ public class GameController : MonoService
     public void SpawnPiece(PieceData pieceData, CellHandler cellHandler) => pieceService.SpawnPiece(pieceData, cellHandler);
     public void SpawnPiece(PieceType pieceType, PieceColor pieceColor, CellHandler cellHandler) => pieceService.SpawnPiece(pieceType, pieceColor, cellHandler);
 
-    public bool CanBeMove(PieceHandler pieceHandler) => pieceService.CanBeMove(pieceHandler);
+    public bool CanBeMove(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceService.CanBeMove(pieceHandler, startCell, endCell);
 
-    public void MovePiece(PieceHandler pieceHandler)
+    public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
-        pieceService.MovePiece(pieceHandler);
-        PieceMoved(pieceHandler);
+        pieceService.MovePiece(pieceHandler, startCell, endCell);
+        PieceMoved?.Invoke(pieceHandler);
     }
     public void EatPiece(CellHandler eatenPieceHandler)
     {
@@ -53,17 +53,19 @@ public class GameController : MonoService
     }
     public void DestroyPiece(PieceHandler pieceHandler)
     {
-        pieceService.DestroyPiece(pieceHandler.CurrentCell);
+        throw new System.Exception("Destroy-метод удалён при рефакторинге кода");
+        //pieceService.DestroyPiece(pieceHandler);
     }
 
-    public void ClickOnPiece(PieceHandler pieceHandler)
+    public void ClickOnCell(CellHandler cellHandler)
     {
-        PiecePointerClicked?.Invoke(pieceHandler);
+        CellClicked?.Invoke(cellHandler);
         Debug.Log("Piece clicked");
     }
-    public void DownOnPiece(PieceHandler pieceHandler)
+    public void PointerDownOnCell(CellHandler cellHandler)
     {
-        PiecePointerDown?.Invoke(pieceHandler);
+        CellPointerDown?.Invoke(cellHandler);
+        Debug.Log("Piece pointer down");
     }
 
     private void StartDataLoad()

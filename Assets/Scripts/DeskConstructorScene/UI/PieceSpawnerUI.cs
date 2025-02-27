@@ -84,17 +84,17 @@ public class PieceSpawnerUI : MonoBehaviour
 
         if (destroyerIsActive)
         {
-            gameController.PiecePointerClicked += DestroyPiece;
+            gameController.CellClicked += DestroyPiece;
             destroyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Destroy (active)";
         }
         else
         {
-            gameController.PiecePointerClicked -= DestroyPiece;
+            gameController.CellClicked -= DestroyPiece;
             destroyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Destroy (inactive)";
         }
     }
-    private void DestroyPiece(PieceHandler pieceHandler)
+    private void DestroyPiece(CellHandler cellHandler)
     {
-        gameController.DestroyPiece(pieceHandler);
+        gameController.DestroyPiece(cellHandler);
     }
 }

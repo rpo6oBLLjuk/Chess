@@ -5,13 +5,13 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
-public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerClickHandler
+public class PieceHandler : MonoBehaviour
 {
     [Inject] NotificationService notificationService;
     [Inject] GameController gameController;
 
     public PieceData PieceData { get; private set; }
-    public CellHandler PreviousCell { get; private set; }
+
     public CellHandler CurrentCell { get; private set; }
 
     private PieceAnimationData pieceAnimationData;
@@ -22,16 +22,13 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     private Transform parentCell;
 
-    public bool IsDragging => isDragging;
-    private bool isDragging;
+    bool isDragging = false;
 
 
     public void Init(PieceAnimationData pieceAnimationData, PieceData pieceData, CellHandler cellHandler)
     {
         this.pieceAnimationData = pieceAnimationData;
         this.PieceData = pieceData;
-
-        PreviousCell = CurrentCell = cellHandler;
     }
 
     private void Awake()
@@ -46,8 +43,9 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     {
         parentCell = transform.parent;
 
-        if (GetCell(eventData, out CellHandler cellHandler))
+        if(GetCell(eventData, out CellHandler cellHandler))
             CurrentCell = cellHandler;
+
         transform.SetParent(canvas.transform);
 
         isDragging = true;
@@ -65,19 +63,12 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     {
         if (GetCell(eventData, out CellHandler cellHandler) && CurrentCell != cellHandler)
         {
-            PreviousCell = CurrentCell;
-            CurrentCell = cellHandler;
-
-            if (gameController.CanBeMove(this))
+            if (gameController.CanBeMove(this, CurrentCell, cellHandler))
             {
+                cellHandler.PiecePlaced(this, CurrentCell);
+
+                CurrentCell = cellHandler;
                 parentCell = cellHandler.transform;
-                cellHandler.PiecePlaced(this);
-
-                gameController.MovePiece(this);
-            }
-            else
-            {
-                CurrentCell = PreviousCell;
             }
         }
 
@@ -87,17 +78,6 @@ public class PieceHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         isDragging = false;
         transform.DOScale(Vector3.one, pieceAnimationData.scaleDuration);
     }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        gameController.DownOnPiece(this);
-    }
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (!isDragging)
-            gameController.ClickOnPiece(this);
-    }
-
 
     private bool GetCell(PointerEventData eventData, out CellHandler cellHandler)
     {

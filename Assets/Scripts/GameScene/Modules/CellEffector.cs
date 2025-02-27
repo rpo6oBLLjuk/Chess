@@ -7,37 +7,46 @@ public class CellEffector : MonoBehaviour
     [Inject] GameController gameController;
     [SerializeField] private BoardService boardService;
 
-    [SerializeField] private PieceHandler lastPiece;
+    CellHandler selectCells;
 
-    [SerializeField] List<CellHandler> selectedCells = new();
-    [SerializeField] List<CellHandler> possibleMoveCells = new();
+    List<CellHandler> possibleMoveCells = new();
+    
 
     private void OnEnable()
     {
-        gameController.PiecePointerDown += PieceDown;
+        gameController.CellPointerDown += PieceDown;
+        gameController.PieceMoved += PieceMoved;
     }
 
     private void OnDisable()
     {
-        gameController.PiecePointerDown -= PieceDown;
+        gameController.CellPointerDown -= PieceDown;
+        gameController.PieceMoved -= PieceMoved;
     }
 
-    private void PieceDown(PieceHandler pieceHandler)
+    private void PieceDown(CellHandler cellHandler)
     {
-        SetColor(selectedCells, default);
-        selectedCells.Clear();
+        selectCells?.CellEffectController.SetSelectColor(default);
+        DisablePossibleMoveCells();
 
-        lastPiece = pieceHandler;
-        selectedCells.Add(gameController.CellsData.Get(pieceHandler.CurrentCell.CellIndex));
-
-        SetColor(selectedCells, boardService.cellsSkinData.SelectImage.Color);
+        selectCells = cellHandler;
+        selectCells.CellEffectController.SetSelectColor(boardService.cellsSkinData.SelectImage.Color);
     }
 
-    private void SetColor(List<CellHandler> cells, Color color)
+    private void PieceMoved(PieceHandler pieceHandler)
     {
-        foreach (CellHandler cellHandler in cells)
-        {
-            cellHandler.CellEffectController.SetSelectColor(color);
-        }
+        selectCells?.CellEffectController.SetSelectColor(default);
+        DisablePossibleMoveCells();
     }
+
+
+    private void DisablePossibleMoveCells() => DisableCells(possibleMoveCells);
+
+    private void DisableCells(List<CellHandler> cells)
+    {
+        SetColor(cells, default);
+        cells.Clear();
+    }
+
+    private void SetColor(List<CellHandler> cells, Color color) => cells.ForEach(cell => cell.CellEffectController.SetSelectColor(color));
 }

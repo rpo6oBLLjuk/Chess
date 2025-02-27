@@ -8,9 +8,9 @@ public class PieceMovementController
     [Inject] GameController gameController;
 
 
-    public bool CanBeMove(PieceHandler pieceHandler)
+    public bool CanBeMove(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
-        PieceData endPieceData = gameController.PiecesData.Get(pieceHandler.CurrentCell.CellIndex);
+        PieceData endPieceData = gameController.PiecesData.Get(endCell.CellIndex);
         if (endPieceData == new PieceData())
             return true;
 
@@ -24,7 +24,7 @@ public class PieceMovementController
             {
                 if (endPieceData.Color != pieceHandler.PieceData.Color)
                 {
-                    gameController.EatPiece(pieceHandler.CurrentCell);
+                    gameController.EatPiece(endCell);
                     return true;
                 }
                 else
@@ -33,10 +33,7 @@ public class PieceMovementController
         }
     }
 
-    public void Move(PieceHandler pieceHandler)
-    {
-        MovePieceData(pieceHandler.PreviousCell.CellIndex, pieceHandler.CurrentCell.CellIndex);
-    }
+    public void Move(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => MovePieceData(startCell.CellIndex, endCell.CellIndex);
 
     private void MovePieceData(Vector2Int startCell, Vector2Int endCell)
     {

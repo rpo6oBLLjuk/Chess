@@ -10,7 +10,7 @@ public class PieceService : MonoService
     private PieceMovementController pieceMovementController;
     private PieceDestroyer pieceDestroyer;
 
-    public PiecesSkinData pieceSkinsData;
+    public PiecesSkinData piecesSkinData;
     [SerializeField] PiecePrefabs piecePrefabs;
 
 
@@ -22,7 +22,7 @@ public class PieceService : MonoService
         pieceMovementController = container.Instantiate<PieceMovementController>();
         pieceDestroyer = container.Instantiate<PieceDestroyer>();
 
-        pieceBuilder.Init(pieceSkinsData, piecePrefabs);
+        pieceBuilder.Init(piecesSkinData, piecePrefabs);
     }
 
     public void Setup()
@@ -42,17 +42,17 @@ public class PieceService : MonoService
 
     public void DestroyPiece(CellHandler cellHandler) => pieceDestroyer.DestroyPiece(cellHandler);
 
-    public bool CanBeMove(PieceHandler pieceHandler)
+    public bool CanBeMove(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
-        bool canMove = pieceMovementController.CanBeMove(pieceHandler);
+        bool canMove = pieceMovementController.CanBeMove(pieceHandler, startCell, endCell);
         if (!canMove)
             notificationService.ShowPopup("Move blocked", "Piece manager", PopupType.Warning);
         return canMove;
     }
-    public void MovePiece(PieceHandler pieceHandler) => pieceMovementController.Move(pieceHandler);
+    public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceMovementController.Move(pieceHandler, startCell, endCell);
 
     protected void PieceMoved(PieceHandler pieceHandler)
     {
-        DebugExtensions.Log($"Piece '{pieceHandler.PieceData.Type}' move from {pieceHandler.PreviousCell.CellIndex} to {pieceHandler.CurrentCell.CellIndex}", "PieceService");
+        DebugExtensions.Log($"Piece '{pieceHandler.PieceData.Type}' move to {pieceHandler.CurrentCell.CellIndex}", "PieceService");
     }
 }

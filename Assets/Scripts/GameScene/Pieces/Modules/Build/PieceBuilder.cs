@@ -1,13 +1,10 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-[Serializable]
 public class PieceBuilder
 {
     [Inject] DiContainer container;
-
     [Inject] GameController gameController;
 
     private PieceFactory pooler = new();
@@ -48,7 +45,7 @@ public class PieceBuilder
             pieceHandler = instance.AddComponent<PieceHandler>();
         pieceHandler.Init(piecesSkinData.AnimationData, pieceData, cellHandler);
 
-        cellHandler.PiecePlaced(pieceHandler);
+        cellHandler.PiecePlaced(pieceHandler, default, forcePlaced: true);
 
         gameController.PiecesData.Set(cellHandler.CellIndex, pieceData);
 

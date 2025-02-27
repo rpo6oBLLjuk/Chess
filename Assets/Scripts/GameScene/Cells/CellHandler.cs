@@ -1,26 +1,59 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using Zenject;
 
-public class CellHandler : MonoBehaviour
+public class CellHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerClickHandler
 {
-    public Vector2Int CellIndex { get; private set; }
-    public PieceHandler CellPieceHandler { get; private set; }
+    [Inject] GameController gameController;
 
-    public CellEffectController CellEffectController { get; private set; }
+    [field: SerializeField] public CellEffectController CellEffectController { get; private set; }
+
+    public Vector2Int CellIndex { get; private set; }
+    public PieceHandler CurrentPieceHandler { get; private set; }
+
+    public bool IsDragging => isDragging;
+    private bool isDragging;
 
 
     public void Init(int x, int y)
     {
         CellIndex = new Vector2Int(x, y);
-        CellEffectController ??= GetComponentInChildren<CellEffectController>();
     }
 
-    public void PiecePlaced(PieceHandler pieceHandler)
+    public void PiecePlaced(PieceHandler pieceHandler, CellHandler fromCell, bool forcePlaced = false)
     {
-        CellPieceHandler = pieceHandler;
-        Debug.Log($"CellHandler: {this.gameObject.name}, PieceHandler: {pieceHandler.gameObject}");
+        CurrentPieceHandler = pieceHandler;
+
+        if (!forcePlaced)
+            gameController.MovePiece(pieceHandler, fromCell, this);
     }
     public void PieceMovedFrom(PieceHandler pieceHandler)
     {
-        CellPieceHandler = null;
+        CurrentPieceHandler = null;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        gameController.ClickOnCell(this);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        gameController.PointerDownOnCell(this);
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        CurrentPieceHandler.OnBeginDrag(eventData);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        CurrentPieceHandler.OnDrag(eventData);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        CurrentPieceHandler.OnEndDrag(eventData);
     }
 }
