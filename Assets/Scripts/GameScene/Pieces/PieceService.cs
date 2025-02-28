@@ -8,7 +8,7 @@ public class PieceService : MonoService
 
     private PieceBuilder pieceBuilder;
     private PieceMovementController pieceMovementController;
-    private PieceDestroyer pieceDestroyer;
+    private PieceCapturer pieceDestroyer;
 
     public PiecesSkinData piecesSkinData;
     [SerializeField] PiecePrefabs piecePrefabs;
@@ -20,7 +20,7 @@ public class PieceService : MonoService
 
         pieceBuilder = container.Instantiate<PieceBuilder>();
         pieceMovementController = container.Instantiate<PieceMovementController>();
-        pieceDestroyer = container.Instantiate<PieceDestroyer>();
+        pieceDestroyer = container.Instantiate<PieceCapturer>();
 
         pieceBuilder.Init(piecesSkinData, piecePrefabs);
     }
@@ -29,18 +29,12 @@ public class PieceService : MonoService
     {
         pieceBuilder.SetupPieces();
 
-        gameController.PieceMoved += PieceMoved;
-    }
-
-    private void OnDisable()
-    {
-        gameController.PieceMoved -= PieceMoved;
     }
 
     public void SpawnPiece(PieceData pieceData, CellHandler cellHandler) => pieceBuilder.Instantiate(pieceData, cellHandler);
     public void SpawnPiece(PieceType type, PieceColor color, CellHandler cellHandler) => SpawnPiece(new PieceData(type, color), cellHandler);
 
-    public void DestroyPiece(CellHandler cellHandler) => pieceDestroyer.DestroyPiece(cellHandler);
+    public void CapturePiece(CellHandler cellHandler) => pieceDestroyer.CapturePiece(cellHandler);
 
     public bool CanBeMove(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
@@ -50,9 +44,4 @@ public class PieceService : MonoService
         return canMove;
     }
     public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceMovementController.Move(pieceHandler, startCell, endCell);
-
-    protected void PieceMoved(PieceHandler pieceHandler)
-    {
-        DebugExtensions.Log($"Piece '{pieceHandler.PieceData.Type}' move to {pieceHandler.CurrentCell.CellIndex}", "PieceService");
-    }
 }

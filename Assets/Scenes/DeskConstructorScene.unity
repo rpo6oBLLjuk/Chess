@@ -330,7 +330,6 @@ GameObject:
   - component: {fileID: 54253954}
   - component: {fileID: 54253953}
   - component: {fileID: 54253955}
-  - component: {fileID: 54253956}
   m_Layer: 0
   m_Name: System
   m_TagString: Untagged
@@ -369,6 +368,7 @@ Transform:
   - {fileID: 1084050255}
   - {fileID: 727343827}
   - {fileID: 619310402}
+  - {fileID: 1406014930}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &54253955
@@ -405,20 +405,6 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
---- !u!114 &54253956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 54253952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 266978c22fa71c9409b8cd9d7ff0a1c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boardService: {fileID: 2006162265}
-  possibleMoveCells: []
 --- !u!1 &58004248
 GameObject:
   m_ObjectHideFlags: 0
@@ -1551,15 +1537,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b25b87416a3c934c9eb2c0f91e9d6bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceService: {fileID: 722973481}
-  boardService: {fileID: 2006162265}
-  mainSaveName: main
   <PiecesData>k__BackingField:
     size: {x: 0, y: 0}
     data: []
   <CellsData>k__BackingField:
     size: {x: 0, y: 0}
     data: []
+  pieceService: {fileID: 722973481}
+  boardService: {fileID: 2006162265}
+  mainSaveName: main
   references:
     version: 2
     RefIds: []
@@ -2600,6 +2586,51 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 200}
   m_SizeDelta: {x: 0, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1406014929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1406014930}
+  - component: {fileID: 1406014931}
+  m_Layer: 0
+  m_Name: CellEffector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1406014930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406014929}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 54253954}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1406014931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406014929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 266978c22fa71c9409b8cd9d7ff0a1c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boardService: {fileID: 2006162265}
 --- !u!1 &1853285034
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,6 +18,7 @@ public class PieceSpawnerUI : MonoBehaviour
     private Button saveButton;
     private Button colorButton;
     private Button destroyButton;
+    private Button resetBoardButton;
 
     private bool destroyerIsActive;
 
@@ -51,6 +52,9 @@ public class PieceSpawnerUI : MonoBehaviour
 
         destroyButton = InstantiateButton("Destroy (inactive)", systemButtonsParent).GetComponent<Button>();
         destroyButton.onClick.AddListener(() => DestroyButtonCallback());
+
+        resetBoardButton = InstantiateButton("Reset board", systemButtonsParent).GetComponent<Button>();
+        resetBoardButton.onClick.AddListener(() => gameController.ResetBoard());
     }
 
     private GameObject InstantiateButton(string name, Transform parent)

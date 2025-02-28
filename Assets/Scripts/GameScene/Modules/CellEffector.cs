@@ -33,7 +33,7 @@ public class CellEffector : MonoBehaviour
         selectCells.CellEffectController.SetSelectColor(boardService.cellsSkinData.SelectImage.Color);
     }
 
-    private void PieceMoved(PieceHandler pieceHandler)
+    private void PieceMoved(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
         selectCells?.CellEffectController.SetSelectColor(default);
         DisablePossibleMoveCells();

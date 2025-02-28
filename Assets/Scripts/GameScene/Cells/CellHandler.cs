@@ -20,40 +20,13 @@ public class CellHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         CellIndex = new Vector2Int(x, y);
     }
 
-    public void PiecePlaced(PieceHandler pieceHandler, CellHandler fromCell, bool forcePlaced = false)
-    {
-        CurrentPieceHandler = pieceHandler;
+    public void PiecePlaced(PieceHandler pieceHandler) => CurrentPieceHandler = pieceHandler;
+    public void PieceRemoved() => CurrentPieceHandler = null;
 
-        if (!forcePlaced)
-            gameController.MovePiece(pieceHandler, fromCell, this);
-    }
-    public void PieceMovedFrom(PieceHandler pieceHandler)
-    {
-        CurrentPieceHandler = null;
-    }
+    public void OnPointerClick(PointerEventData eventData) => gameController.ClickOnCell(this);
+    public void OnPointerDown(PointerEventData eventData) => gameController.PointerDownOnCell(this);
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        gameController.ClickOnCell(this);
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        gameController.PointerDownOnCell(this);
-    }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        CurrentPieceHandler.OnBeginDrag(eventData);
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        CurrentPieceHandler.OnDrag(eventData);
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        CurrentPieceHandler.OnEndDrag(eventData);
-    }
+    public void OnBeginDrag(PointerEventData eventData) => CurrentPieceHandler.OnBeginDrag(eventData);
+    public void OnDrag(PointerEventData eventData) => CurrentPieceHandler.OnDrag(eventData);
+    public void OnEndDrag(PointerEventData eventData) => CurrentPieceHandler.OnEndDrag(eventData, this);
 }

@@ -24,7 +24,7 @@ public class PieceMovementController
             {
                 if (endPieceData.Color != pieceHandler.PieceData.Color)
                 {
-                    gameController.EatPiece(endCell);
+                    gameController.CapturePiece(endCell);
                     return true;
                 }
                 else
@@ -33,7 +33,13 @@ public class PieceMovementController
         }
     }
 
-    public void Move(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => MovePieceData(startCell.CellIndex, endCell.CellIndex);
+    public void Move(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
+    {
+        startCell.PieceRemoved();
+        endCell.PiecePlaced(pieceHandler);
+
+        MovePieceData(startCell.CellIndex, endCell.CellIndex);
+    }
 
     private void MovePieceData(Vector2Int startCell, Vector2Int endCell)
     {

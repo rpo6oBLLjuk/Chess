@@ -1,10 +1,10 @@
 using Zenject;
 
-public class PieceDestroyer
+public class PieceCapturer
 {
     [Inject] GameController gameController;
 
-    public void DestroyPiece(CellHandler cellHandler)
+    public void CapturePiece(CellHandler cellHandler)
     {
         if (cellHandler.CurrentPieceHandler == null)
             return;

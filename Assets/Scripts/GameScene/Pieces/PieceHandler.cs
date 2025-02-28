@@ -12,8 +12,6 @@ public class PieceHandler : MonoBehaviour
 
     public PieceData PieceData { get; private set; }
 
-    public CellHandler CurrentCell { get; private set; }
-
     private PieceAnimationData pieceAnimationData;
 
     private RectTransform rectTransform;
@@ -43,9 +41,6 @@ public class PieceHandler : MonoBehaviour
     {
         parentCell = transform.parent;
 
-        if(GetCell(eventData, out CellHandler cellHandler))
-            CurrentCell = cellHandler;
-
         transform.SetParent(canvas.transform);
 
         isDragging = true;
@@ -59,15 +54,14 @@ public class PieceHandler : MonoBehaviour
             rectTransform.position = globalMousePos;
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public void OnEndDrag(PointerEventData eventData, CellHandler startCell)
     {
-        if (GetCell(eventData, out CellHandler cellHandler) && CurrentCell != cellHandler)
+        if (GetCell(eventData, out CellHandler cellHandler) && cellHandler != startCell)
         {
-            if (gameController.CanBeMove(this, CurrentCell, cellHandler))
+            if (gameController.CanBeMove(this, startCell, cellHandler))
             {
-                cellHandler.PiecePlaced(this, CurrentCell);
+                gameController.MovePiece(this, startCell, cellHandler);
 
-                CurrentCell = cellHandler;
                 parentCell = cellHandler.transform;
             }
         }

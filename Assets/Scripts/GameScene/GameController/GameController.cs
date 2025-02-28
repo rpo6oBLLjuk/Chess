@@ -5,22 +5,21 @@ using Zenject;
 
 public class GameController : MonoService
 {
-    [Inject] DeskSaverService deskSaver;
-    [SerializeField] private PieceService pieceService;
-    [SerializeField] private BoardService boardService;
-
-    public string mainSaveName = "main";
-
     public event Action<CellHandler> CellClicked;
     public event Action<CellHandler> CellPointerDown;
 
-    public event Action<PieceHandler> PieceMoved;
-    public event Action<PieceHandler, PieceHandler> PieceEaten;
-
+    public event Action<PieceHandler, CellHandler, CellHandler> PieceMoved;
+    public event Action<PieceHandler, PieceHandler, CellHandler> PieceCaptured;
     public event Action<PieceHandler, CellHandler> PieceDestroyed;
 
     [field: SerializeField] public BoardPiecesData PiecesData { get; private set; }
     [field: SerializeField] public BoardCellsData CellsData { get; private set; }
+
+    [Inject] DeskSaverService deskSaver;
+    [SerializeField] private PieceService pieceService;
+    [SerializeField] private BoardService boardService;
+
+    [SerializeField] private string mainSaveName = "main";
 
 
     public void Setup()
@@ -28,8 +27,10 @@ public class GameController : MonoService
         pieceService.OnInstantiated();
         boardService.OnInstantiated();
 
-        StartDataLoad();
+        LoadBoard();
     }
+
+    public void ResetBoard() => LoadBoard();
 
     public void SpawnPiece(PieceData pieceData, CellHandler cellHandler) => pieceService.SpawnPiece(pieceData, cellHandler);
     public void SpawnPiece(PieceType pieceType, PieceColor pieceColor, CellHandler cellHandler) => pieceService.SpawnPiece(pieceType, pieceColor, cellHandler);
@@ -39,36 +40,37 @@ public class GameController : MonoService
     public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
         pieceService.MovePiece(pieceHandler, startCell, endCell);
-        PieceMoved?.Invoke(pieceHandler);
+        PieceMoved?.Invoke(pieceHandler, startCell, endCell);
+
+        Debug.Log($"Piece moved from {startCell.CellIndex} to {endCell.CellIndex}");
     }
-    public void EatPiece(CellHandler eatenPieceHandler)
+    public void CapturePiece(CellHandler captiredCellHandler)
     {
-        pieceService.DestroyPiece(eatenPieceHandler);
-        Debug.Log("Piece eaten");
+        pieceService.CapturePiece(captiredCellHandler);
+
+        Debug.Log($"Piece captired on cell {captiredCellHandler.CellIndex}");
     }
 
     public void DestroyPiece(CellHandler cellHandler)
     {
-        pieceService.DestroyPiece(cellHandler);
-    }
-    public void DestroyPiece(PieceHandler pieceHandler)
-    {
-        throw new System.Exception("Destroy-метод удалён при рефакторинге кода");
-        //pieceService.DestroyPiece(pieceHandler);
+        pieceService.CapturePiece(cellHandler);
+        Debug.Log($"Piece destroyed on cell {cellHandler.CellIndex}");
     }
 
     public void ClickOnCell(CellHandler cellHandler)
     {
         CellClicked?.Invoke(cellHandler);
-        Debug.Log("Piece clicked");
+
+        Debug.Log($"Cell {cellHandler.CellIndex} clicked");
     }
     public void PointerDownOnCell(CellHandler cellHandler)
     {
         CellPointerDown?.Invoke(cellHandler);
-        Debug.Log("Piece pointer down");
+
+        Debug.Log($"Cell {cellHandler.CellIndex} pressed down ");
     }
 
-    private void StartDataLoad()
+    private void LoadBoard()
     {
         PiecesData = deskSaver.LoadBoard(mainSaveName);
 

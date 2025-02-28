@@ -7,20 +7,20 @@ public class CellEffectController : MonoBehaviour
     [SerializeField] private Image targetImage;
     [SerializeField] private Image selectImage;
     [SerializeField] private Image possibleMoveImage;
-    [SerializeField] private Image eatImage;
+    [SerializeField] private Image captureImage;
     [SerializeField] private Image lastMoveImage;
 
 
     public void SetAnimTargetColor(Color color, float duration) => SetAnimImageColor(color, duration, targetImage);
     public void SetAnimSelectColor(Color color, float duration) => SetAnimImageColor(color, duration, selectImage);
     public void SetAnimPossibleMoveColor(Color color, float duration) => SetAnimImageColor(color, duration, possibleMoveImage);
-    public void SetAnimEatColor(Color color, float duration) => SetAnimImageColor(color, duration, eatImage);
+    public void SetAnimCaptureColor(Color color, float duration) => SetAnimImageColor(color, duration, captureImage);
     public void SetAnimLastMoveColor(Color color, float duration) => SetAnimImageColor(color, duration, lastMoveImage);
 
     public void SetTargetColor(Color color) => SetImageColor(color, targetImage);
     public void SetSelectColor(Color color) => SetImageColor(color, selectImage);
     public void SetPossibleMoveColor(Color color) => SetImageColor(color, possibleMoveImage);
-    public void SetEatColor(Color color) => SetImageColor(color, eatImage);
+    public void SetCaptureColor(Color color) => SetImageColor(color, captureImage);
     public void SetLastMoveColor(Color color) => SetImageColor(color, lastMoveImage);
 
     public void Init(CellsSkinData cellsSkinData)
@@ -28,7 +28,7 @@ public class CellEffectController : MonoBehaviour
         targetImage.sprite = cellsSkinData.TargetImage.Sprite;
         selectImage.sprite = cellsSkinData.SelectImage.Sprite;
         possibleMoveImage.sprite = cellsSkinData.PossibleMoveImage.Sprite;
-        eatImage.sprite = cellsSkinData.EatImage.Sprite;
+        captureImage.sprite = cellsSkinData.CaptureImage.Sprite;
         lastMoveImage.sprite = cellsSkinData.LastMoveImage.Sprite;
     }
 
@@ -37,7 +37,7 @@ public class CellEffectController : MonoBehaviour
         SetImageColor(default, targetImage);
         SetImageColor(default, selectImage);
         SetImageColor(default, possibleMoveImage);
-        SetImageColor(default, eatImage);
+        SetImageColor(default, captureImage);
         SetImageColor(default, lastMoveImage);
     }
 

@@ -45,7 +45,7 @@ public class PieceBuilder
             pieceHandler = instance.AddComponent<PieceHandler>();
         pieceHandler.Init(piecesSkinData.AnimationData, pieceData, cellHandler);
 
-        cellHandler.PiecePlaced(pieceHandler, default, forcePlaced: true);
+        cellHandler.PiecePlaced(pieceHandler);
 
         gameController.PiecesData.Set(cellHandler.CellIndex, pieceData);
 

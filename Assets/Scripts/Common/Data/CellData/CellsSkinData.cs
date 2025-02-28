@@ -18,6 +18,6 @@ public class CellsSkinData : ScriptableObject
     public CellSpriteData TargetImage;
     public CellSpriteData SelectImage;
     public CellSpriteData PossibleMoveImage;
-    public CellSpriteData EatImage;
+    public CellSpriteData CaptureImage;
     public CellSpriteData LastMoveImage;
 }

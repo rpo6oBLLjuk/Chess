@@ -185,7 +185,7 @@ MonoBehaviour:
   targetImage: {fileID: 9099705909881742713}
   selectImage: {fileID: 5185029948212881722}
   possibleMoveImage: {fileID: 8534496345629666503}
-  eatImage: {fileID: 8138066613310343556}
+  captureImage: {fileID: 8138066613310343556}
   lastMoveImage: {fileID: 608676099101216741}
 --- !u!1 &3606094045311087771
 GameObject:
@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 5747135903586053915}
   - component: {fileID: 8138066613310343556}
   m_Layer: 5
-  m_Name: CellEat
+  m_Name: CellCapture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

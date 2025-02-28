@@ -23,9 +23,9 @@ MonoBehaviour:
   PossibleMoveImage:
     Sprite: {fileID: 21300000, guid: b17f754e2eb10e24baba008b5cabd195, type: 3}
     Color: {r: 0.5943396, g: 0.9567, b: 1, a: 1}
-  EatImage:
+  CaptureImage:
     Sprite: {fileID: 21300000, guid: 95393c888ac55654aa6df315e1467e19, type: 3}
-    Color: {r: 1, g: 0.73311186, b: 0, a: 1}
+    Color: {r: 1, g: 0.88046545, b: 0.216981, a: 1}
   LastMoveImage:
     Sprite: {fileID: 21300000, guid: b17f754e2eb10e24baba008b5cabd195, type: 3}
     Color: {r: 0.26981127, g: 0.3370092, b: 1, a: 1}
