@@ -9,8 +9,14 @@ public class Panel : MonoBehaviour
     [SerializeField] protected Button hideButton;
     [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
 
+    [SerializeField] private bool autoHideOnAwake = true;
 
-    protected virtual void Start() => hideButton?.onClick.AddListener(Hide);
+    protected virtual void Start()
+    {
+        if (autoHideOnAwake)
+            Hide();
+        hideButton?.onClick.AddListener(Hide);
+    }
 
     public virtual void Initialize() { }
 

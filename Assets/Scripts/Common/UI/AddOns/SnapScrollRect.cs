@@ -42,6 +42,9 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     [SerializeField] private float scrollWeight = 0.01f;
     [SerializeField] private float endLerpValue = 0.000001f;
 
+    [Header("Settings")]
+    [SerializeField] private bool countingInactiveChildren = false;
+
     private bool logging = false;
     private Vector2 targetPosition;
     private float hPerPage;
@@ -77,22 +80,7 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
     public void Start()
     {
-        int contentCount = scrollRect.content.GetComponentsInChildren<RectTransform>().Where((RectTransform rect) => rect.parent == scrollRect.content.transform).Count();
-        if (Horizontal && horizontalElementsCount != contentCount)
-        {
-            Debug.Log($"{gameObject.name}: Horizontal Elements Count принудительно изменено с {horizontalElementsCount} на {contentCount}", this);
-
-            horizontalElementsCount = contentCount;
-        }
-        else if (Vertical && verticalElementsCount != contentCount)
-        {
-            Debug.Log($"Vertical Elements Count принудительно изменено с {verticalElementsCount} на {contentCount}", this);
-
-            verticalElementsCount = contentCount;
-        }
-
-        hPerPage = 1f / (float)(horizontalElementsCount - 1);
-        vPerPage = 1f / (float)(horizontalElementsCount - 1);
+        UpdateElementCount();
 
         targetPosition = GetSnapPosition();
 
@@ -117,8 +105,10 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     }
 
     [ExecuteAlways]
-    private void Update()
+    private void LateUpdate()
     {
+        UpdateElementCount();
+
         if (!dragging && scrollRect.normalizedPosition != targetPosition)
         {
             scrollRect.normalizedPosition = Vector2.Lerp(scrollRect.normalizedPosition, targetPosition, smoothness * Time.unscaledDeltaTime);
@@ -175,6 +165,27 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     {
         return new Vector2(Horizontal && horizontalElementsCount > 0 ? CurrentHorizontalIndex * hPerPage : scrollRect.normalizedPosition.x,
                            Vertical && verticalElementsCount > 0 ? CurrentVerticalIndex * vPerPage : scrollRect.normalizedPosition.y);
+    }
+
+    private void UpdateElementCount()
+    {
+        int contentCount = scrollRect.content.transform.GetChildCount(countingInactiveChildren);
+
+        if (Horizontal && horizontalElementsCount != contentCount)
+        {
+            Debug.Log($"{gameObject.name}: Horizontal Elements Count принудительно изменено с {horizontalElementsCount} на {contentCount}", this);
+
+            horizontalElementsCount = contentCount;
+        }
+        else if (Vertical && verticalElementsCount != contentCount)
+        {
+            Debug.Log($"Vertical Elements Count принудительно изменено с {verticalElementsCount} на {contentCount}", this);
+
+            verticalElementsCount = contentCount;
+        }
+
+        hPerPage = 1f / (float)(horizontalElementsCount - 1);
+        vPerPage = 1f / (float)(horizontalElementsCount - 1);
     }
 
 #if UNITY_EDITOR

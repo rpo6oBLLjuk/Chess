@@ -21,4 +21,21 @@ public static class TransformExtensions
         }
         return null;
     }
+
+    public static int GetChildCount(this Transform transform, bool countInactive = true)
+    {
+        if (countInactive)
+            return transform.childCount;
+        else
+        {
+            int childCount = 0;
+            foreach (Transform child in transform)
+            {
+                if(child.gameObject.activeInHierarchy)
+                    childCount++;
+            }
+
+            return childCount;
+        }
+    }
 }

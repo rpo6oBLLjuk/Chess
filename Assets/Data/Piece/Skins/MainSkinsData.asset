@@ -14,20 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <AnimationData>k__BackingField: {fileID: 11400000, guid: 2e6dd5c12e4ca6a4394142222724940d, type: 2}
   Pawn:
-    WhiteSkin: {fileID: -931804659, guid: b277623a6b6185e48940a033ae824366, type: 3}
-    BlackSkin: {fileID: -2103288121, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    WhiteSkin: {fileID: 1355967933, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    BlackSkin: {fileID: -158987681, guid: b277623a6b6185e48940a033ae824366, type: 3}
   Knight:
-    WhiteSkin: {fileID: -1918918513, guid: b277623a6b6185e48940a033ae824366, type: 3}
-    BlackSkin: {fileID: -1522506525, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    WhiteSkin: {fileID: -1121900536, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    BlackSkin: {fileID: 691909946, guid: b277623a6b6185e48940a033ae824366, type: 3}
   Bishop:
-    WhiteSkin: {fileID: -1635506964, guid: b277623a6b6185e48940a033ae824366, type: 3}
-    BlackSkin: {fileID: 1388687789, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    WhiteSkin: {fileID: -1503792182, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    BlackSkin: {fileID: 1880343751, guid: b277623a6b6185e48940a033ae824366, type: 3}
   Rook:
-    WhiteSkin: {fileID: -280016254, guid: b277623a6b6185e48940a033ae824366, type: 3}
-    BlackSkin: {fileID: 1975961072, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    WhiteSkin: {fileID: -1892896968, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    BlackSkin: {fileID: 584679739, guid: b277623a6b6185e48940a033ae824366, type: 3}
   Queen:
-    WhiteSkin: {fileID: -1350833425, guid: b277623a6b6185e48940a033ae824366, type: 3}
-    BlackSkin: {fileID: 1544855795, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    WhiteSkin: {fileID: -1452273436, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    BlackSkin: {fileID: 1155351172, guid: b277623a6b6185e48940a033ae824366, type: 3}
   King:
     WhiteSkin: {fileID: 2145688461, guid: b277623a6b6185e48940a033ae824366, type: 3}
-    BlackSkin: {fileID: -379450193, guid: b277623a6b6185e48940a033ae824366, type: 3}
+    BlackSkin: {fileID: 1788064253, guid: b277623a6b6185e48940a033ae824366, type: 3}

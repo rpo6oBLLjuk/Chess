@@ -1,12 +1,14 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
 public class DeskSaverService : MonoService
 {
     [Inject] NotificationService notificationService;
-
     [SerializeField] private string saveDirectory = "Saves/Desk/";
+
 
     public override void OnInstantiated()
     {
@@ -29,8 +31,6 @@ public class DeskSaverService : MonoService
 
         string json = JsonUtility.ToJson(boardData, true);
 
-        Debug.Log(json);
-
         if (File.Exists(fullPath))
         {
             notificationService.ShowDialog((overwrite) => OverwriteSaveFile(overwrite, fullPath, json), "Перезаписать файл?", "Saver", DialogType.OkCancel);
@@ -43,7 +43,6 @@ public class DeskSaverService : MonoService
             return true;
         }
     }
-
     public BoardPiecesData LoadBoard(string saveName)
     {
         if (string.IsNullOrWhiteSpace(saveName))
@@ -62,12 +61,44 @@ public class DeskSaverService : MonoService
         }
 
         string json = File.ReadAllText(fullPath);
-        BoardPiecesData boardData = JsonUtility.FromJson<BoardPiecesData>(json);
 
-        return boardData;
+        return JsonUtility.FromJson<BoardPiecesData>(json);
+    }
+    public bool DeleteBoard(string boardName)
+    {
+        if (string.IsNullOrWhiteSpace(boardName))
+        {
+            notificationService.ShowPopup("Имя сохранения не может быть пустым!", "Saver", PopupType.Error);
+            return false;
+        }
+
+        string fileName = boardName + ".json";
+        string fullPath = Path.Combine(Application.persistentDataPath, saveDirectory, fileName);
+
+        if (!File.Exists(fullPath))
+        {
+            notificationService.ShowPopup($"Файл сохранения {boardName} не найден!", "Saver", PopupType.Error);
+            return false;
+        }
+
+        File.Delete(fullPath);
+        notificationService.ShowPopup($"Файл сохранения {boardName} успешно удалён.", "Saver", PopupType.Info);
+
+        return true;
     }
 
-    public void OverwriteSaveFile(bool overwrite, string fullPath, string json)
+    public List<string> GetAllSaves()
+    {
+        string fullPath = Path.Combine(Application.persistentDataPath, saveDirectory);
+        if (!Directory.Exists(fullPath))
+            return null;
+
+        return Directory.GetFiles(fullPath, "*.json")
+                   .Select(Path.GetFileNameWithoutExtension)
+                   .ToList();
+    }
+
+    private void OverwriteSaveFile(bool overwrite, string fullPath, string json)
     {
         if (overwrite)
         {
@@ -78,22 +109,5 @@ public class DeskSaverService : MonoService
         {
             notificationService.ShowPopup("File is not overwritten", "Saver", PopupType.Info);
         }
-    }
-
-    public string[] GetAllSaves()
-    {
-        string fullPath = Path.Combine(Application.persistentDataPath, saveDirectory);
-        if (!Directory.Exists(fullPath))
-        {
-            return new string[0];
-        }
-
-        string[] files = Directory.GetFiles(fullPath, "*.json");
-        for (int i = 0; i < files.Length; i++)
-        {
-            files[i] = Path.GetFileNameWithoutExtension(files[i]);
-        }
-
-        return files;
     }
 }

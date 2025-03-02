@@ -459,6 +459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hideButton: {fileID: 0}
   <CanvasGroup>k__BackingField: {fileID: 3755220358052127237}
+  autoHideOnAwake: 0
   data: {fileID: 11400000, guid: 2cb73d86a4ca8524d95057eb3da60e5f, type: 2}
   AnimatedWidgetElements:
   - {fileID: 1208630151987898531}

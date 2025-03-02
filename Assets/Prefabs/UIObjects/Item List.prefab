@@ -1179,7 +1179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridLayoutGroup: {fileID: 7182957314035787102}
-  rectTransform: {fileID: 7182957314035787103}
+  parentRectTransform: {fileID: 7182957314035787103}
   isSquare: 1
   countingInactiveChildren: 0
   logging: 0

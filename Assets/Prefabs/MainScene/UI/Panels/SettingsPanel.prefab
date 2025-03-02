@@ -4450,7 +4450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollRect: {fileID: 8222401616127223623}
-  currentHorizontalIndex: 2
+  currentHorizontalIndex: 0
   currentVerticalIndex: 0
   horizontalElementsCount: 3
   verticalElementsCount: 0

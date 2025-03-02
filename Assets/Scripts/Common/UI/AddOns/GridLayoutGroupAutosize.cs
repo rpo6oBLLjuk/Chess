@@ -7,7 +7,7 @@ public class GridLayoutGroupAutosize : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GridLayoutGroup gridLayoutGroup;
-    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private RectTransform parentRectTransform;
 
     [Header("Settings")]
     [SerializeField] private bool isSquare = true;
@@ -43,9 +43,6 @@ public class GridLayoutGroupAutosize : MonoBehaviour
 
     private void Start()
     {
-        if (!TryGetComponent(out rectTransform))
-            Debug.LogError("RectTransform not found", this);
-
         if (!TryGetComponent(out gridLayoutGroup))
             Debug.LogError("GridLayoutGroup not found", this);
     }
@@ -78,18 +75,18 @@ public class GridLayoutGroupAutosize : MonoBehaviour
             spacing = gridLayoutGroup.spacing,
             childAlignment = gridLayoutGroup.childAlignment,
             startAxisVertical = (gridLayoutGroup.startAxis == GridLayoutGroup.Axis.Vertical),
-            childCount = GetChildren(),
+            childCount = transform.GetChildCount(countingInactiveChildren),
             isSquare = this.isSquare,
             countingInactiveChildren = this.countingInactiveChildren,
         };
 
         previousRectState = new RectTransformState
         {
-            anchoredPosition = rectTransform.anchoredPosition,
-            size = new Vector2(rectTransform.rect.width, rectTransform.rect.height),
-            sizeDelta = rectTransform.sizeDelta,
-            localScale = rectTransform.localScale,
-            localRotation = rectTransform.localRotation
+            anchoredPosition = parentRectTransform.anchoredPosition,
+            size = new Vector2(parentRectTransform.rect.width, parentRectTransform.rect.height),
+            sizeDelta = parentRectTransform.sizeDelta,
+            localScale = parentRectTransform.localScale,
+            localRotation = parentRectTransform.localRotation
         };
     }
     private bool HasStateChanged()
@@ -101,18 +98,18 @@ public class GridLayoutGroupAutosize : MonoBehaviour
             previousGridState.spacing != gridLayoutGroup.spacing ||
             previousGridState.childAlignment != gridLayoutGroup.childAlignment ||
             previousGridState.startAxisVertical != (gridLayoutGroup.startAxis == GridLayoutGroup.Axis.Vertical ||
-            previousGridState.childCount != GetChildren() ||
+            previousGridState.childCount != transform.GetChildCount(countingInactiveChildren) ||
             previousGridState.isSquare != isSquare ||
             previousGridState.countingInactiveChildren != countingInactiveChildren))
         {
             return true;
         }
 
-        if (previousRectState.anchoredPosition != rectTransform.anchoredPosition ||
-            previousRectState.size != new Vector2(rectTransform.rect.width, rectTransform.rect.height) ||
-            previousRectState.sizeDelta != rectTransform.sizeDelta ||
-            previousRectState.localScale != rectTransform.localScale ||
-            previousRectState.localRotation != rectTransform.localRotation)
+        if (previousRectState.anchoredPosition != parentRectTransform.anchoredPosition ||
+            previousRectState.size != new Vector2(parentRectTransform.rect.width, parentRectTransform.rect.height) ||
+            previousRectState.sizeDelta != parentRectTransform.sizeDelta ||
+            previousRectState.localScale != parentRectTransform.localScale ||
+            previousRectState.localRotation != parentRectTransform.localRotation)
         {
             return true;
         }
@@ -148,7 +145,7 @@ public class GridLayoutGroupAutosize : MonoBehaviour
         float verticalSpacing = gridLayoutGroup.spacing.y;
         float horizontalSpacing = gridLayoutGroup.spacing.x;
 
-        float childCount = GetChildren();
+        float childCount = transform.GetChildCount(countingInactiveChildren);
         float countOnOtherAxis = Mathf.Ceil(childCount / (float)gridLayoutGroup.constraintCount);
 
         countOnOtherAxis = countOnOtherAxis > 0 ? countOnOtherAxis : 1;
@@ -158,13 +155,13 @@ public class GridLayoutGroupAutosize : MonoBehaviour
 
         if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.FixedRowCount)
         {
-            minWidth = (rectTransform.rect.width - (horizontalPadding + horizontalSpacing * (countOnOtherAxis - 1))) / countOnOtherAxis;
-            minHeight = (rectTransform.rect.height - (verticalPadding + verticalSpacing * (gridLayoutGroup.constraintCount - 1))) / gridLayoutGroup.constraintCount;
+            minWidth = (parentRectTransform.rect.width - (horizontalPadding + horizontalSpacing * (countOnOtherAxis - 1))) / countOnOtherAxis;
+            minHeight = (parentRectTransform.rect.height - (verticalPadding + verticalSpacing * (gridLayoutGroup.constraintCount - 1))) / gridLayoutGroup.constraintCount;
         }
         else if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.FixedColumnCount)
         {
-            minWidth = (rectTransform.rect.width - (horizontalPadding + horizontalSpacing * (gridLayoutGroup.constraintCount - 1))) / gridLayoutGroup.constraintCount;
-            minHeight = (rectTransform.rect.height - (verticalPadding + verticalSpacing * (countOnOtherAxis - 1))) / countOnOtherAxis;
+            minWidth = (parentRectTransform.rect.width - (horizontalPadding + horizontalSpacing * (gridLayoutGroup.constraintCount - 1))) / gridLayoutGroup.constraintCount;
+            minHeight = (parentRectTransform.rect.height - (verticalPadding + verticalSpacing * (countOnOtherAxis - 1))) / countOnOtherAxis;
         }
 
         if (isSquare)
@@ -176,35 +173,15 @@ public class GridLayoutGroupAutosize : MonoBehaviour
         {
             gridLayoutGroup.cellSize = new Vector2(minWidth, minHeight);
         }
-
-    }
-
-    private int GetChildren()
-    {
-        if (countingInactiveChildren)
-        {
-            return gridLayoutGroup.transform.childCount;
-        }
-        else
-        {
-            int activeChildCount = 0;
-
-            foreach (Transform child in transform)
-            {
-                if (child.gameObject.activeInHierarchy)
-                {
-                    activeChildCount++;
-                }
-            }
-
-            return activeChildCount;
-        }
     }
 
     private void Reset()
     {
-        if (!TryGetComponent(out rectTransform))
+        RectTransform rectTransform = GetComponentInParent<RectTransform>();
+        if (!rectTransform)
             Debug.LogError("RectTransform not found", this);
+        else
+            parentRectTransform = rectTransform;
 
         if (!TryGetComponent(out gridLayoutGroup))
             Debug.LogError("GridLayoutGroup not found", this);
