@@ -67,8 +67,12 @@ public class PieceHandler : MonoBehaviour
                 parentCell = cellHandler.transform;
             }
         }
+        else
+        {
+            notificationService.ShowPopup("Piece not on a board", "Piece Handler", PopupType.Warning);
+        }
 
-        transform.DOMove(parentCell.position, pieceAnimationData.magnetDuration)
+        transform.DOMove(parentCell.position, pieceAnimationData.magnetToCellDuration)
             .OnComplete(() => transform.SetParent(parentCell));
 
         isDragging = false;
@@ -84,7 +88,7 @@ public class PieceHandler : MonoBehaviour
     }
     private void Drag()
     {
-        rectTransform.position = Vector3.Lerp(rectTransform.position, draggedPosition, pieceAnimationData.magnetDuration);
+        rectTransform.position = Vector3.Lerp(rectTransform.position, draggedPosition, pieceAnimationData.magnetToMouseLerpValue * Time.unscaledDeltaTime);
         if (GetCellUnderPiece(lastDragEventData, out CellHandler cellHandler))
             gameController.PieceDragging(this, cellHandler);
     }
@@ -104,7 +108,6 @@ public class PieceHandler : MonoBehaviour
             }
         }
 
-        notificationService.ShowPopup("Piece not on a board", "Piece Handler", PopupType.Warning);
         return false;
     }
 }

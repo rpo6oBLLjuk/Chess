@@ -11,11 +11,14 @@ public class DeskLoaderUI : AnimatedPanel
     [Inject] private DeskSaverService deskSaver;
 
     public GameObject defaultSave;
-
+    
     private List<GameObject> pool = new();
 
 
-    private void Awake() => defaultSave.SetActive(false);
+    private void Awake()
+    {
+        defaultSave.SetActive(false);
+    }
 
     public override void Show()
     {
@@ -48,7 +51,7 @@ public class DeskLoaderUI : AnimatedPanel
 
             saveObj.transform.FindDeepChild("TitleText").GetComponent<TextMeshProUGUI>().text = file;
             saveObj.transform.FindDeepChild("ApplyButton").GetComponentInChildren<Button>().onClick.AddListener(() => ApplyButtonClickCallback(file));
-            saveObj.transform.FindDeepChild("DeleteButton").GetComponentInChildren<Button>().onClick.AddListener(() => DeleteButtonClickCallback(file));
+            saveObj.transform.FindDeepChild("DeleteButton").GetComponentInChildren<Button>().onClick.AddListener(() => DeleteButtonClickCallback(file, saveObj));
         });
 
         return true;
@@ -60,12 +63,15 @@ public class DeskLoaderUI : AnimatedPanel
         Hide();
     }
 
-    private void DeleteButtonClickCallback(string savename)
+    private void DeleteButtonClickCallback(string savename, GameObject saveObj)
     {
         notificationService.ShowDialog((confirmed) =>
         {
             if (confirmed)
+            {
+                DestroyImmediate(saveObj);
                 deskSaver.DeleteBoard(savename);
+            }
         }, "Are you sure you want to delete this desk?", "Delete File", DialogType.OkCancel);
     }
 }

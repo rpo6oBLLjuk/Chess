@@ -45,7 +45,8 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     [Header("Settings")]
     [SerializeField] private bool countingInactiveChildren = false;
 
-    private bool logging = false;
+    [SerializeField] private bool logging = false;
+
     private Vector2 targetPosition;
     private float hPerPage;
     private float vPerPage;
@@ -105,7 +106,7 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     }
 
     [ExecuteAlways]
-    private void LateUpdate()
+    public void LateUpdate()
     {
         UpdateElementCount();
 
@@ -163,6 +164,11 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
     private Vector2 GetSnapPosition()
     {
+        if (logging)
+        {
+            Debug.Log($"ElementsCount: {horizontalElementsCount}, HPerPage: {hPerPage}");
+        }
+
         return new Vector2(Horizontal && horizontalElementsCount > 0 ? CurrentHorizontalIndex * hPerPage : scrollRect.normalizedPosition.x,
                            Vertical && verticalElementsCount > 0 ? CurrentVerticalIndex * vPerPage : scrollRect.normalizedPosition.y);
     }
@@ -173,15 +179,21 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
         if (Horizontal && horizontalElementsCount != contentCount)
         {
-            Debug.Log($"{gameObject.name}: Horizontal Elements Count принудительно изменено с {horizontalElementsCount} на {contentCount}", this);
+            if (logging)
+                Debug.Log($"{gameObject.name}: Horizontal Elements Count принудительно изменено с {horizontalElementsCount} на {contentCount}", this);
 
             horizontalElementsCount = contentCount;
+
+            UpdateIndex();
         }
         else if (Vertical && verticalElementsCount != contentCount)
         {
-            Debug.Log($"Vertical Elements Count принудительно изменено с {verticalElementsCount} на {contentCount}", this);
+            if (logging)
+                Debug.Log($"Vertical Elements Count принудительно изменено с {verticalElementsCount} на {contentCount}", this);
 
             verticalElementsCount = contentCount;
+
+            UpdateIndex();
         }
 
         hPerPage = 1f / (float)(horizontalElementsCount - 1);

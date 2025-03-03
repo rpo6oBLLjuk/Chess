@@ -42,13 +42,12 @@ public class CellEffector : MonoBehaviour
         lastMoveCell = null;
 
 
-        CellHandler testPossible = gameController.CellsData.Get(cellHandler.CellIndex + Vector2Int.up);
-        testPossible.CellEffectController.EnablePossibleMove();
-        possibleMoveCells.Add(testPossible);
+        //CellHandler testPossible = gameController.CellsData.Get(cellHandler.CellIndex + Vector2Int.up);
+        //testPossible.CellEffectController.EnablePossibleMove();
+        //possibleMoveCells.Add(testPossible);
 
-        CellHandler testCaptureCell = gameController.CellsData.Get(cellHandler.CellIndex - Vector2Int.up);
-        testCaptureCell.CellEffectController.EnableCapture();
-
+        //CellHandler testCaptureCell = gameController.CellsData.Get(cellHandler.CellIndex - Vector2Int.up);
+        //testCaptureCell.CellEffectController.EnableCapture();
     }
 
     private void PieceMoved(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)

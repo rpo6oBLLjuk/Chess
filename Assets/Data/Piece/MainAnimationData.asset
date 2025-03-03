@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4db116399e5d17e42875c4582044a169, type: 3}
   m_Name: MainAnimationData
   m_EditorClassIdentifier: 
+  delayBeforeHadnle: 0.3
   scaleMultiplier: 1.5
   scaleDuration: 0.25
-  magnetDuration: 0.1
+  magnetToCellDuration: 0.1
+  magnetToMouseLerpValue: 15
