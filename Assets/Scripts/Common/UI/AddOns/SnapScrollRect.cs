@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -38,8 +36,8 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     [SerializeField] private int verticalElementsCount = 0;
 
     [Header("Values")]
-    [SerializeField] private float smoothness = 10f;
-    [SerializeField] private float scrollWeight = 0.01f;
+    [SerializeField] private float smoothness = 20f;
+    [SerializeField] private float scrollWeight = 0.0001f;
     [SerializeField] private float endLerpValue = 0.000001f;
 
     [Header("Settings")]
@@ -85,8 +83,8 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
         targetPosition = GetSnapPosition();
 
-        if (logging && !started)
-            Debug.Log($"SnapScrolRect выполнил конфигурацию параметров", this);
+        if (!started)
+            Log($"SnapScrolRect выполнил конфигурацию параметров", this);
 
         started = true;
     }
@@ -129,7 +127,7 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
     private void UpdateIndex()
     {
-        float xPage, yPage = -1;
+        float xPage, yPage;
 
         if (Horizontal && horizontalElementsCount > 0)
         {
@@ -164,10 +162,7 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
     private Vector2 GetSnapPosition()
     {
-        if (logging)
-        {
-            Debug.Log($"ElementsCount: {horizontalElementsCount}, HPerPage: {hPerPage}");
-        }
+        Log($"ElementsCount: {horizontalElementsCount}, HPerPage: {hPerPage}");
 
         return new Vector2(Horizontal && horizontalElementsCount > 0 ? CurrentHorizontalIndex * hPerPage : scrollRect.normalizedPosition.x,
                            Vertical && verticalElementsCount > 0 ? CurrentVerticalIndex * vPerPage : scrollRect.normalizedPosition.y);
@@ -179,25 +174,34 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
         if (Horizontal && horizontalElementsCount != contentCount)
         {
-            if (logging)
-                Debug.Log($"{gameObject.name}: Horizontal Elements Count принудительно изменено с {horizontalElementsCount} на {contentCount}", this);
+            Log($"{gameObject.name}: Horizontal Elements Count принудительно изменено с {horizontalElementsCount} на {contentCount}", this);
 
             horizontalElementsCount = contentCount;
+            hPerPage = 1f / (float)(horizontalElementsCount - 1);
 
             UpdateIndex();
+
+            forcePositionUpdate = true;
         }
         else if (Vertical && verticalElementsCount != contentCount)
         {
-            if (logging)
-                Debug.Log($"Vertical Elements Count принудительно изменено с {verticalElementsCount} на {contentCount}", this);
+            Log($"Vertical Elements Count принудительно изменено с {verticalElementsCount} на {contentCount}", this);
 
             verticalElementsCount = contentCount;
+            vPerPage = 1f / (float)(verticalElementsCount - 1);
 
             UpdateIndex();
-        }
 
-        hPerPage = 1f / (float)(horizontalElementsCount - 1);
-        vPerPage = 1f / (float)(horizontalElementsCount - 1);
+            forcePositionUpdate = true;
+        }
+    }
+
+    private void Log(string log, UnityEngine.Object link = null)
+    {
+        if (logging)
+        {
+            Debug.Log(log, link);
+        }
     }
 
 #if UNITY_EDITOR

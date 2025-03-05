@@ -1,13 +1,9 @@
 using UnityEngine;
-using Zenject;
 
 public class GameBootstrap : MonoBehaviour
 {
-    [Inject] private GameController gameController;
+    [SerializeField] private GameController gameController;
 
 
-    private void Awake()
-    {
-        gameController.Setup();
-    }
+    private void Awake() => gameController.Setup();
 }

@@ -222,10 +222,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3088198009617532782, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3088198009617532782, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
       propertyPath: m_HorizontalFit
       value: 2
       objectReference: {fileID: 0}
@@ -264,14 +260,6 @@ PrefabInstance:
     - target: {fileID: 5464291331592194936, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
       propertyPath: m_Type
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7416489454020914009, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7416489454020914009, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7416489454020914009, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
       propertyPath: m_SizeDelta.y
@@ -392,32 +380,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6526600091134527023, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3892243439024516186}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
 --- !u!224 &4847343424533583553 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8756041414270390272, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
   m_PrefabInstance: {fileID: 4235226911507498689}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6941639512754700526 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6526600091134527023, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
-  m_PrefabInstance: {fileID: 4235226911507498689}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3892243439024516186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6941639512754700526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AspectMode: 0
-  m_AspectRatio: 0.5520833

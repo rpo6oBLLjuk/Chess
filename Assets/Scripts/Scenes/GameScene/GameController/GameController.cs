@@ -1,7 +1,5 @@
 using System;
-using System.Linq;
 using UnityEngine;
-using Zenject;
 
 public class GameController : MonoService
 {
@@ -20,7 +18,6 @@ public class GameController : MonoService
     public CellsSkinData CellsSkinData => boardService.cellsSkinData;
     public PiecesSkinData PiecesSkinData => pieceService.piecesSkinData;
 
-    [Inject] DeskSaverService deskSaver;
     [SerializeField] private PieceService pieceService;
     [SerializeField] private BoardService boardService;
 

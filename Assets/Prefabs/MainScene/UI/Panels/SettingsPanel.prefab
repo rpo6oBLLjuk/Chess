@@ -4457,6 +4457,8 @@ MonoBehaviour:
   smoothness: 10
   scrollWeight: 0.01
   endLerpValue: 0.000001
+  countingInactiveChildren: 0
+  logging: 0
 --- !u!1 &4900178132781893337
 GameObject:
   m_ObjectHideFlags: 0
@@ -5001,6 +5003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hideButton: {fileID: 9222133214474724595}
   <CanvasGroup>k__BackingField: {fileID: 6864337688158956354}
+  autoHideOnAwake: 1
   data: {fileID: 11400000, guid: 0a7b3ba00b19ecb4f9459f9283c078b4, type: 2}
   AnimatedWidgetElements:
   - {fileID: 985429454755995048}
