@@ -6,6 +6,8 @@ public class CellEffector : MonoBehaviour
 {
     [Inject] GameController gameController;
 
+    [SerializeField] private bool selectInactive = false;
+
     CellHandler startSelectCell;
     CellHandler lastMoveCell;
 
@@ -32,15 +34,17 @@ public class CellEffector : MonoBehaviour
 
     private void PieceDown(CellHandler cellHandler)
     {
-        startSelectCell?.CellEffectController.DisableSelect();
-        DisablePossibleMoveCells();
+        if (cellHandler.CurrentPieceHandler != null || selectInactive)
+        {
+            startSelectCell?.CellEffectController.DisableSelect();
+            DisablePossibleMoveCells();
 
-        startSelectCell = cellHandler;
-        startSelectCell.CellEffectController.EnableSelect();
+            startSelectCell = cellHandler;
+            startSelectCell.CellEffectController.EnableSelect();
 
-        lastMoveCell?.CellEffectController.DisableLastMove();
-        lastMoveCell = null;
-
+            lastMoveCell?.CellEffectController.DisableLastMove();
+            lastMoveCell = null;
+        }
 
         //CellHandler testPossible = gameController.CellsData.Get(cellHandler.CellIndex + Vector2Int.up);
         //testPossible.CellEffectController.EnablePossibleMove();
