@@ -6,5 +6,5 @@ public class PieceFactory
 {
     public PiecePrefabs PiecesPrefabs;
 
-    public GameObject Get(PieceType type) => PiecesPrefabs.Get(type);
+    public GameObject Get(PieceType pieceType) => PiecesPrefabs.Get(pieceType);
 }

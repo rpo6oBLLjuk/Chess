@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,10 +37,11 @@ public class ConstructorUI : MonoBehaviour
 
         defaultButton.gameObject.SetActive(false);
 
-        foreach (PieceType type in Enum.GetValues(typeof(PieceType)))
+
+        foreach (PieceType pieceType in Enum.GetValues(typeof(PieceType)))
         {
-            if (type != PieceType.None && type != PieceType.Other)
-                FastInstantiateButton(type.ToString(), pieceButtonsParent, () => SpawnerButtonCallback(type));
+            if (pieceType != PieceType.None && pieceType != PieceType.Other)
+                FastInstantiateButton(pieceType.ToString(), pieceButtonsParent, () => SpawnerButtonCallback(pieceType));
         }
 
         colorButton = FastInstantiateButton("White", systemButtonsParent, () =>
@@ -76,9 +78,11 @@ public class ConstructorUI : MonoBehaviour
         return buttonInstance;
     }
 
-    private void SpawnerButtonCallback(PieceType type)
+    private void SpawnerButtonCallback(PieceType pieceType)
     {
-        var foundIndex = gameController.PiecesData.Data.FindIndex(piece => piece.Type == PieceType.None);
+        var foundIndex = gameController.Pieces.Array
+            .Select((piece, index) => new { piece, index })
+            .FirstOrDefault(x => PiecePacker.GetPieceType(x.piece) == PieceType.None)?.index ?? -1;
 
         if (foundIndex == -1)
         {
@@ -86,7 +90,7 @@ public class ConstructorUI : MonoBehaviour
         }
         else
         {
-            gameController.SpawnPiece(type, currectPieceColor, gameController.CellsData.Data[foundIndex]);
+            gameController.SpawnPiece(PiecePacker.PackPiece(pieceType, currectPieceColor), gameController.Cells[foundIndex]);
         }
     }
 

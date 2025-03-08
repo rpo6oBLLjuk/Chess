@@ -1,9 +1,7 @@
 using System;
-using UnityEngine;
 
 [Serializable]
-public class BoardCellsData : ArrayToMatrixData<CellHandler>
+public class BoardCellsData : Grid<CellHandler>
 {
-    public BoardCellsData(int x, int y) : base(x, y) { }
-    public BoardCellsData(Vector2Int size) : base(size) { }
+    public BoardCellsData(byte x, byte y) : base(x, y) { }
 }

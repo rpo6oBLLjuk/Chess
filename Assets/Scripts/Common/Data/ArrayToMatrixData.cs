@@ -11,20 +11,21 @@ public class ArrayToMatrixData<T>
     public List<T> Data => data;
     [SerializeReference] private List<T> data = new();
 
-    public ArrayToMatrixData(int x, int y) : this(new Vector2Int(x, y)) { }
-    public ArrayToMatrixData(Vector2Int size) { SetSize(size); }
+    public ArrayToMatrixData(byte x, byte y) { SetSize(x, y); }
 
-    public virtual void SetSize(Vector2Int size, T defaultInstance = default)
+    public virtual void SetSize(byte width, byte height)
     {
-        this.size = size;
+        this.size = new(width, height);
         data = new List<T>(size.x * size.y);
-        for (int i = 0; i < size.x * size.y; i++)
-            data.Add(defaultInstance);
     }
 
-    public void Set(int x, int y, T instance) => data[y * size.x + x] = instance;
-    public void Set(Vector2Int index, T instance) => Set(index.x, index.y, instance);
+    public void Set(byte x, byte y, T instance)
+    {
+        Debug.Log($"Index: x = {x}, y = {y}");
+        data[y * size.x + x] = instance;
+    }
+    public void Set(byte index, T instance) => data[index] = instance;
 
-    public T Get(int x, int y) => data[y * size.x + x];
-    public T Get(Vector2Int index) => Get(index.x, index.y);
+    public T Get(byte x, byte y) => data[y * size.x + x];
+    public T Get(byte index) => data[index];
 }

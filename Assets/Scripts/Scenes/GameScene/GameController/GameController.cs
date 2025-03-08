@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class GameController : MonoService
@@ -12,8 +13,11 @@ public class GameController : MonoService
     public event Action<PieceHandler, PieceHandler, CellHandler> PieceCaptured;
     public event Action<PieceHandler, CellHandler> PieceDestroyed;
 
-    [field: SerializeField] public BoardPiecesData PiecesData { get; private set; }
-    [field: SerializeField] public BoardCellsData CellsData { get; private set; }
+    public event Action BoardCleared;
+
+    [field: SerializeField] public Vector2Int BoardSize { get; private set; }
+    [field: SerializeField] public Grid<byte> Pieces { get; private set; }
+    [field: SerializeField] public Grid<CellHandler> Cells { get; set; }
 
     public CellsSkinData CellsSkinData => boardService.cellsSkinData;
     public PiecesSkinData PiecesSkinData => pieceService.piecesSkinData;
@@ -27,8 +31,7 @@ public class GameController : MonoService
         pieceService.OnInstantiated();
         boardService.OnInstantiated();
 
-        PiecesData = new BoardPiecesData(8, 8);
-        PiecesData.SetDefaultBoard();
+        Pieces = new(8, 8);
 
         SetupServices();
     }
@@ -36,19 +39,22 @@ public class GameController : MonoService
     public void ClearBoard()
     {
         pieceService.ClearBoard();
+        BoardCleared?.Invoke();
+
         Debug.Log("Board cleared");
     }
 
-    public void SetCustomBoard(BoardPiecesData boardPiecesData)
+    public void SetCustomBoard(Grid<byte> boardPiecesData)
     {
-        PiecesData = boardPiecesData;
+        Pieces = boardPiecesData;
         SetupServices();
 
-        Debug.Log($"Board created, Size: {PiecesData.Size}");
+        BoardCleared?.Invoke();
+
+        Debug.Log($"Board created, Size: {Pieces.Array.Count()}");
     }
 
-    public void SpawnPiece(PieceData pieceData, CellHandler cellHandler) => pieceService.SpawnPiece(pieceData, cellHandler);
-    public void SpawnPiece(PieceType pieceType, PieceColor pieceColor, CellHandler cellHandler) => pieceService.SpawnPiece(pieceType, pieceColor, cellHandler);
+    public void SpawnPiece(byte pieceData, CellHandler cellHandler) => pieceService.SpawnPiece(pieceData, cellHandler);
 
     public bool CanBeMove(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceService.CanBeMove(pieceHandler, startCell, endCell);
 
@@ -57,7 +63,7 @@ public class GameController : MonoService
         pieceService.MovePiece(pieceHandler, startCell, endCell);
         PieceMoved?.Invoke(pieceHandler, startCell, endCell);
 
-        Debug.Log($"Piece ({pieceHandler.PieceData.Type}_{pieceHandler.PieceData.Color}) moved from {startCell.CellIndex} to {endCell.CellIndex}");
+        Debug.Log($"Piece moved from {startCell.CellIndex} to {endCell.CellIndex}");
     }
     public void CapturePiece(CellHandler captiredCellHandler)
     {

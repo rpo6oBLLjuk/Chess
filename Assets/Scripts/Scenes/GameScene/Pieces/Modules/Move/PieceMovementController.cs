@@ -8,21 +8,23 @@ public class PieceMovementController
     [Inject] GameController gameController;
 
 
-    public bool CanBeMove(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
+    public bool CanBeMove(CellHandler startCell, CellHandler endCell)
     {
-        PieceData endPieceData = gameController.PiecesData.GetPiece(endCell.CellIndex);
-        if (endPieceData == new PieceData())
+        byte endPieceData = gameController.Pieces[endCell.CellIndex];
+        if (endPieceData == 0)
             return true;
 
-        switch (endPieceData.Color)
+
+        PiecePacker.GetPieceType(ref endPieceData, out PieceType endPieceType);
+        switch (endPieceType)
         {
-            case PieceColor.None:
+            case PieceType.None:
             return true;
-            case PieceColor.Other:
+            case PieceType.Other:
             return false;
             default:
             {
-                if (endPieceData.Color != pieceHandler.PieceData.Color)
+                if (PiecePacker.GetPieceColor(endPieceData) != PiecePacker.GetPieceColor(gameController.Pieces[startCell.CellIndex]))
                 {
                     gameController.CapturePiece(endCell);
                     return true;
@@ -41,10 +43,8 @@ public class PieceMovementController
         MovePieceData(startCell.CellIndex, endCell.CellIndex);
     }
 
-    private void MovePieceData(Vector2Int startCell, Vector2Int endCell)
+    private void MovePieceData(byte startIndex, byte endIndex)
     {
-        PieceData pieceData = gameController.PiecesData.GetPiece(startCell)?.Clone();
-        gameController.PiecesData.SetPiece(startCell, new PieceData());
-        gameController.PiecesData.SetPiece(endCell, pieceData);
+        (gameController.Pieces[startIndex], gameController.Pieces[endIndex]) = (gameController.Pieces[endIndex], gameController.Pieces[startIndex]);
     }
 }

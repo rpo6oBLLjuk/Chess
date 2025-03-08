@@ -28,16 +28,15 @@ public class PieceService : MonoService
 
     public void Setup() => pieceBuilder.SetupPieces();
 
-    public void ClearBoard() => gameController.CellsData.Data.Where(cellHandler => cellHandler.CurrentPieceHandler != null).ToList().ForEach(cellHandler => gameController.DestroyPiece(cellHandler));
+    public void ClearBoard() => gameController.Cells.Array.Where(cellHandler => cellHandler.CurrentPieceHandler != null).ToList().ForEach(cellHandler => gameController.DestroyPiece(cellHandler));
 
-    public void SpawnPiece(PieceData pieceData, CellHandler cellHandler) => pieceBuilder.Instantiate(pieceData, cellHandler);
-    public void SpawnPiece(PieceType type, PieceColor color, CellHandler cellHandler) => SpawnPiece(new PieceData(type, color), cellHandler);
+    public void SpawnPiece(byte pieceData, CellHandler cellHandler) => pieceBuilder.Instantiate(pieceData, cellHandler);
 
     public void CapturePiece(CellHandler cellHandler) => pieceDestroyer.CapturePiece(cellHandler);
 
     public bool CanBeMove(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
-        bool canMove = pieceMovementController.CanBeMove(pieceHandler, startCell, endCell);
+        bool canMove = pieceMovementController.CanBeMove(startCell, endCell);
         if (!canMove)
             notificationService.ShowPopup("Move blocked", "Piece manager", PopupType.Warning);
         return canMove;

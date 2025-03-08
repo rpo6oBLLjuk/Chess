@@ -17,7 +17,7 @@ public class BoardBuilder
 
     private bool leftUpCellIsWhite = true;
 
-    [SerializeField]private List<GameObject> cells = new();
+    [SerializeField] private List<GameObject> cells = new();
 
     public void Init(CellsSkinData cellsSkinData, GridLayoutGroup boardGridLayout, GameObject cellPrefab)
     {
@@ -32,21 +32,20 @@ public class BoardBuilder
         cells.ForEach(instance => UnityEngine.Object.DestroyImmediate(instance));
         cells.Clear();
 
-        BoardPiecesData piecesData = gameController.PiecesData;
-        gameController.CellsData.SetSize(piecesData.Size);
+        gameController.Cells = new(gameController.Pieces.Width, gameController.Pieces.Height);
 
-        boardGridLayout.constraint = (piecesData.Size.x > piecesData.Size.y) ?
+        boardGridLayout.constraint = (gameController.Pieces.Width > gameController.Pieces.Height) ?
             GridLayoutGroup.Constraint.FixedColumnCount : GridLayoutGroup.Constraint.FixedRowCount;
-        boardGridLayout.constraintCount = (piecesData.Size.x >= piecesData.Size.y) ? piecesData.Size.x : piecesData.Size.y;
+        boardGridLayout.constraintCount = (gameController.Pieces.Width >= gameController.Pieces.Height) ? gameController.Pieces.Width : gameController.Pieces.Height;
 
         bool isWhite = leftUpCellIsWhite;
 
-        for (int y = 0; y < piecesData.Size.y; y++)
+        for (byte y = 0; y < gameController.Pieces.Height; y++)
         {
-            if (piecesData.Size.x % 2 == 0)
+            if (gameController.Pieces.Width % 2 == 0)
                 isWhite = !isWhite;
 
-            for (int x = 0; x < piecesData.Size.x; x++)
+            for (byte x = 0; x < gameController.Pieces.Width; x++)
             {
                 isWhite = !isWhite;
 
@@ -55,10 +54,10 @@ public class BoardBuilder
 
                 instance.GetComponentInChildren<Image>().sprite = isWhite ? cellsSkinData.WhiteCell : cellsSkinData.BlackCell;
 
-                CellHandler cellHandler = instance.GetComponentInChildren<CellHandler>();
+                CellHandler cellHandler = instance.GetComponent<CellHandler>();
 
-                gameController.CellsData.Set(x, y, cellHandler);
-                cellHandler.Init(x, y);
+                gameController.Cells[x, y] = cellHandler;
+                cellHandler.Init((byte)(y * gameController.Pieces.Width + x));
                 cellHandler.CellEffectController.Init(cellsSkinData);
             }
         }

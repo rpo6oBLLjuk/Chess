@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 266978c22fa71c9409b8cd9d7ff0a1c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectInactive: 0
 --- !u!1 &3284193833548145585
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,17 +113,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b25b87416a3c934c9eb2c0f91e9d6bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <PiecesData>k__BackingField:
-    size: {x: 0, y: 0}
-    data: []
-  <CellsData>k__BackingField:
-    size: {x: 0, y: 0}
-    data: []
+  <BoardSize>k__BackingField: {x: 8, y: 8}
   pieceService: {fileID: 2682701830283870837}
   boardService: {fileID: 5754392654639672834}
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &2682701830283870837
 MonoBehaviour:
   m_ObjectHideFlags: 0

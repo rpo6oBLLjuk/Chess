@@ -1,50 +1,18 @@
-using System;
-
-[Serializable]
-public class PieceData
-{
-    public PieceType Type = PieceType.None;
-    public PieceColor Color = PieceColor.None;
-
-    /// <summary>
-    /// Create empty PieceData
-    /// </summary>
-    public PieceData()
-    {
-        Type = PieceType.None;
-        Color = PieceColor.None;
-    }
-    /// <summary>
-    /// Create concrete PieceData
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="color"></param>
-    public PieceData(PieceType type, PieceColor color)
-    {
-        Type = type;
-        Color = color;
-    }
-
-    public PieceData Clone() => new(Type, Color);
-}
-
-[Serializable]
 public enum PieceType
 {
-    None = -1,
-    Pawn,
-    Knight,
-    Bishop,
-    Rook,
-    Queen,
-    King,
-    Other = 100
+    None = 0,
+    Pawn = 1,
+    Knight = 2,
+    Bishop = 3,
+    Rook = 4,
+    Queen = 5,
+    King = 6,
+    Other = 7
 }
-[Serializable]
+
+
 public enum PieceColor
 {
-    None = -1,
-    White,
-    Black,
-    Other = 100
+    White = 0,
+    Black = 1
 }

@@ -513,6 +513,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConstructorButtons
       objectReference: {fileID: 0}
+    - target: {fileID: 8408257562537894921, guid: 2b469ae236fe9fd4cabcb48ee196ece0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408257562537894921, guid: 2b469ae236fe9fd4cabcb48ee196ece0, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408257562537894921, guid: 2b469ae236fe9fd4cabcb48ee196ece0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408257562537894921, guid: 2b469ae236fe9fd4cabcb48ee196ece0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408257562537894921, guid: 2b469ae236fe9fd4cabcb48ee196ece0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408257562537894921, guid: 2b469ae236fe9fd4cabcb48ee196ece0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -626,6 +650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 266978c22fa71c9409b8cd9d7ff0a1c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectInactive: 0
 --- !u!1001 &507016764807530396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -716,7 +741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5664807077094881010, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: m_Name
-      value: GameConstructorCanvas
+      value: GameCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 6027047241942039452, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: m_SizeDelta.y
@@ -749,10 +774,6 @@ PrefabInstance:
     - target: {fileID: 2782442613042725787, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3892243439024516186, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
-      propertyPath: m_AspectRatio
-      value: 0.5625
       objectReference: {fileID: 0}
     - target: {fileID: 5896610903681076480, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
       propertyPath: m_AnchorMax.y

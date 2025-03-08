@@ -10,8 +10,6 @@ public class PieceHandler : MonoBehaviour
     [Inject] NotificationService notificationService;
     [Inject] GameController gameController;
 
-    public PieceData PieceData { get; private set; }
-
     private PieceAnimationData pieceAnimationData;
 
     private RectTransform rectTransform;
@@ -24,11 +22,8 @@ public class PieceHandler : MonoBehaviour
     Vector3 draggedPosition;
     PointerEventData lastDragEventData;
 
-    public void Init(PieceAnimationData pieceAnimationData, PieceData pieceData, CellHandler cellHandler)
-    {
-        this.pieceAnimationData = pieceAnimationData;
-        this.PieceData = pieceData;
-    }
+
+    public void Init(PieceAnimationData pieceAnimationData) => this.pieceAnimationData = pieceAnimationData;
 
     private void Awake()
     {

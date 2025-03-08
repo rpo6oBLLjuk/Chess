@@ -1,3 +1,4 @@
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -19,41 +20,41 @@ public class PieceBuilder
 
     public void SetupPieces()
     {
-        gameController.CellsData.Data.ForEach(cellHandler =>
+        foreach (CellHandler cellHandler in gameController.Cells.Array)
         {
             if (cellHandler.CurrentPieceHandler != null)
                 gameController.DestroyPiece(cellHandler);
-        });
+        }
 
-        PieceData currentPiece;
-        for (int y = 0; y < gameController.PiecesData.Size.y; y++)
+        byte currentPiece;
+        for (byte y = 0; y < gameController.BoardSize.y; y++)
         {
-            for (int x = 0; x < gameController.PiecesData.Size.x; x++)
+            for (byte x = 0; x < gameController.BoardSize.x; x++)
             {
-                currentPiece = gameController.PiecesData.GetPiece(x, y);
-                if (currentPiece.Type != PieceType.None)
+                currentPiece = gameController.Pieces[y * gameController.BoardSize.x + x];
+                if (PiecePacker.GetPieceType(currentPiece) != PieceType.None)
                 {
-                    Instantiate(currentPiece, gameController.CellsData.Get(x, y));
+                    Instantiate(currentPiece, gameController.Cells[x, y]);
                 }
             }
         }
     }
 
-    public GameObject Instantiate(PieceData pieceData, CellHandler cellHandler)
+    public GameObject Instantiate(byte pieceData, CellHandler cellHandler)
     {
-        GameObject instance = container.InstantiatePrefab(pooler.Get(pieceData.Type), cellHandler.transform);
+        GameObject instance = container.InstantiatePrefab(pooler.Get(PiecePacker.GetPieceType(pieceData)), cellHandler.transform);
 
         instance.GetComponentInChildren<Image>().sprite = piecesSkinData.Get(pieceData);
 
         if (!instance.TryGetComponent(out PieceHandler pieceHandler))
             pieceHandler = instance.AddComponent<PieceHandler>();
-        pieceHandler.Init(piecesSkinData.AnimationData, pieceData, cellHandler);
+        pieceHandler.Init(piecesSkinData.AnimationData);
 
         cellHandler.PiecePlaced(pieceHandler);
 
-        gameController.PiecesData.SetPiece(cellHandler.CellIndex, pieceData);
+        gameController.Pieces[cellHandler.CellIndex] = pieceData;
 
-        Debug.Log($"Piece ({pieceData.Color}_{pieceData.Type}) instantiated", instance);
+        Debug.Log($"Piece ({PiecePacker.GetPieceColor(pieceData)}_{PiecePacker.GetPieceType(pieceData)}) instantiated", instance);
         return instance;
     }
 }

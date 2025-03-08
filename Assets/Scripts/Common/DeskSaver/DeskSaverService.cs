@@ -17,7 +17,7 @@ public class DeskSaverService : MonoService
             Directory.CreateDirectory(fullPath);
     }
 
-    public bool? SaveBoard(BoardPiecesData boardData, string saveName)
+    public bool? SaveBoard(Grid<byte> pieces, string saveName)
     {
         if (string.IsNullOrWhiteSpace(saveName))
         {
@@ -29,7 +29,7 @@ public class DeskSaverService : MonoService
         string fileName = saveName + ".json";
         string fullPath = Path.Combine(Application.persistentDataPath, saveDirectory, fileName);
 
-        string json = JsonUtility.ToJson(boardData, true);
+        string json = JsonUtility.ToJson(pieces, true);
 
         if (File.Exists(fullPath))
         {
@@ -43,7 +43,7 @@ public class DeskSaverService : MonoService
             return true;
         }
     }
-    public BoardPiecesData LoadBoard(string saveName)
+    public Grid<byte> LoadBoard(string saveName)
     {
         if (string.IsNullOrWhiteSpace(saveName))
         {
@@ -62,7 +62,7 @@ public class DeskSaverService : MonoService
 
         string json = File.ReadAllText(fullPath);
 
-        return JsonUtility.FromJson<BoardPiecesData>(json);
+        return JsonUtility.FromJson<Grid<byte>>(json);
     }
     public bool DeleteBoard(string boardName)
     {

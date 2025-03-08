@@ -10,7 +10,7 @@ public class PieceCapturer
         if (cellHandler.CurrentPieceHandler == null)
             return;
 
-        gameController.PiecesData.SetPiece(cellHandler.CellIndex, new PieceData());
+        gameController.Pieces[cellHandler.CellIndex] = 0;
 
         UnityEngine.Object.Destroy(cellHandler.CurrentPieceHandler.gameObject); //hard destroy
         cellHandler.PieceRemoved();

@@ -4,7 +4,7 @@ using Zenject;
 
 public class CellHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerClickHandler
 {
-    public Vector2Int CellIndex { get; private set; }
+    public byte CellIndex;
     public PieceHandler CurrentPieceHandler { get; private set; }
 
     [field: SerializeField] public CellEffectController CellEffectController { get; private set; }
@@ -12,7 +12,7 @@ public class CellHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     [Inject] GameController gameController;
 
 
-    public void Init(int x, int y) => CellIndex = new Vector2Int(x, y);
+    public void Init(byte index) => CellIndex = index;
 
     public void PiecePlaced(PieceHandler pieceHandler) => CurrentPieceHandler = pieceHandler;
     public void PieceRemoved() => CurrentPieceHandler = null;

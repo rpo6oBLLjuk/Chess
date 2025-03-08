@@ -12,9 +12,9 @@ public class PiecePrefabs : ScriptableObject
     [SerializeField] private GameObject King;
 
 
-    public GameObject Get(PieceType type)
+    public GameObject Get(PieceType pieceType)
     {
-        return type switch
+        return pieceType switch
         {
             PieceType.Pawn => Pawn,
             PieceType.Knight => Knight,

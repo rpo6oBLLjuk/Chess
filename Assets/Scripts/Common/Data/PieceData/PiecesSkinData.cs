@@ -21,16 +21,17 @@ public class PiecesSkinData : ScriptableObject
     [SerializeField] private PieceSkinData King;
 
 
-    public Sprite Get(PieceData data)
+    public Sprite Get(byte pieceData)
     {
-        return data.Type switch
+        PieceColor pieceColor = PiecePacker.GetPieceColor(pieceData);
+        return PiecePacker.GetPieceType(pieceData) switch
         {
-            PieceType.Pawn => (data.Color == PieceColor.White) ? Pawn.WhiteSkin : Pawn.BlackSkin,
-            PieceType.Knight => (data.Color == PieceColor.White) ? Knight.WhiteSkin : Knight.BlackSkin,
-            PieceType.Bishop => (data.Color == PieceColor.White) ? Bishop.WhiteSkin : Bishop.BlackSkin,
-            PieceType.Rook => (data.Color == PieceColor.White) ? Rook.WhiteSkin : Rook.BlackSkin,
-            PieceType.Queen => (data.Color == PieceColor.White) ? Queen.WhiteSkin : Queen.BlackSkin,
-            PieceType.King => (data.Color == PieceColor.White) ? King.WhiteSkin : King.BlackSkin,
+            PieceType.Pawn => (pieceColor == PieceColor.White) ? Pawn.WhiteSkin : Pawn.BlackSkin,
+            PieceType.Knight => (pieceColor == PieceColor.White) ? Knight.WhiteSkin : Knight.BlackSkin,
+            PieceType.Bishop => (pieceColor == PieceColor.White) ? Bishop.WhiteSkin : Bishop.BlackSkin,
+            PieceType.Rook => (pieceColor == PieceColor.White) ? Rook.WhiteSkin : Rook.BlackSkin,
+            PieceType.Queen => (pieceColor == PieceColor.White) ? Queen.WhiteSkin : Queen.BlackSkin,
+            PieceType.King => (pieceColor == PieceColor.White) ? King.WhiteSkin : King.BlackSkin,
             _ => throw new NotImplementedException()
         };
     }

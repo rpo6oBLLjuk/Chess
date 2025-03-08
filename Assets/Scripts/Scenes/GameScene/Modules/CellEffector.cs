@@ -8,7 +8,7 @@ public class CellEffector : MonoBehaviour
 
     [SerializeField] private bool selectInactive = false;
 
-    CellHandler startSelectCell;
+    CellHandler selectedCell;
     CellHandler lastMoveCell;
 
     List<CellHandler> capturedCells;
@@ -22,6 +22,8 @@ public class CellEffector : MonoBehaviour
         gameController.PieceMoved += PieceMoved;
 
         gameController.PieceDragged += PieceDragged;
+
+        gameController.BoardCleared += BoardCleared;
     }
 
     private void OnDisable()
@@ -30,17 +32,19 @@ public class CellEffector : MonoBehaviour
         gameController.PieceMoved -= PieceMoved;
 
         gameController.PieceDragged -= PieceDragged;
+
+        gameController.BoardCleared -= BoardCleared;
     }
 
     private void PieceDown(CellHandler cellHandler)
     {
         if (cellHandler.CurrentPieceHandler != null || selectInactive)
         {
-            startSelectCell?.CellEffectController.DisableSelect();
+            selectedCell?.CellEffectController.DisableSelect();
             DisablePossibleMoveCells();
 
-            startSelectCell = cellHandler;
-            startSelectCell.CellEffectController.EnableSelect();
+            selectedCell = cellHandler;
+            selectedCell.CellEffectController.EnableSelect();
 
             lastMoveCell?.CellEffectController.DisableLastMove();
             lastMoveCell = null;
@@ -65,7 +69,7 @@ public class CellEffector : MonoBehaviour
         if (lastMoveCell != cellHandler)
         {
             lastMoveCell?.CellEffectController.DisableLastMove();
-            if (startSelectCell != cellHandler)
+            if (selectedCell != cellHandler)
             {
                 lastMoveCell = cellHandler;
                 lastMoveCell.CellEffectController.EnableLastMove();
@@ -77,6 +81,14 @@ public class CellEffector : MonoBehaviour
         }
     }
 
+    private void BoardCleared()
+    {
+        possibleMoveCells.Clear();
+        capturedCells.Clear();
+
+        selectedCell = null;
+        lastMoveCell = null;
+    }
 
     private void DisablePossibleMoveCells()
     {
