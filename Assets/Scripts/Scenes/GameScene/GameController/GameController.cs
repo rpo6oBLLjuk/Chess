@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEngine;
 
 public class GameController : MonoService
@@ -10,20 +9,28 @@ public class GameController : MonoService
     public event Action<PieceHandler, CellHandler> PieceDragged;
 
     public event Action<PieceHandler, CellHandler, CellHandler> PieceMoved;
-    public event Action<PieceHandler, PieceHandler, CellHandler> PieceCaptured;
-    public event Action<PieceHandler, CellHandler> PieceDestroyed;
+    public event Action<PieceHandler, byte, CellHandler> PieceCaptured;
+    public event Action<byte, CellHandler> PieceDestroyed;
 
+    public event Action BoardLoaded;
     public event Action BoardCleared;
 
-    [field: SerializeField] public Vector2Int BoardSize { get; private set; }
-    [field: SerializeField] public Grid<byte> Pieces { get; private set; }
+    [Header("Grids")]
+    [field: SerializeField] public Grid<byte> Board { get; private set; }
+
+    [field: SerializeField] public Grid<PieceHandler> Pieces { get; set; }
     [field: SerializeField] public Grid<CellHandler> Cells { get; set; }
 
+    public GameData GameData => gameData;
     public CellsSkinData CellsSkinData => boardService.cellsSkinData;
     public PiecesSkinData PiecesSkinData => pieceService.piecesSkinData;
 
+    [Header("Dependencies")]
     [SerializeField] private PieceService pieceService;
     [SerializeField] private BoardService boardService;
+
+    [Header("Data")]
+    [SerializeField] private GameData gameData;
 
 
     public void Setup()
@@ -31,7 +38,7 @@ public class GameController : MonoService
         pieceService.OnInstantiated();
         boardService.OnInstantiated();
 
-        Pieces = new(8, 8);
+        Board = new(8, 8);
 
         SetupServices();
     }
@@ -40,18 +47,14 @@ public class GameController : MonoService
     {
         pieceService.ClearBoard();
         BoardCleared?.Invoke();
-
-        Debug.Log("Board cleared");
     }
 
     public void SetCustomBoard(Grid<byte> boardPiecesData)
     {
-        Pieces = boardPiecesData;
+        ClearBoard();
+
+        Board = boardPiecesData;
         SetupServices();
-
-        BoardCleared?.Invoke();
-
-        Debug.Log($"Board created, Size: {Pieces.Array.Count()}");
     }
 
     public void SpawnPiece(byte pieceData, CellHandler cellHandler) => pieceService.SpawnPiece(pieceData, cellHandler);
@@ -62,45 +65,33 @@ public class GameController : MonoService
     {
         pieceService.MovePiece(pieceHandler, startCell, endCell);
         PieceMoved?.Invoke(pieceHandler, startCell, endCell);
-
-        Debug.Log($"Piece moved from {startCell.CellIndex} to {endCell.CellIndex}");
     }
-    public void CapturePiece(CellHandler captiredCellHandler)
+    public void CapturePiece(PieceHandler pieceHandler, CellHandler cellHandler)
     {
-        pieceService.CapturePiece(captiredCellHandler);
+        byte destroyedPieceData = Board[cellHandler.Index];
 
-        Debug.Log($"Piece captired on cell {captiredCellHandler.CellIndex}");
+        pieceService.CapturePiece(cellHandler);
+        PieceCaptured?.Invoke(pieceHandler, destroyedPieceData, cellHandler);
     }
 
     public void DestroyPiece(CellHandler cellHandler)
     {
+        byte destroyedPieceData = Board[cellHandler.Index];
         pieceService.CapturePiece(cellHandler);
-        Debug.Log($"Piece destroyed on cell {cellHandler.CellIndex}");
+
+        PieceDestroyed?.Invoke(destroyedPieceData, cellHandler);
     }
 
-    public void ClickOnCell(CellHandler cellHandler)
-    {
-        CellClicked?.Invoke(cellHandler);
+    public void ClickOnCell(CellHandler cellHandler) => CellClicked?.Invoke(cellHandler);
+    public void PressDownOnCell(CellHandler cellHandler) => CellPressedDown?.Invoke(cellHandler);
 
-        Debug.Log($"Cell {cellHandler.CellIndex} clicked");
-    }
-    public void PressDownOnCell(CellHandler cellHandler)
-    {
-        CellPressedDown?.Invoke(cellHandler);
-
-        Debug.Log($"Cell {cellHandler.CellIndex} pressed down ");
-    }
-
-    public void PieceDragging(PieceHandler piece, CellHandler downCell)
-    {
-        PieceDragged?.Invoke(piece, downCell);
-
-        //Debug.Log($"Dragging piece across ({downCell.CellIndex}) cell");
-    }
+    public void PieceDragging(PieceHandler piece, CellHandler downCell) => PieceDragged?.Invoke(piece, downCell);
 
     private void SetupServices()
     {
         boardService.Setup();
         pieceService.Setup();
+
+        BoardLoaded?.Invoke();
     }
 }

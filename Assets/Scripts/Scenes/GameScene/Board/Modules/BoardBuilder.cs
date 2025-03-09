@@ -17,7 +17,6 @@ public class BoardBuilder
 
     private bool leftUpCellIsWhite = true;
 
-    [SerializeField] private List<GameObject> cells = new();
 
     public void Init(CellsSkinData cellsSkinData, GridLayoutGroup boardGridLayout, GameObject cellPrefab)
     {
@@ -29,35 +28,36 @@ public class BoardBuilder
 
     public void SetupBoard()
     {
-        cells.ForEach(instance => UnityEngine.Object.DestroyImmediate(instance));
-        cells.Clear();
+        if (gameController.Cells != null)
+            foreach (CellHandler cellHandler in gameController.Cells.Array)
+            {
+                if (cellHandler != null)
+                    UnityEngine.Object.DestroyImmediate(cellHandler);
+            }
+        gameController.Cells = new(gameController.Board.Width, gameController.Board.Height);
 
-        gameController.Cells = new(gameController.Pieces.Width, gameController.Pieces.Height);
-
-        boardGridLayout.constraint = (gameController.Pieces.Width > gameController.Pieces.Height) ?
+        boardGridLayout.constraint = (gameController.Board.Width > gameController.Board.Height) ?
             GridLayoutGroup.Constraint.FixedColumnCount : GridLayoutGroup.Constraint.FixedRowCount;
-        boardGridLayout.constraintCount = (gameController.Pieces.Width >= gameController.Pieces.Height) ? gameController.Pieces.Width : gameController.Pieces.Height;
+        boardGridLayout.constraintCount = (gameController.Board.Width >= gameController.Board.Height) ? gameController.Board.Width : gameController.Board.Height;
 
         bool isWhite = leftUpCellIsWhite;
 
-        for (byte y = 0; y < gameController.Pieces.Height; y++)
+        for (byte y = 0; y < gameController.Board.Height; y++)
         {
-            if (gameController.Pieces.Width % 2 == 0)
+            if (gameController.Board.Width % 2 == 0)
                 isWhite = !isWhite;
 
-            for (byte x = 0; x < gameController.Pieces.Width; x++)
+            for (byte x = 0; x < gameController.Board.Width; x++)
             {
                 isWhite = !isWhite;
 
                 GameObject instance = container.InstantiatePrefab(cellPrefab, boardGridLayout.transform);
-                cells.Add(instance);
-
                 instance.GetComponentInChildren<Image>().sprite = isWhite ? cellsSkinData.WhiteCell : cellsSkinData.BlackCell;
 
                 CellHandler cellHandler = instance.GetComponent<CellHandler>();
 
                 gameController.Cells[x, y] = cellHandler;
-                cellHandler.Init((byte)(y * gameController.Pieces.Width + x));
+                cellHandler.Init((byte)(y * gameController.Board.Width + x));
                 cellHandler.CellEffectController.Init(cellsSkinData);
             }
         }

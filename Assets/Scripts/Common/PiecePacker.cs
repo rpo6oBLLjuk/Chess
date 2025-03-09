@@ -3,11 +3,11 @@ public static class PiecePacker
     public static void PackPiece(PieceType pieceType, PieceColor pieceColor, out byte packedPiece) => packedPiece = (byte)((byte)pieceType | ((byte)pieceColor << 3));
     public static byte PackPiece(PieceType pieceType, PieceColor pieceColor) => (byte)((byte)pieceType | ((byte)pieceColor << 3));
 
-    public static void GetPieceType(ref byte packedPiece, out PieceType pieceType) => pieceType = (PieceType)(packedPiece & 0x07);
-    public static PieceType GetPieceType(byte packedPiece) => (PieceType)(packedPiece & 0x07);
+    public static void GetType(ref byte packedPiece, out PieceType pieceType) => pieceType = (PieceType)(packedPiece & 0x07);
+    public static PieceType GetType(byte packedPiece) => (PieceType)(packedPiece & 0x07);
 
-    public static void GetPieceColor(ref byte packedPiece, out PieceColor pieceColor) => pieceColor = (PieceColor)((packedPiece >> 3) & 0x01);
-    public static PieceColor GetPieceColor(byte packedPiece) => (PieceColor)((packedPiece >> 3) & 0x01);
+    public static void GetColor(ref byte packedPiece, out PieceColor pieceColor) => pieceColor = (PieceColor)((packedPiece >> 3) & 0x01);
+    public static PieceColor GetColor(byte packedPiece) => (PieceColor)((packedPiece >> 3) & 0x01);
 
     // Жесткая упаковка двух распакованных фигур
     public static void HardPackPiece(PieceType pieceType1, PieceColor pieceColor1, PieceType pieceType2, PieceColor pieceColor2, out byte packedPieces)
@@ -16,7 +16,6 @@ public static class PiecePacker
         PackPiece(pieceType2, pieceColor2, out byte piece2);
         packedPieces = (byte)(piece1 | (piece2 << 4));
     }
-
     //Жёсткая упаковка второй фигуры в байт
     public static void HardPackPiece(ref byte piece1, PieceType pieceType2, PieceColor pieceColor2, out byte packedPieces)
     {
@@ -31,7 +30,6 @@ public static class PiecePacker
         else
             return (byte)((packedPiece >> 4) & 0x07);
     }
-
     public static byte GetHardPieceColor(ref byte packedPiece, bool isFirst)
     {
         if (isFirst)
@@ -39,4 +37,6 @@ public static class PiecePacker
         else
             return (byte)((packedPiece >> 7) & 0x01);
     }
+
+    public static string GetFormattedData(byte packedPiece) => $"<color=#949494>{GetType(packedPiece)}_{GetColor(packedPiece)}</color>";
 }

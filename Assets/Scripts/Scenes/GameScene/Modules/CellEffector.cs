@@ -11,7 +11,7 @@ public class CellEffector : MonoBehaviour
     CellHandler selectedCell;
     CellHandler lastMoveCell;
 
-    List<CellHandler> capturedCells;
+    List<CellHandler> capturedCells = new();
 
     List<CellHandler> possibleMoveCells = new();
 
@@ -38,7 +38,7 @@ public class CellEffector : MonoBehaviour
 
     private void PieceDown(CellHandler cellHandler)
     {
-        if (cellHandler.CurrentPieceHandler != null || selectInactive)
+        if (gameController.Board[cellHandler.Index] != 0 || selectInactive)
         {
             selectedCell?.CellEffectController.DisableSelect();
             DisablePossibleMoveCells();
@@ -83,16 +83,24 @@ public class CellEffector : MonoBehaviour
 
     private void BoardCleared()
     {
-        possibleMoveCells.Clear();
+        DisablePossibleMoveCells();
+
         capturedCells.Clear();
 
+        selectedCell?.CellEffectController.DisableSelect();
         selectedCell = null;
         lastMoveCell = null;
     }
 
     private void DisablePossibleMoveCells()
     {
-        possibleMoveCells.ForEach(cell => cell.CellEffectController.DisablePossibleMove());
+        possibleMoveCells.ForEach(cell => cell?.CellEffectController.DisablePossibleMove());
         possibleMoveCells.Clear();
+    }
+
+    private void DisableCapturedCells()
+    {
+        capturedCells.ForEach(cell => cell?.CellEffectController.DisableCapture());
+        capturedCells.Clear();
     }
 }

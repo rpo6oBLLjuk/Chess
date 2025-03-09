@@ -80,9 +80,9 @@ public class ConstructorUI : MonoBehaviour
 
     private void SpawnerButtonCallback(PieceType pieceType)
     {
-        var foundIndex = gameController.Pieces.Array
+        var foundIndex = gameController.Board.Array
             .Select((piece, index) => new { piece, index })
-            .FirstOrDefault(x => PiecePacker.GetPieceType(x.piece) == PieceType.None)?.index ?? -1;
+            .FirstOrDefault(x => PiecePacker.GetType(x.piece) == PieceType.None)?.index ?? -1;
 
         if (foundIndex == -1)
         {

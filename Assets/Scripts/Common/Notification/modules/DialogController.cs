@@ -35,7 +35,7 @@ public class DialogController
 
         if (dialogType == DialogType.OkCancel)
         {
-            DebugExtensions.Log(message, sender);
+            this.Log(message, sender);
 
             dialog.transform.FindDeepChild("OkButton").GetComponent<Button>().onClick.AddListener(() => OkButtonListener(callback, message, sender));
             dialog.transform.FindDeepChild("CancelButton").GetComponent<Button>().onClick.AddListener(() => CancelButtonListener(callback, message, sender));
@@ -44,14 +44,14 @@ public class DialogController
 
     private void OkButtonListener(Action<bool> callback, string message, string sender)
     {
-        DebugExtensions.Log($"Dialog \"{message}\" CONFIRMED", sender);
+        this.Log($"Dialog \"{message}\" CONFIRMED", sender);
 
         callback?.Invoke(true);
         currectDialogPanel.GetComponentInChildren<AnimatedPanel>().Hide();
     }
     private void CancelButtonListener(Action<bool> callback, string message, string sender)
     {
-        DebugExtensions.Log($"Dialog \"{message}\" CANCELED", sender);
+        this.Log($"Dialog \"{message}\" CANCELED", sender);
 
         callback?.Invoke(false);
         currectDialogPanel.GetComponentInChildren<AnimatedPanel>().Hide();

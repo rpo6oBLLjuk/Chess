@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 6797646027973554267}
   - component: {fileID: 3851255623739023969}
   - component: {fileID: 3328198729993435433}
+  - component: {fileID: 9002398041610134082}
   - component: {fileID: 2682701830283870837}
   - component: {fileID: 5754392654639672834}
   m_Layer: 5
@@ -113,9 +114,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b25b87416a3c934c9eb2c0f91e9d6bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BoardSize>k__BackingField: {x: 8, y: 8}
+  <Board>k__BackingField:
+    Array: 
+    size: 0
+  <Pieces>k__BackingField:
+    Array: []
+    size: 0
+  <Cells>k__BackingField:
+    Array: []
+    size: 0
   pieceService: {fileID: 2682701830283870837}
   boardService: {fileID: 5754392654639672834}
+  gameData: {fileID: 11400000, guid: 8626f98d91ca96d4cb2b85421ef03a83, type: 2}
+--- !u!114 &9002398041610134082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3284193833548145585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a0bfaedec6e304288135a70d8a4532, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logging: 1
+  logCellActions: 0
+  logPieceActions: 1
+  logBoardActions: 1
+  logPieceDragging: 0
 --- !u!114 &2682701830283870837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,8 +171,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardGridLayout: {fileID: 6688030064519680254}
   cellPrefab: {fileID: 3127997117501680987, guid: b825f61fa14a77c419d929d62c781c23, type: 3}
-  boardBuilder:
-    cells: []
   cellsSkinData: {fileID: 11400000, guid: 09c581c4e967c1b4ab8c20f499334b47, type: 2}
 --- !u!1 &3994473506777863148
 GameObject:
@@ -685,11 +710,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7386006687288875784, guid: 5d50840a6f9a4bd43abedf78f982bd6f, type: 3}
       propertyPath: m_text
-      value: Game
+      value: Desk Construct
       objectReference: {fileID: 0}
     - target: {fileID: 7386006687288875784, guid: 5d50840a6f9a4bd43abedf78f982bd6f, type: 3}
       propertyPath: m_fontSize
-      value: 80.55
+      value: 61.2
       objectReference: {fileID: 0}
     - target: {fileID: 7386006687288875784, guid: 5d50840a6f9a4bd43abedf78f982bd6f, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'

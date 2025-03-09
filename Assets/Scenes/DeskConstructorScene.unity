@@ -150,7 +150,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1084050255}
-  - {fileID: 1406014930}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &54253955
@@ -606,51 +605,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveDirectory: Saves/Desk/
---- !u!1 &1406014929
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1406014930}
-  - component: {fileID: 1406014931}
-  m_Layer: 0
-  m_Name: CellEffector
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1406014930
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1406014929}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 54253954}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1406014931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1406014929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 266978c22fa71c9409b8cd9d7ff0a1c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectInactive: 0
 --- !u!1001 &507016764807530396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -746,14 +700,6 @@ PrefabInstance:
     - target: {fileID: 6027047241942039452, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8895464317062185841, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
-      propertyPath: m_text
-      value: Desk Construct
-      objectReference: {fileID: 0}
-    - target: {fileID: 8895464317062185841, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
-      propertyPath: m_fontSize
-      value: 61.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -3,8 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameData", menuName = "Scriptable Objects/Game/GameData")]
 public class GameData : ScriptableObject
 {
-    public AllowCaptures AllowCaptures = AllowCaptures.OpponentOnly;
-    public bool allowRandomMove = false;
+    [field: SerializeField] public AllowCaptures AllowCaptures { get; private set; }
+    [field: SerializeField] public bool AlowProhibitedMovements { get; set; }
 }
 
 public enum GameState

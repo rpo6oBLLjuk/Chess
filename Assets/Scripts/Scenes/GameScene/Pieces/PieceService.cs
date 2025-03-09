@@ -28,7 +28,7 @@ public class PieceService : MonoService
 
     public void Setup() => pieceBuilder.SetupPieces();
 
-    public void ClearBoard() => gameController.Cells.Array.Where(cellHandler => cellHandler.CurrentPieceHandler != null).ToList().ForEach(cellHandler => gameController.DestroyPiece(cellHandler));
+    public void ClearBoard() => gameController.Cells.Array.Where(cellHandler => gameController.Board[cellHandler.Index] != 0).ToList().ForEach(cellHandler => gameController.DestroyPiece(cellHandler));
 
     public void SpawnPiece(byte pieceData, CellHandler cellHandler) => pieceBuilder.Instantiate(pieceData, cellHandler);
 

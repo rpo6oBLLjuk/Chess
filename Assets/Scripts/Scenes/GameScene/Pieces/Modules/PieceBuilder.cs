@@ -1,4 +1,3 @@
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -8,31 +7,34 @@ public class PieceBuilder
     [Inject] DiContainer container;
     [Inject] GameController gameController;
 
-    PieceFactory pooler = new();
+    PiecePrefabs piecesPrefabs;
     PiecesSkinData piecesSkinData;
+
+
 
 
     public void Init(PiecesSkinData piecesSkinData, PiecePrefabs piecePrefabs)
     {
         this.piecesSkinData = piecesSkinData;
-        pooler.PiecesPrefabs = piecePrefabs;
+        this.piecesPrefabs = piecePrefabs;
     }
 
     public void SetupPieces()
     {
         foreach (CellHandler cellHandler in gameController.Cells.Array)
         {
-            if (cellHandler.CurrentPieceHandler != null)
+            if (gameController.Board[cellHandler.Index] != 0)
                 gameController.DestroyPiece(cellHandler);
         }
+        gameController.Pieces = new(gameController.Board.Width, gameController.Board.Height);
 
         byte currentPiece;
-        for (byte y = 0; y < gameController.BoardSize.y; y++)
+        for (byte y = 0; y < gameController.Board.Height; y++)
         {
-            for (byte x = 0; x < gameController.BoardSize.x; x++)
+            for (byte x = 0; x < gameController.Board.Width; x++)
             {
-                currentPiece = gameController.Pieces[y * gameController.BoardSize.x + x];
-                if (PiecePacker.GetPieceType(currentPiece) != PieceType.None)
+                currentPiece = gameController.Board[y * gameController.Board.Width + x];
+                if (PiecePacker.GetType(currentPiece) != PieceType.None)
                 {
                     Instantiate(currentPiece, gameController.Cells[x, y]);
                 }
@@ -42,7 +44,7 @@ public class PieceBuilder
 
     public GameObject Instantiate(byte pieceData, CellHandler cellHandler)
     {
-        GameObject instance = container.InstantiatePrefab(pooler.Get(PiecePacker.GetPieceType(pieceData)), cellHandler.transform);
+        GameObject instance = container.InstantiatePrefab(piecesPrefabs.Get(PiecePacker.GetType(pieceData)), cellHandler.transform);
 
         instance.GetComponentInChildren<Image>().sprite = piecesSkinData.Get(pieceData);
 
@@ -52,9 +54,10 @@ public class PieceBuilder
 
         cellHandler.PiecePlaced(pieceHandler);
 
-        gameController.Pieces[cellHandler.CellIndex] = pieceData;
+        gameController.Board[cellHandler.Index] = pieceData;
+        gameController.Pieces[cellHandler.Index] = pieceHandler;
 
-        Debug.Log($"Piece ({PiecePacker.GetPieceColor(pieceData)}_{PiecePacker.GetPieceType(pieceData)}) instantiated", instance);
+        this.Log($"Piece {PiecePacker.GetFormattedData(pieceData)} instantiated on cell {cellHandler.Index}", context: instance);
         return instance;
     }
 }

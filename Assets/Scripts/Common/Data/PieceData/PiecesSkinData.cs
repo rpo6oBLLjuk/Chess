@@ -23,8 +23,8 @@ public class PiecesSkinData : ScriptableObject
 
     public Sprite Get(byte pieceData)
     {
-        PieceColor pieceColor = PiecePacker.GetPieceColor(pieceData);
-        return PiecePacker.GetPieceType(pieceData) switch
+        PieceColor pieceColor = PiecePacker.GetColor(pieceData);
+        return PiecePacker.GetType(pieceData) switch
         {
             PieceType.Pawn => (pieceColor == PieceColor.White) ? Pawn.WhiteSkin : Pawn.BlackSkin,
             PieceType.Knight => (pieceColor == PieceColor.White) ? Knight.WhiteSkin : Knight.BlackSkin,

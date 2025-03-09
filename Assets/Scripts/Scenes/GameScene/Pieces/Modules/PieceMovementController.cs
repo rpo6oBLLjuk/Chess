@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using Zenject;
 
 [Serializable]
@@ -10,12 +9,12 @@ public class PieceMovementController
 
     public bool CanBeMove(CellHandler startCell, CellHandler endCell)
     {
-        byte endPieceData = gameController.Pieces[endCell.CellIndex];
+        byte endPieceData = gameController.Board[endCell.Index];
         if (endPieceData == 0)
             return true;
 
 
-        PiecePacker.GetPieceType(ref endPieceData, out PieceType endPieceType);
+        PiecePacker.GetType(ref endPieceData, out PieceType endPieceType);
         switch (endPieceType)
         {
             case PieceType.None:
@@ -24,9 +23,9 @@ public class PieceMovementController
             return false;
             default:
             {
-                if (PiecePacker.GetPieceColor(endPieceData) != PiecePacker.GetPieceColor(gameController.Pieces[startCell.CellIndex]))
+                if (PiecePacker.GetColor(endPieceData) != PiecePacker.GetColor(gameController.Board[startCell.Index]))
                 {
-                    gameController.CapturePiece(endCell);
+                    gameController.CapturePiece(gameController.Pieces[startCell.Index], endCell);
                     return true;
                 }
                 else
@@ -40,11 +39,12 @@ public class PieceMovementController
         startCell.PieceRemoved();
         endCell.PiecePlaced(pieceHandler);
 
-        MovePieceData(startCell.CellIndex, endCell.CellIndex);
+        MovePieceData(startCell.Index, endCell.Index);
     }
 
     private void MovePieceData(byte startIndex, byte endIndex)
     {
+        (gameController.Board[startIndex], gameController.Board[endIndex]) = (gameController.Board[endIndex], gameController.Board[startIndex]);
         (gameController.Pieces[startIndex], gameController.Pieces[endIndex]) = (gameController.Pieces[endIndex], gameController.Pieces[startIndex]);
     }
 }
