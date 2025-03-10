@@ -47,8 +47,8 @@ public class GameControllerLogger : MonoBehaviour
     private void PieceDragged(PieceHandler piece, CellHandler downCell) => SendLog($"Dragging piece across ({downCell.Index}) cell", logPieceDragging);
 
     private void PieceMoved(PieceHandler piece, CellHandler startCell, CellHandler endCell) => PieceLog($"Piece moved from {startCell.Index} to {endCell.Index}");
-    private void PieceCaptured(PieceHandler capturedPiece, byte pieceData, CellHandler cell) => PieceLog($"Piece {PiecePacker.GetFormattedData(pieceData)} captured on cell {cell.Index}");
-    private void PieceDestroyed(byte pieceData, CellHandler cell) => PieceLog($"Piece {PiecePacker.GetFormattedData(pieceData)} destroyed on cell {cell.Index}");
+    private void PieceCaptured(PieceHandler capturerPiece, PieceHandler capturedPiece, CellHandler cell) => PieceLog($"Piece captured on cell {cell.Index}");
+    private void PieceDestroyed(PieceHandler capturerPiece, CellHandler cell) => PieceLog($"Piece destroyed on cell {cell.Index}");
 
     private void BoardCleared() => BoardLog("Board cleared");
     private void BoardLoaded() => BoardLog("Board loaded");

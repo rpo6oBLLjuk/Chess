@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: MainAnimationData
   m_EditorClassIdentifier: 
   delayBeforeHadnle: 0.3
+  showTime: 0.25
+  destroyTime: 0.3
   scaleMultiplier: 1.5
   scaleDuration: 0.25
   magnetToCellDuration: 0.1

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3e0775b45d7b7a4985dbf197d0e9a85, type: 3}
   m_Name: CellsSkinData
   m_EditorClassIdentifier: 
+  <CellAnimationData>k__BackingField: {fileID: 11400000, guid: 3cb58402013cae44784251374081c394, type: 2}
   WhiteCell: {fileID: -2684102947291226346, guid: 2b1d19748aa318b42b68416c6e3872d3, type: 3}
   BlackCell: {fileID: 387498685, guid: 2b1d19748aa318b42b68416c6e3872d3, type: 3}
   TargetImage:

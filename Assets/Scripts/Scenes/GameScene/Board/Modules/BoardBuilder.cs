@@ -32,7 +32,9 @@ public class BoardBuilder
             foreach (CellHandler cellHandler in gameController.Cells.Array)
             {
                 if (cellHandler != null)
-                    UnityEngine.Object.DestroyImmediate(cellHandler);
+                {
+                    UnityEngine.Object.Destroy(cellHandler.gameObject);
+                }
             }
         gameController.Cells = new(gameController.Board.Width, gameController.Board.Height);
 

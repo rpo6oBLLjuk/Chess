@@ -111,6 +111,7 @@ public class ConstructorUI : MonoBehaviour
     }
     private void DestroyPiece(CellHandler cellHandler)
     {
-        gameController.DestroyPiece(cellHandler);
+        if (gameController.Board[cellHandler.Index] != 0)
+            gameController.DestroyPiece(cellHandler);
     }
 }

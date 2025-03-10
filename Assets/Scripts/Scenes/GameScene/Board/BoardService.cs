@@ -4,7 +4,7 @@ using Zenject;
 
 public class BoardService : MonoService
 {
-    [Inject] GameController gameController;
+    //[Inject] GameController gameController;
 
     [Header("References")]
     [SerializeField] private GridLayoutGroup boardGridLayout;
@@ -22,8 +22,5 @@ public class BoardService : MonoService
         boardBuilder.Init(cellsSkinData, boardGridLayout, cellPrefab);
     }
 
-    public void Setup()
-    {
-        boardBuilder.SetupBoard();
-    }
+    public void Setup() => boardBuilder.SetupBoard();
 }

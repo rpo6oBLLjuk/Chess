@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoService
 {
@@ -9,8 +10,13 @@ public class GameController : MonoService
     public event Action<PieceHandler, CellHandler> PieceDragged;
 
     public event Action<PieceHandler, CellHandler, CellHandler> PieceMoved;
-    public event Action<PieceHandler, byte, CellHandler> PieceCaptured;
-    public event Action<byte, CellHandler> PieceDestroyed;
+    /// <summary>
+    /// First arg: Eater, second arg: eated piece
+    /// </summary>
+    public event Action<PieceHandler, PieceHandler, CellHandler> PieceCaptured;
+
+    public event Action<PieceHandler, CellHandler> PieceSpawned;
+    public event Action<PieceHandler, CellHandler> PieceDestroyed;
 
     public event Action BoardLoaded;
     public event Action BoardCleared;
@@ -22,8 +28,8 @@ public class GameController : MonoService
     [field: SerializeField] public Grid<CellHandler> Cells { get; set; }
 
     public GameData GameData => gameData;
-    public CellsSkinData CellsSkinData => boardService.cellsSkinData;
     public PiecesSkinData PiecesSkinData => pieceService.piecesSkinData;
+    public CellsSkinData CellsSkinData => boardService.cellsSkinData;
 
     [Header("Dependencies")]
     [SerializeField] private PieceService pieceService;
@@ -57,7 +63,11 @@ public class GameController : MonoService
         SetupServices();
     }
 
-    public void SpawnPiece(byte pieceData, CellHandler cellHandler) => pieceService.SpawnPiece(pieceData, cellHandler);
+    public void SpawnPiece(byte pieceData, CellHandler cellHandler)
+    {
+        pieceService.SpawnPiece(pieceData, cellHandler);
+        PieceSpawned.Invoke(Pieces[cellHandler.Index], cellHandler);
+    }
 
     public bool CanBeMove(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceService.CanBeMove(pieceHandler, startCell, endCell);
 
@@ -68,18 +78,14 @@ public class GameController : MonoService
     }
     public void CapturePiece(PieceHandler pieceHandler, CellHandler cellHandler)
     {
-        byte destroyedPieceData = Board[cellHandler.Index];
-
         pieceService.CapturePiece(cellHandler);
-        PieceCaptured?.Invoke(pieceHandler, destroyedPieceData, cellHandler);
+        PieceCaptured?.Invoke(pieceHandler, Pieces[cellHandler.Index], cellHandler);
     }
 
     public void DestroyPiece(CellHandler cellHandler)
     {
-        byte destroyedPieceData = Board[cellHandler.Index];
         pieceService.CapturePiece(cellHandler);
-
-        PieceDestroyed?.Invoke(destroyedPieceData, cellHandler);
+        PieceDestroyed?.Invoke(Pieces[cellHandler.Index], cellHandler);
     }
 
     public void ClickOnCell(CellHandler cellHandler) => CellClicked?.Invoke(cellHandler);

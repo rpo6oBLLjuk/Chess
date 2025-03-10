@@ -10,6 +10,9 @@ public class PieceHandler : MonoBehaviour
     [Inject] NotificationService notificationService;
     [Inject] GameController gameController;
 
+    [field: SerializeField]
+    public PieceEffectController PieceEffectController { get; private set; }
+
     private PieceAnimationData pieceAnimationData;
 
     private RectTransform rectTransform;

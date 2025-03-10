@@ -71,6 +71,9 @@ public class DeskLoaderUI : AnimatedPanel
             {
                 DestroyImmediate(saveObj);
                 deskSaver.DeleteBoard(savename);
+
+                if (pool.Count == 0)
+                    Hide();
             }
         }, "Are you sure you want to delete this desk?", "Delete File", DialogType.OkCancel);
     }

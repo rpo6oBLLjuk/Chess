@@ -5,6 +5,9 @@ public class PieceAnimationData : ScriptableObject
 {
     public float delayBeforeHadnle = 0.3f;
 
+    public float showTime = 0.1f;
+    public float destroyTime = 0.1f;
+
     public float scaleMultiplier = 1.5f;
     public float scaleDuration = 0.25f;
 

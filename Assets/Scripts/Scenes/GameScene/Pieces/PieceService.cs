@@ -9,7 +9,7 @@ public class PieceService : MonoService
 
     PieceBuilder pieceBuilder;
     PieceMovementController pieceMovementController;
-    PieceCapturer pieceDestroyer;
+    PieceCapturer pieceCapturer;
 
     public PiecesSkinData piecesSkinData;
     [SerializeField] PiecePrefabs piecePrefabs;
@@ -21,9 +21,10 @@ public class PieceService : MonoService
 
         pieceBuilder = container.Instantiate<PieceBuilder>();
         pieceMovementController = container.Instantiate<PieceMovementController>();
-        pieceDestroyer = container.Instantiate<PieceCapturer>();
+        pieceCapturer = container.Instantiate<PieceCapturer>();
 
         pieceBuilder.Init(piecesSkinData, piecePrefabs);
+        pieceCapturer.Init();
     }
 
     public void Setup() => pieceBuilder.SetupPieces();
@@ -32,7 +33,7 @@ public class PieceService : MonoService
 
     public void SpawnPiece(byte pieceData, CellHandler cellHandler) => pieceBuilder.Instantiate(pieceData, cellHandler);
 
-    public void CapturePiece(CellHandler cellHandler) => pieceDestroyer.CapturePiece(cellHandler);
+    public void CapturePiece(CellHandler cellHandler) => pieceCapturer.CapturePiece(cellHandler);
 
     public bool CanBeMove(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {

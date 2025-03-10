@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 3690355141879518634}
   - component: {fileID: 4974486938146731349}
   - component: {fileID: 3282617737968410094}
-  - component: {fileID: 1729027865873233167}
+  - component: {fileID: 1675128737330074911}
+  - component: {fileID: 5764857867249407265}
   m_Layer: 5
-  m_Name: Knight
+  m_Name: Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1918918513, guid: b277623a6b6185e48940a033ae824366, type: 3}
+  m_Sprite: {fileID: -931804659, guid: b277623a6b6185e48940a033ae824366, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -76,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1729027865873233167
+--- !u!114 &1675128737330074911
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,3 +89,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f1330366948f72478be70d1db6a9b52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <PieceEffectController>k__BackingField: {fileID: 5764857867249407265}
+--- !u!114 &5764857867249407265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415511532690410396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be01a4dfda75b724caf31d54e6094878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 3282617737968410094}
+  showTime: 0.5
+  hideTime: 0.5

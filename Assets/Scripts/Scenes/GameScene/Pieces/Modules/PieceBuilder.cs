@@ -11,8 +11,6 @@ public class PieceBuilder
     PiecesSkinData piecesSkinData;
 
 
-
-
     public void Init(PiecesSkinData piecesSkinData, PiecePrefabs piecePrefabs)
     {
         this.piecesSkinData = piecesSkinData;
@@ -21,11 +19,6 @@ public class PieceBuilder
 
     public void SetupPieces()
     {
-        foreach (CellHandler cellHandler in gameController.Cells.Array)
-        {
-            if (gameController.Board[cellHandler.Index] != 0)
-                gameController.DestroyPiece(cellHandler);
-        }
         gameController.Pieces = new(gameController.Board.Width, gameController.Board.Height);
 
         byte currentPiece;
@@ -44,7 +37,7 @@ public class PieceBuilder
 
     public GameObject Instantiate(byte pieceData, CellHandler cellHandler)
     {
-        GameObject instance = container.InstantiatePrefab(piecesPrefabs.Get(PiecePacker.GetType(pieceData)), cellHandler.transform);
+        GameObject instance = container.InstantiatePrefab(piecesPrefabs.Piece, cellHandler.transform);
 
         instance.GetComponentInChildren<Image>().sprite = piecesSkinData.Get(pieceData);
 

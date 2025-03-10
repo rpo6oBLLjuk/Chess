@@ -11,8 +11,10 @@ public class PiecesSkinData : ScriptableObject
         public Sprite BlackSkin;
     }
 
-    [field: SerializeField] public PieceAnimationData AnimationData { get; private set; }
+    [field: SerializeField]
+    public PieceAnimationData AnimationData { get; private set; }
 
+    [Space]
     [SerializeField] private PieceSkinData Pawn;
     [SerializeField] private PieceSkinData Knight;
     [SerializeField] private PieceSkinData Bishop;

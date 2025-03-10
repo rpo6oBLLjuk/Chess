@@ -11,6 +11,9 @@ public class CellsSkinData : ScriptableObject
         public Color Color = Color.white;
     }
 
+    [field: SerializeField]
+    public CellAnimationData CellAnimationData { get; private set; }
+
     public Sprite WhiteCell;
     public Sprite BlackCell;
 
