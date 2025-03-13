@@ -56,20 +56,8 @@ public class PieceHandler : MonoBehaviour
     public void OnDrag(PointerEventData eventData) => SetDraggedData(eventData);
     public void OnEndDrag(PointerEventData eventData, CellHandler startCell)
     {
-        if (GetCellUnderPiece(eventData, out CellHandler cellHandler) && cellHandler != startCell)
-        {
-            if (gameController.CanBeMove(this, startCell, cellHandler))
-            {
-                gameController.MovePiece(this, startCell, cellHandler);
-
-                parentCell = cellHandler.transform;
-            }
-        }
-        else
-        {
-            notificationService.ShowPopup("Piece not on a board", "Piece Handler", PopupType.Warning);
-        }
-
+        MoveAttempt(eventData, startCell);
+        
         transform.DOMove(parentCell.position, pieceAnimationData.magnetToCellDuration)
             .OnComplete(() => transform.SetParent(parentCell));
 
@@ -77,13 +65,6 @@ public class PieceHandler : MonoBehaviour
         transform.DOScale(Vector3.one, pieceAnimationData.scaleDuration);
     }
 
-    private void SetDraggedData(PointerEventData data)
-    {
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, data.position, data.pressEventCamera, out Vector3 globalMousePos))
-            draggedPosition = globalMousePos;
-
-        lastDragEventData = data;
-    }
     private void Drag()
     {
         rectTransform.position = Vector3.Lerp(rectTransform.position, draggedPosition, pieceAnimationData.magnetToMouseLerpValue * Time.unscaledDeltaTime);
@@ -107,5 +88,36 @@ public class PieceHandler : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void SetDraggedData(PointerEventData data)
+    {
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, data.position, data.pressEventCamera, out Vector3 globalMousePos))
+            draggedPosition = globalMousePos;
+
+        lastDragEventData = data;
+    }
+    private void MoveAttempt(PointerEventData eventData, CellHandler startCell)
+    {
+        if (GetCellUnderPiece(eventData, out CellHandler cellHandler))
+        {
+            if (cellHandler != startCell)
+            {
+                if (gameController.CanBeMove(this, startCell, cellHandler))
+                {
+                    gameController.MovePiece(this, startCell, cellHandler);
+
+                    parentCell = cellHandler.transform;
+                }
+            }
+            else
+            {
+                notificationService.ShowPopup("Piece was moved to it's cell", "Piece Handler", PopupType.Warning);
+            }
+        }
+        else
+        {
+            notificationService.ShowPopup("Piece not on a board", "Piece Handler", PopupType.Warning);
+        }
     }
 }

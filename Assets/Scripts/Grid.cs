@@ -34,4 +34,9 @@ public class Grid<T>
         get => Array[index];
         set => Array[index] = value;
     }
+
+    public void Remove(int index)
+    {
+        Array[index] = default;
+    }
 }

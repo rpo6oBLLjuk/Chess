@@ -8,7 +8,7 @@ public class PieceService : MonoService
     [Inject] NotificationService notificationService;
 
     PieceBuilder pieceBuilder;
-    PieceMovementController pieceMovementController;
+    PieceMover pieceMover;
     PieceCapturer pieceCapturer;
 
     public PiecesSkinData piecesSkinData;
@@ -20,7 +20,7 @@ public class PieceService : MonoService
         base.OnInstantiated();
 
         pieceBuilder = container.Instantiate<PieceBuilder>();
-        pieceMovementController = container.Instantiate<PieceMovementController>();
+        pieceMover = container.Instantiate<PieceMover>();
         pieceCapturer = container.Instantiate<PieceCapturer>();
 
         pieceBuilder.Init(piecesSkinData, piecePrefabs);
@@ -37,10 +37,10 @@ public class PieceService : MonoService
 
     public bool CanBeMove(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
-        bool canMove = pieceMovementController.CanBeMove(startCell, endCell);
+        bool canMove = pieceMover.CanBeMove(startCell, endCell);
         if (!canMove)
             notificationService.ShowPopup("Move blocked", "Piece manager", PopupType.Warning);
         return canMove;
     }
-    public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceMovementController.Move(pieceHandler, startCell, endCell);
+    public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceMover.Move(pieceHandler, startCell, endCell);
 }

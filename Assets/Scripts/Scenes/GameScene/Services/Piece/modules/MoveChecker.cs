@@ -1,8 +1,6 @@
-using System;
 using Zenject;
 
-[Serializable]
-public class PieceMovementController
+public class MoveChecker
 {
     [Inject] GameController gameController;
 
@@ -34,17 +32,8 @@ public class PieceMovementController
         }
     }
 
-    public void Move(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
+    public bool CanBeMove(byte movingPiece, byte startIndex, byte endIndex)
     {
-        startCell.PieceRemoved();
-        endCell.PiecePlaced(pieceHandler);
-
-        MovePieceData(startCell.Index, endCell.Index);
-    }
-
-    private void MovePieceData(byte startIndex, byte endIndex)
-    {
-        (gameController.Board[startIndex], gameController.Board[endIndex]) = (gameController.Board[endIndex], gameController.Board[startIndex]);
-        (gameController.Pieces[startIndex], gameController.Pieces[endIndex]) = (gameController.Pieces[endIndex], gameController.Pieces[startIndex]);
+        return true;
     }
 }

@@ -21,6 +21,9 @@ public class PieceEffectController : MonoBehaviour
 
     public void Destroy(float duration)
     {
+        gameObject.transform.SetParent(transform.root);
+        image.raycastTarget = false;
+
         Sequence tween = DOTween.Sequence();
 
         tween.Append(image.DOFade(0, duration));

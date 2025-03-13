@@ -150,8 +150,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   logging: 1
   logCellActions: 0
-  logPieceActions: 1
-  logBoardActions: 1
+  logPieceActions: 0
+  logBoardActions: 0
   logPieceDragging: 0
 --- !u!1 &3284193833548145585
 GameObject:

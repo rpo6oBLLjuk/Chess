@@ -4,11 +4,9 @@ using Zenject;
 public class PieceCapturer
 {
     [Inject] GameController gameController;
-    [SerializeField] private Canvas canvas;
 
     public void Init()
     {
-        canvas = gameController.GetComponentInParent<Canvas>();
     }
 
     public void CapturePiece(CellHandler cellHandler)
@@ -17,7 +15,7 @@ public class PieceCapturer
             return;
 
         gameController.Board[cellHandler.Index] = 0;
-        gameController.Pieces[cellHandler.Index].gameObject.transform.SetParent(canvas.transform);
+        gameController.Pieces[cellHandler.Index] = null;
 
         cellHandler?.PieceRemoved();
     }
