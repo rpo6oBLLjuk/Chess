@@ -7,20 +7,21 @@ public class CellsSkinData : ScriptableObject
     [Serializable]
     public class CellSpriteData
     {
-        public Sprite Sprite;
-        public Color Color = Color.white;
+        [field: SerializeField] public Sprite Sprite { get; private set; }
+        [field: SerializeField] public Color Color { get; private set; }
     }
 
     [field: SerializeField]
-    public CellAnimationData CellAnimationData { get; private set; }
+    public CellAnimationData AnimationData { get; private set; }
 
-    public Sprite WhiteCell;
-    public Sprite BlackCell;
+    [field: SerializeField] public Sprite WhiteCell { get; private set; }
+    [field: SerializeField] public Sprite BlackCell { get; private set; }
 
-    [Space]
-    public CellSpriteData TargetImage;
-    public CellSpriteData SelectImage;
-    public CellSpriteData PossibleMoveImage;
-    public CellSpriteData CaptureImage;
-    public CellSpriteData LastMoveImage;
+    [field: Space]
+    [field: SerializeField] public CellSpriteData TargetCellData { get; private set; }
+    [field: SerializeField] public CellSpriteData SelectCellData { get; private set; }
+    [field: SerializeField] public CellSpriteData PossibleMoveCellData { get; private set; }
+    [field: SerializeField] public CellSpriteData CaptureCellData { get; private set; }
+    [field: SerializeField] public CellSpriteData PreviousMoveCellData { get; private set; }
+    [field: SerializeField] public CellSpriteData HoverCellData { get; private set; }
 }

@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardGridLayout: {fileID: 6688030064519680254}
   cellPrefab: {fileID: 3127997117501680987, guid: b825f61fa14a77c419d929d62c781c23, type: 3}
-  cellsSkinData: {fileID: 11400000, guid: 09c581c4e967c1b4ab8c20f499334b47, type: 2}
+  <CellsSkinData>k__BackingField: {fileID: 11400000, guid: 09c581c4e967c1b4ab8c20f499334b47, type: 2}
 --- !u!1 &2921190792222827761
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1041d6120889ec744b339e697676b433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  piecesSkinData: {fileID: 11400000, guid: cac427bf486aec94fb7c4076ad0ec637, type: 2}
+  <PiecesSkinData>k__BackingField: {fileID: 11400000, guid: cac427bf486aec94fb7c4076ad0ec637, type: 2}
   piecePrefabs: {fileID: 11400000, guid: 559c076231dce4c45a5b70c73624e5c4, type: 2}
 --- !u!1 &3994473506777863148
 GameObject:
@@ -444,7 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6fe601167b15d146ba4f0812f10444a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameController: {fileID: 3328198729993435433}
+  gameManager: {fileID: 3328198729993435433}
 --- !u!1 &5664807077094881010
 GameObject:
   m_ObjectHideFlags: 0

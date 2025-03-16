@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -8,7 +9,7 @@ using Zenject;
 public class ConstructorUI : MonoBehaviour
 {
     [Inject] NotificationService notificationService;
-    [Inject] GameController gameController;
+    [Inject] GameManager gameManager;
 
     [SerializeField] private Button defaultButton;
     [SerializeField] private Transform pieceButtonsParent;
@@ -41,29 +42,32 @@ public class ConstructorUI : MonoBehaviour
         foreach (PieceType pieceType in Enum.GetValues(typeof(PieceType)))
         {
             if (pieceType != PieceType.None && pieceType != PieceType.Other)
-                FastInstantiateButton(pieceType.ToString(), pieceButtonsParent, () => SpawnerButtonCallback(pieceType));
+                InstantiateButtonWithCallback(pieceType.ToString(), pieceButtonsParent, () => SpawnerButtonCallback(pieceType));
         }
 
-        colorButton = FastInstantiateButton("White", systemButtonsParent, () =>
+        colorButton = InstantiateButtonWithCallback("White", systemButtonsParent, () =>
         {
             currectPieceColor = (currectPieceColor == PieceColor.White) ? PieceColor.Black : PieceColor.White;
+
             TextMeshProUGUI tmpro = colorButton.GetComponentInChildren<TextMeshProUGUI>();
             tmpro.text = currectPieceColor.ToString();
             tmpro.color = (currectPieceColor == PieceColor.White) ? Color.white : Color.black;
+
             colorButton.GetComponent<Image>().sprite = (currectPieceColor == PieceColor.White) ? whiteColorSprite : blackColorSprite;
         });
-        destroyButton = FastInstantiateButton("Destroy (inactive)", systemButtonsParent, () => DestroyButtonCallback());
+        destroyButton = InstantiateButtonWithCallback("Destroy (inactive)", systemButtonsParent, () => DestroyButtonCallback());
 
-        saveButton = FastInstantiateButton("Save", systemButtonsParent, () => saverUI.Show());
-        loadButton = FastInstantiateButton("Load", systemButtonsParent, () => loaderUI.Show());
+        saveButton = InstantiateButtonWithCallback("Save", systemButtonsParent, () => saverUI.Show());
+        loadButton = InstantiateButtonWithCallback("Load", systemButtonsParent, () => loaderUI.Show());
 
-        clearBoardButton = FastInstantiateButton("Clear board", systemButtonsParent, () => gameController.ClearBoard());
+        clearBoardButton = InstantiateButtonWithCallback("Clear board", systemButtonsParent, () => gameManager.ClearBoard());
     }
 
-    private Button FastInstantiateButton(string name, Transform parent, Action callback)
+    private Button InstantiateButtonWithCallback(string name, Transform parent, Action callback)
     {
         Button buttonInstance = InstantiateButton(name, parent).GetComponent<Button>();
         buttonInstance.onClick.AddListener(() => callback.Invoke());
+
         return buttonInstance;
     }
 
@@ -80,18 +84,12 @@ public class ConstructorUI : MonoBehaviour
 
     private void SpawnerButtonCallback(PieceType pieceType)
     {
-        var foundIndex = gameController.Board.Array
-            .Select((piece, index) => new { piece, index })
-            .FirstOrDefault(x => PiecePacker.GetType(x.piece) == PieceType.None)?.index ?? -1;
+        var foundIndex = Array.FindIndex(gameManager.Board, piece => PiecePacker.IsEqualType(ref piece, PieceType.None));
 
         if (foundIndex == -1)
-        {
             notificationService.ShowPopup("Board full", "Spawner", PopupType.Error);
-        }
         else
-        {
-            gameController.SpawnPiece(PiecePacker.PackPiece(pieceType, currectPieceColor), gameController.Cells[foundIndex]);
-        }
+            gameManager.SpawnPiece(PiecePacker.PackPiece(pieceType, currectPieceColor), gameManager.Cells[foundIndex]);
     }
 
     private void DestroyButtonCallback()
@@ -100,18 +98,18 @@ public class ConstructorUI : MonoBehaviour
 
         if (destroyerIsActive)
         {
-            gameController.CellClicked += DestroyPiece;
+            gameManager.CellClicked += DestroyPiece;
             destroyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Destroy (active)";
         }
         else
         {
-            gameController.CellClicked -= DestroyPiece;
+            gameManager.CellClicked -= DestroyPiece;
             destroyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Destroy (inactive)";
         }
     }
     private void DestroyPiece(CellHandler cellHandler)
     {
-        if (gameController.Board[cellHandler.Index] != 0)
-            gameController.DestroyPiece(cellHandler);
+        if (!PiecePacker.IsEqualType(ref gameManager.Board[cellHandler.Index], PieceType.None))
+            gameManager.DestroyPiece(cellHandler);
     }
 }

@@ -12,18 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07886657ec26a084084acc4f02b03eba, type: 3}
   m_Name: CellAnimationData
   m_EditorClassIdentifier: 
-  TargetAnimationData:
-    ShowTime: 0.1
-    HideTime: 0.1
-  SelectAnimationData:
-    ShowTime: 0.1
-    HideTime: 0.1
-  PossibleMoveAnimationData:
-    ShowTime: 0.1
-    HideTime: 0.1
-  CaptureAnimationData:
-    ShowTime: 0.1
-    HideTime: 0.1
-  LastMoveAnimationData:
-    ShowTime: 0.1
-    HideTime: 0.1
+  <TargetAnimationData>k__BackingField:
+    <Duration>k__BackingField: 0.5
+  <SelectAnimationData>k__BackingField:
+    <Duration>k__BackingField: 0.5
+  <PossibleMoveAnimationData>k__BackingField:
+    <Duration>k__BackingField: 0.5
+  <CaptureAnimationData>k__BackingField:
+    <Duration>k__BackingField: 0.5
+  <PreviousMoveAnimationData>k__BackingField:
+    <Duration>k__BackingField: 0.5
+  <HoverAnimationData>k__BackingField:
+    <Duration>k__BackingField: 1

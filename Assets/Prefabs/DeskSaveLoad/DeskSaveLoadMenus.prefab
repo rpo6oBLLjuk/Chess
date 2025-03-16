@@ -285,6 +285,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2170233947611536736, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
+      propertyPath: m_Name
+      value: Border
+      objectReference: {fileID: 0}
     - target: {fileID: 3088198009617532782, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
       propertyPath: m_HorizontalFit
       value: 2

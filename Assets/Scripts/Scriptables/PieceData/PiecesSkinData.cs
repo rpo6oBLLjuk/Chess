@@ -22,10 +22,11 @@ public class PiecesSkinData : ScriptableObject
     [SerializeField] private PieceSkinData Queen;
     [SerializeField] private PieceSkinData King;
 
-
+#pragma warning disable CS0618 // is obsolete
     public Sprite Get(byte pieceData)
     {
         PieceColor pieceColor = PiecePacker.GetColor(pieceData);
+
         return PiecePacker.GetType(pieceData) switch
         {
             PieceType.Pawn => (pieceColor == PieceColor.White) ? Pawn.WhiteSkin : Pawn.BlackSkin,
@@ -37,4 +38,5 @@ public class PiecesSkinData : ScriptableObject
             _ => throw new NotImplementedException()
         };
     }
+#pragma warning restore CS0618 // is obsolete
 }

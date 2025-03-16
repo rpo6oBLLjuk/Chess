@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class GameBootstrap : MonoBehaviour
 {
-    [SerializeField] private GameController gameController;
+    [SerializeField] private GameManager gameManager;
 
 
-    private void Awake() => gameController.Setup();
+    private void Start() => gameManager.Setup();
 }

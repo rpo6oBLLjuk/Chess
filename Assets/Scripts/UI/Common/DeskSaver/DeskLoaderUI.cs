@@ -6,7 +6,7 @@ using Zenject;
 
 public class DeskLoaderUI : AnimatedPanel
 {
-    [Inject] private GameController gameController;
+    [Inject] private GameManager gameManager;
     [Inject] private NotificationService notificationService;
     [Inject] private DeskSaverService deskSaver;
 
@@ -59,7 +59,7 @@ public class DeskLoaderUI : AnimatedPanel
 
     private void ApplyButtonClickCallback(string saveName)
     {
-        gameController.SetCustomBoard(deskSaver.LoadBoard(saveName));
+        gameManager.SetCustomBoard(deskSaver.LoadBoard(saveName));
         Hide();
     }
 

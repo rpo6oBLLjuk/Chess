@@ -62,7 +62,7 @@ public class AnimatedElement : MonoBehaviour
 
     private Tween PlayAnim(RectTransform rectTransform, Vector3 toPosition, Vector3 fromPosition, Quaternion toRotation, Quaternion fromRotation, Vector3 toScale, Vector3 fromScale, Ease easeType, float duration, float delay = 0)
     {
-        Sequence sequence = DOTween.Sequence();
+        Sequence sequence = DOTween.Sequence(rectTransform);
 
         sequence.Join(
             rectTransform.DOMove(toPosition, duration)

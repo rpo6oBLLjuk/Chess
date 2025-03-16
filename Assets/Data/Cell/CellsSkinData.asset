@@ -12,21 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3e0775b45d7b7a4985dbf197d0e9a85, type: 3}
   m_Name: CellsSkinData
   m_EditorClassIdentifier: 
-  <CellAnimationData>k__BackingField: {fileID: 11400000, guid: 3cb58402013cae44784251374081c394, type: 2}
-  WhiteCell: {fileID: -2684102947291226346, guid: 2b1d19748aa318b42b68416c6e3872d3, type: 3}
-  BlackCell: {fileID: 387498685, guid: 2b1d19748aa318b42b68416c6e3872d3, type: 3}
-  TargetImage:
-    Sprite: {fileID: 21300000, guid: a837106ddc20f394891a5467c24c1b47, type: 3}
-    Color: {r: 1, g: 0, b: 0, a: 1}
-  SelectImage:
-    Sprite: {fileID: 21300000, guid: b17f754e2eb10e24baba008b5cabd195, type: 3}
-    Color: {r: 0.21509439, g: 0.21509439, b: 0.21509439, a: 1}
-  PossibleMoveImage:
-    Sprite: {fileID: 21300000, guid: b17f754e2eb10e24baba008b5cabd195, type: 3}
-    Color: {r: 0.5943396, g: 0.9567, b: 1, a: 1}
-  CaptureImage:
-    Sprite: {fileID: 21300000, guid: 95393c888ac55654aa6df315e1467e19, type: 3}
-    Color: {r: 1, g: 0.88046545, b: 0.216981, a: 1}
-  LastMoveImage:
-    Sprite: {fileID: 21300000, guid: b17f754e2eb10e24baba008b5cabd195, type: 3}
-    Color: {r: 0.26981127, g: 0.3370092, b: 1, a: 1}
+  <AnimationData>k__BackingField: {fileID: 11400000, guid: 3cb58402013cae44784251374081c394, type: 2}
+  <WhiteCell>k__BackingField: {fileID: -2684102947291226346, guid: 2b1d19748aa318b42b68416c6e3872d3, type: 3}
+  <BlackCell>k__BackingField: {fileID: 387498685, guid: 2b1d19748aa318b42b68416c6e3872d3, type: 3}
+  <TargetCellData>k__BackingField:
+    <Sprite>k__BackingField: {fileID: 21300000, guid: a837106ddc20f394891a5467c24c1b47, type: 3}
+    <Color>k__BackingField: {r: 1, g: 0.9461881, b: 0, a: 1}
+  <SelectCellData>k__BackingField:
+    <Sprite>k__BackingField: {fileID: 21300000, guid: b17f754e2eb10e24baba008b5cabd195, type: 3}
+    <Color>k__BackingField: {r: 0.21568629, g: 0.21568629, b: 0.21568629, a: 1}
+  <PossibleMoveCellData>k__BackingField:
+    <Sprite>k__BackingField: {fileID: 21300000, guid: 95393c888ac55654aa6df315e1467e19, type: 3}
+    <Color>k__BackingField: {r: 0.59607846, g: 0.9568628, b: 1, a: 1}
+  <CaptureCellData>k__BackingField:
+    <Sprite>k__BackingField: {fileID: 21300000, guid: d9b600cc9b0cd2244a829e9002514646, type: 3}
+    <Color>k__BackingField: {r: 0.87169814, g: 0.026099488, b: 0, a: 1}
+  <PreviousMoveCellData>k__BackingField:
+    <Sprite>k__BackingField: {fileID: 21300000, guid: b17f754e2eb10e24baba008b5cabd195, type: 3}
+    <Color>k__BackingField: {r: 0.27058825, g: 0.3372549, b: 1, a: 1}
+  <HoverCellData>k__BackingField:
+    <Sprite>k__BackingField: {fileID: 21300000, guid: b17f754e2eb10e24baba008b5cabd195, type: 3}
+    <Color>k__BackingField: {r: 0.85660374, g: 0.85660374, b: 0.85660374, a: 1}

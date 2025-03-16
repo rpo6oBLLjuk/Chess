@@ -5,7 +5,7 @@ using Zenject;
 
 public class DeskSaverUI : AnimatedPanel
 {
-    [Inject] private GameController gameController;
+    [Inject] private GameManager gameManager;
     [Inject] private NotificationService notificationService;
     [Inject] private DeskSaverService deskSaver;
 
@@ -21,6 +21,6 @@ public class DeskSaverUI : AnimatedPanel
 
     private void Save()
     {
-        deskSaver.SaveBoard(gameController.Board, saveNameInput.text);
+        deskSaver.SaveBoard(gameManager.Board, saveNameInput.text);
     }
 }

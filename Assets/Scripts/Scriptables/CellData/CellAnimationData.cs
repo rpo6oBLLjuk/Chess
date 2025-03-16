@@ -7,13 +7,13 @@ public class CellAnimationData : ScriptableObject
     [Serializable]
     public class AnimationData
     {
-        public float ShowTime = 0.1f;
-        public float HideTime = 0.1f;
+        [field: SerializeField] public float Duration { get; private set; } = 0.5f;
     }
 
-    public AnimationData TargetAnimationData;
-    public AnimationData SelectAnimationData;
-    public AnimationData PossibleMoveAnimationData;
-    public AnimationData CaptureAnimationData;
-    public AnimationData LastMoveAnimationData;
+    [field: SerializeField] public AnimationData TargetAnimationData { get; private set; }
+    [field: SerializeField] public AnimationData SelectAnimationData { get; private set; }
+    [field: SerializeField] public AnimationData PossibleMoveAnimationData { get; private set; }
+    [field: SerializeField] public AnimationData CaptureAnimationData { get; private set; }
+    [field: SerializeField] public AnimationData PreviousMoveAnimationData { get; private set; }
+    [field: SerializeField] public AnimationData HoverAnimationData { get; private set; }
 }

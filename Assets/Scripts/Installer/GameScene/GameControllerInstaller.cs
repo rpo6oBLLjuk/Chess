@@ -1,3 +1,3 @@
-public class GameControllerInstaller : SimpleMonoInstaller<GameController>
+public class GameControllerInstaller : SimpleMonoInstaller<GameManager>
 {
 }

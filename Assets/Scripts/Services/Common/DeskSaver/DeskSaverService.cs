@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,7 +18,7 @@ public class DeskSaverService : MonoService
             Directory.CreateDirectory(fullPath);
     }
 
-    public bool? SaveBoard(Grid<byte> pieces, string saveName)
+    public bool? SaveBoard(byte[] pieces, string saveName)
     {
         if (string.IsNullOrWhiteSpace(saveName))
         {
@@ -29,7 +30,9 @@ public class DeskSaverService : MonoService
         string fileName = saveName + ".json";
         string fullPath = Path.Combine(Application.persistentDataPath, saveDirectory, fileName);
 
-        string json = JsonUtility.ToJson(pieces, true);
+        var data = new SerializableArray(pieces);
+
+        string json = JsonUtility.ToJson(data, true);
 
         if (File.Exists(fullPath))
         {
@@ -43,7 +46,7 @@ public class DeskSaverService : MonoService
             return true;
         }
     }
-    public Grid<byte> LoadBoard(string saveName)
+    public byte[] LoadBoard(string saveName)
     {
         if (string.IsNullOrWhiteSpace(saveName))
         {
@@ -62,7 +65,7 @@ public class DeskSaverService : MonoService
 
         string json = File.ReadAllText(fullPath);
 
-        return JsonUtility.FromJson<Grid<byte>>(json);
+        return JsonUtility.FromJson<SerializableArray>(json).array;
     }
     public bool DeleteBoard(string boardName)
     {
@@ -109,5 +112,13 @@ public class DeskSaverService : MonoService
         {
             notificationService.ShowPopup("File is not overwritten", "Saver", PopupType.Info);
         }
+    }
+
+    [Serializable]
+    private struct SerializableArray
+    {
+        public byte[] array;
+
+        public SerializableArray(byte[] array) => this.array = array;
     }
 }
