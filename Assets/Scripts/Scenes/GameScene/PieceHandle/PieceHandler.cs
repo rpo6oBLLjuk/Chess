@@ -107,7 +107,7 @@ public class PieceHandler : MonoBehaviour
         {
             if (cellHandler != startCell)
             {
-                if (gameManager.CanBeMove(this, startCell, cellHandler))
+                if (gameManager.IsMoveAllowed(this, startCell, cellHandler))
                 {
                     gameManager.MovePiece(this, startCell, cellHandler);
 

@@ -84,7 +84,7 @@ public class ConstructorUI : MonoBehaviour
 
     private void SpawnerButtonCallback(PieceType pieceType)
     {
-        var foundIndex = Array.FindIndex(gameManager.Board, piece => PiecePacker.IsEqualType(ref piece, PieceType.None));
+        var foundIndex = Array.FindIndex(gameManager.Board, piece => PiecePacker.IsEqualType( piece, PieceType.None));
 
         if (foundIndex == -1)
             notificationService.ShowPopup("Board full", "Spawner", PopupType.Error);
@@ -109,7 +109,7 @@ public class ConstructorUI : MonoBehaviour
     }
     private void DestroyPiece(CellHandler cellHandler)
     {
-        if (!PiecePacker.IsEqualType(ref gameManager.Board[cellHandler.Index], PieceType.None))
+        if (!PiecePacker.IsEqualType( gameManager.Board[cellHandler.Index], PieceType.None))
             gameManager.DestroyPiece(cellHandler);
     }
 }

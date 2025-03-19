@@ -1,4 +1,3 @@
-using DG.Tweening.Core.Easing;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -29,7 +28,9 @@ public class BoardBuilder
 
     public void SetupBoard()
     {
-        gameManager.Cells?.Where(cellHandler => cellHandler != null).ToList().ForEach(cellHandler => UnityEngine.Object.Destroy(cellHandler.gameObject));
+        if (gameManager.Cells.Count() != 0)
+            return;
+
         gameManager.Cells = new CellHandler[64];
 
         boardGridLayout.constraint = GridLayoutGroup.Constraint.FixedRowCount;

@@ -12,10 +12,12 @@ public class PieceService : MonoService
 
     [SerializeField] PiecePrefabs piecePrefabs;
 
+    public MoveChecker MoveChecker { get; private set; }
+
     PieceBuilder pieceBuilder;
     PieceMover pieceMover;
     PieceCapturer pieceCapturer;
-    MoveChecker moveChecker;
+    MovesGenerator movesGenerator;
 
 
     public override void OnInstantiated()
@@ -26,26 +28,50 @@ public class PieceService : MonoService
         pieceMover = container.Instantiate<PieceMover>();
         pieceCapturer = container.Instantiate<PieceCapturer>();
 
-        moveChecker = container.Instantiate<MoveChecker>();
+        MoveChecker = container.Instantiate<MoveChecker>();
+        movesGenerator = container.Instantiate<MovesGenerator>();
 
         pieceBuilder.Init(piecePrefabs);
         pieceCapturer.Init();
+
+        movesGenerator.Init(this);
+
+        gameManager.GameDataChanged += GameDataChanged;
     }
 
-    public void Setup() => pieceBuilder.SetupPieces();
+    private void OnDisable()
+    {
+        gameManager.GameDataChanged -= GameDataChanged;
+    }
 
-    public void ClearBoard() => gameManager.Cells.Where(cellHandler => !PiecePacker.IsEqualType(ref gameManager.Board[cellHandler.Index], PieceType.None)).ToList().ForEach(cellHandler => gameManager.DestroyPiece(cellHandler));
+    public void Setup()
+    {
+        pieceBuilder.SetupPieces();
+        movesGenerator.GenerateAllPossibleMoves();
+    }
+
+    public void ClearBoard() => gameManager.Cells.Where(cellHandler => !PiecePacker.IsEqualType( gameManager.Board[cellHandler.Index], PieceType.None)).ToList().ForEach(cellHandler => gameManager.DestroyPiece(cellHandler));
 
     public void SpawnPiece(byte pieceData, CellHandler cellHandler) => pieceBuilder.Instantiate(pieceData, cellHandler);
 
     public void CapturePiece(CellHandler cellHandler) => pieceCapturer.CapturePiece(cellHandler);
 
-    public bool CanBeMove(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
+    public bool IsMoveAllowed(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
-        bool canMove = moveChecker.CanBeMove(startCell, endCell);
+        bool canMove = MoveChecker.IsMoveAllowed(startCell.Index, endCell.Index);
         if (!canMove)
             notificationService.ShowPopup("Move blocked", "Piece manager", PopupType.Warning);
         return canMove;
     }
-    public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceMover.Move(pieceHandler, startCell, endCell);
+    
+    public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
+    {
+        pieceMover.Move(pieceHandler, startCell, endCell);
+        movesGenerator.GenerateAllPossibleMoves();
+    }
+
+    private void GameDataChanged()
+    {
+        movesGenerator.GenerateAllPossibleMoves();
+    }
 }

@@ -218,15 +218,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b25b87416a3c934c9eb2c0f91e9d6bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Board>k__BackingField:
-    Array: 
-    size: 0
-  <Pieces>k__BackingField:
-    Array: []
-    size: 0
-  <Cells>k__BackingField:
-    Array: []
-    size: 0
+  <Board>k__BackingField: 
+  <Pieces>k__BackingField: []
+  <Cells>k__BackingField: []
   pieceService: {fileID: 7501284888401613385}
   boardService: {fileID: 1167248587059622638}
   gameData: {fileID: 11400000, guid: 8626f98d91ca96d4cb2b85421ef03a83, type: 2}

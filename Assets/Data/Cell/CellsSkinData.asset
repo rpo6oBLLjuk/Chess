@@ -23,7 +23,7 @@ MonoBehaviour:
     <Color>k__BackingField: {r: 0.21568629, g: 0.21568629, b: 0.21568629, a: 1}
   <PossibleMoveCellData>k__BackingField:
     <Sprite>k__BackingField: {fileID: 21300000, guid: 95393c888ac55654aa6df315e1467e19, type: 3}
-    <Color>k__BackingField: {r: 0.59607846, g: 0.9568628, b: 1, a: 1}
+    <Color>k__BackingField: {r: 0.59607846, g: 0.9568628, b: 1, a: 0.39215687}
   <CaptureCellData>k__BackingField:
     <Sprite>k__BackingField: {fileID: 21300000, guid: d9b600cc9b0cd2244a829e9002514646, type: 3}
     <Color>k__BackingField: {r: 0.87169814, g: 0.026099488, b: 0, a: 1}

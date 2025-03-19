@@ -10,7 +10,7 @@ public class PieceCapturer
 
     public void CapturePiece(CellHandler cellHandler)
     {
-        if (PiecePacker.IsEqualType(ref gameManager.Board[cellHandler.Index], PieceType.None))
+        if (PiecePacker.IsEqualType(gameManager.Board[cellHandler.Index], PieceType.None))
             return;
 
         gameManager.Board[cellHandler.Index] = 0;

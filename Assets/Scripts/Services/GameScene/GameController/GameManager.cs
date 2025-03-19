@@ -1,8 +1,15 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoService
 {
+    public event Action GameDataChanged
+    {
+        add => GameData.DataChanged += value;
+        remove => GameData.DataChanged -= value;
+    }
+
     public event Action<CellHandler> CellClicked;
     public event Action<CellHandler> CellPressedDown;
     /// <summary>
@@ -27,9 +34,10 @@ public class GameManager : MonoService
     public GameTurnController GameTurnController { get; private set; } = new();
 
     [Header("Arrays")]
-    [field: SerializeField]public byte[] Board { get; set; }
+    [field: SerializeField] public byte[] Board { get; set; }
     [field: SerializeField] public PieceHandler[] Pieces { get; set; }
     [field: SerializeField] public CellHandler[] Cells { get; set; }
+    [field: SerializeField] public List<byte>[] Moves { get; set; }
 
     [Header("Data")]
     public GameData GameData => gameData;
@@ -75,6 +83,12 @@ public class GameManager : MonoService
         pieceService.SpawnPiece(pieceData, cellHandler);
         PieceSpawned.Invoke(Pieces[cellHandler.Index], cellHandler);
     }
+    public void CapturePiece(PieceHandler pieceHandler, CellHandler cellHandler)
+    {
+        PieceHandler capturedPiece = Pieces[cellHandler.Index];
+        pieceService.CapturePiece(cellHandler);
+        PieceCaptured?.Invoke(pieceHandler, capturedPiece, cellHandler);
+    }
     public void DestroyPiece(CellHandler cellHandler)
     {
         PieceHandler capturedPiece = Pieces[cellHandler.Index];
@@ -82,19 +96,12 @@ public class GameManager : MonoService
         PieceDestroyed?.Invoke(capturedPiece, cellHandler);
     }
 
-    public bool CanBeMove(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceService.CanBeMove(pieceHandler, startCell, endCell);
-
+    public bool IsMoveAllowed(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceService.IsMoveAllowed(pieceHandler, startCell, endCell);
     public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
         pieceService.MovePiece(pieceHandler, startCell, endCell);
         GameTurnController.PieceMoved();
         PieceMoved?.Invoke(pieceHandler, startCell, endCell);
-    }
-    public void CapturePiece(PieceHandler pieceHandler, CellHandler cellHandler)
-    {
-        PieceHandler capturedPiece = Pieces[cellHandler.Index];
-        pieceService.CapturePiece(cellHandler);
-        PieceCaptured?.Invoke(pieceHandler, capturedPiece, cellHandler);
     }
 
     public void ClickOnCell(CellHandler cellHandler) => CellClicked?.Invoke(cellHandler);
@@ -102,7 +109,6 @@ public class GameManager : MonoService
     public void PressUpOnCell(CellHandler cellHandler) => CellPressedUp?.Invoke(cellHandler);
 
     public void PieceDragging(PieceHandler piece, CellHandler downCell) => PieceDragged?.Invoke(piece, downCell);
-
 
 
     private void SetupServices()

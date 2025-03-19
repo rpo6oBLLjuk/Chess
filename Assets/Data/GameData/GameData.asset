@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   <AllowCaptures>k__BackingField: 1
-  <AllowMovement>k__BackingField: 2
+  <AllowMovement>k__BackingField: 1

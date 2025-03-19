@@ -23,7 +23,7 @@ public class PieceBuilder
         for (byte index = 0; index < 64; index++)
         {
             currentPiece = gameManager.Board[index];
-            if (!PiecePacker.IsEqualType(ref currentPiece, PieceType.None))
+            if (!PiecePacker.IsEqualType( currentPiece, PieceType.None))
             {
                 gameManager.SpawnPiece(currentPiece, gameManager.Cells[index]);
             }
@@ -33,7 +33,7 @@ public class PieceBuilder
     public GameObject Instantiate(byte pieceData, CellHandler cellHandler)
     {
         GameObject instance = container.InstantiatePrefab(piecesPrefabs.Piece, cellHandler.transform);
-        instance.name = $"Piece ({PiecePacker.GetFormattedData(ref pieceData)})]";
+        instance.name = $"Piece ({PiecePacker.GetFormattedData( pieceData)})]";
         instance.GetComponentInChildren<Image>().sprite = gameManager.PiecesSkinData.Get(pieceData);
 
         if (!instance.TryGetComponent(out PieceHandler pieceHandler))
@@ -45,7 +45,7 @@ public class PieceBuilder
         gameManager.Board[cellHandler.Index] = pieceData;
         gameManager.Pieces[cellHandler.Index] = pieceHandler;
 
-        this.Log($"Piece {PiecePacker.GetFormattedDataWithColor(ref pieceData)} instantiated on cell {cellHandler.Index}", context: instance);
+        this.Log($"Piece {PiecePacker.GetFormattedDataWithColor( pieceData)} instantiated on cell {cellHandler.Index}", context: instance);
         return instance;
     }
 }

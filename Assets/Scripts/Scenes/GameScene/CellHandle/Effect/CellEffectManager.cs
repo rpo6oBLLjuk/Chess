@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using Zenject;
 
@@ -18,9 +19,11 @@ public class CellEffectManager : MonoBehaviour
     CellHandler hoverCell;
 
     CellHandler capturedCell;
-    List<CellHandler> capturedCells = new();
+    List<CellHandler> destroyedCells = new();
 
     List<CellHandler> possibleMoveCells = new();
+
+    private bool captured = false;
 
 
     private void OnEnable()
@@ -51,61 +54,50 @@ public class CellEffectManager : MonoBehaviour
 
     private void CellPressedDown(CellHandler cellHandler)
     {
-        selectedCell?.CellEffectController.DisableSelect();
+        DisableSelectedCell();
         DisablePossibleMoveCells();
 
-        if (!PiecePacker.IsEqualType(ref gameManager.Board[cellHandler.Index], PieceType.None) || selectInactive)
+        if (!PiecePacker.IsEqualType(gameManager.Board[cellHandler.Index], PieceType.None) || selectInactive)
         {
-            selectedCell = cellHandler;
-            selectedCell.CellEffectController.EnableSelect();
+            EnableSelectedCell(cellHandler);
+            EnablePossibleMoveCells(cellHandler.Index);
+
+            DisablePreviousCells();
+        }
+        else
+        {
+            EnablePreviousCells(previousMoveStartCell, previousMoveEndCell);
         }
     }
 
     private void CellPressedUp(CellHandler cellHandler)
     {
-        hoverCell?.CellEffectController.DisableAnimHover();
-        hoverCell = null;
+        DisableHoverCell();
     }
 
     private void PieceMoved(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
-        hoverCell?.CellEffectController.DisableAnimHover();
-        hoverCell = null;
-
-        selectedCell?.CellEffectController.DisableSelect();
-        selectedCell = null;
+        DisableHoverCell();
+        DisableSelectedCell();
 
         DisablePossibleMoveCells();
-        DisableCapturedCells(capturedCell);
+        DisableDestroyedCells();
 
-        previousMoveStartCell?.CellEffectController.DisablePreviousMove();
-        previousMoveStartCell = startCell;
-        previousMoveStartCell.CellEffectController.EnablePreviousMove();
+        DisableCapturedCell();
 
-        if (previousMoveEndCell != null && previousMoveEndCell != startCell)
-            previousMoveEndCell?.CellEffectController.DisablePreviousMove();
-        previousMoveEndCell = endCell;
-        if (previousMoveEndCell != capturedCell)
-            previousMoveEndCell.CellEffectController.EnablePreviousMove();
-
-        capturedCell = null;
+        EnablePreviousCells(startCell, endCell);
     }
 
     private void PieceCaptured(PieceHandler eater, PieceHandler eaten, CellHandler cellHandler)
     {
-        DisableCapturedCells();
-        capturedCells.Add(cellHandler);
-        capturedCell = cellHandler;
-        cellHandler?.CellEffectController.ChangeAll(enableCaptured: true);
+        EnableCapturedCell(cellHandler);
     }
 
     private void PieceDragged(PieceHandler piece, CellHandler cellHandler)
     {
         if (hoverCell != cellHandler)
         {
-            hoverCell?.CellEffectController.DisableAnimHover();
-            hoverCell = cellHandler;
-            hoverCell.CellEffectController.EnableAnimHover();
+            EnableHoverCell(cellHandler);
         }
     }
 
@@ -113,23 +105,100 @@ public class CellEffectManager : MonoBehaviour
     {
         DisablePossibleMoveCells();
 
-        capturedCells.Clear();
-
-        selectedCell?.CellEffectController.DisableSelect();
-        selectedCell = null;
-        previousMoveStartCell = null;
-        previousMoveEndCell = null;
+        DisableCapturedCell();
+        DisableSelectedCell();
+        DisablePreviousCells();
     }
 
+
+    private void EnableHoverCell(CellHandler cellHandler)
+    {
+        DisableHoverCell();
+        hoverCell = cellHandler;
+        hoverCell.CellEffectController.EnableAnimHover();
+    }
+    private void DisableHoverCell()
+    {
+        hoverCell?.CellEffectController.DisableAnimHover();
+        hoverCell = null;
+    }
+
+    private void EnablePreviousCells(CellHandler startCell, CellHandler endCell)
+    {
+        DisablePreviousCells();
+
+        previousMoveStartCell = startCell;
+        previousMoveStartCell.CellEffectController.EnablePreviousMove();
+
+        previousMoveEndCell = endCell;
+        if (previousMoveEndCell != capturedCell)
+            previousMoveEndCell.CellEffectController.EnablePreviousMove();
+    }
+    private void DisablePreviousCells()
+    {
+        previousMoveStartCell?.CellEffectController.DisablePreviousMove();
+        previousMoveEndCell?.CellEffectController.DisablePreviousMove();
+    }
+
+    private void EnableSelectedCell(CellHandler cellHandler)
+    {
+        DisableSelectedCell();
+        selectedCell = cellHandler;
+        selectedCell?.CellEffectController.EnableSelect();
+    }
+    private void DisableSelectedCell()
+    {
+        selectedCell?.CellEffectController.DisableSelect();
+        selectedCell = null;
+    }
+
+    private void EnableCapturedCell(CellHandler cellHandler)
+    {
+        DisableCapturedCell();
+
+        captured = true;
+
+        capturedCell = cellHandler;
+        capturedCell.CellEffectController.EnableCapture();
+    }
+    private void DisableCapturedCell()
+    {
+        if (captured)
+        {
+            captured = false;
+            return;
+        }
+
+        capturedCell?.CellEffectController?.DisableCapture();
+        capturedCell = null;
+    }
+
+    private void EnablePossibleMoveCells(int index)
+    {
+        DisablePossibleMoveCells();
+
+        foreach (byte possibleMoveCell in gameManager.Moves[index])
+        {
+            CellHandler cellHandler = gameManager.Cells[possibleMoveCell];
+            possibleMoveCells.Add(cellHandler);
+            cellHandler?.CellEffectController?.EnablePossibleMove();
+        }
+    }
     private void DisablePossibleMoveCells()
     {
         possibleMoveCells.ForEach(cell => cell?.CellEffectController.DisablePossibleMove());
         possibleMoveCells.Clear();
     }
 
-    private void DisableCapturedCells(CellHandler ignoredCell = null)
+    private void EnableDestroyCells(List<CellHandler> cellHandlers)
     {
-        capturedCells.Where(cell => cell != ignoredCell).ToList().ForEach(cell => cell?.CellEffectController.DisableCapture());
-        //capturedCells.Clear();
+        DisableDestroyedCells();
+
+        destroyedCells = cellHandlers;
+    }
+    private void DisableDestroyedCells()
+    {
+        destroyedCells.ForEach(cell => cell?.CellEffectController.DisableCapture());
+        destroyedCells.Clear();
     }
 }
