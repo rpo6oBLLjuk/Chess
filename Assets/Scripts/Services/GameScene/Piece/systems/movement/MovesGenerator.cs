@@ -114,14 +114,14 @@ public class MovesGenerator
 
             if (!OnLeft(index))
             {
-                if (PiecePacker.IsDefaultPiece(gameManager.Board[index + 9]))
-                    ApplyMove(index, (byte)(index + 9));
+                if (PiecePacker.IsDefaultPiece(gameManager.Board[index + 7]))
+                    ApplyMove(index, (byte)(index + 7));
             }
 
             if (!OnRight(index))
             {
-                if (PiecePacker.IsDefaultPiece(gameManager.Board[index + 7]))
-                    ApplyMove(index, (byte)(index + 7));
+                if (PiecePacker.IsDefaultPiece(gameManager.Board[index + 9]))
+                    ApplyMove(index, (byte)(index + 9));
             }
         }
     }
@@ -287,6 +287,15 @@ public class MovesGenerator
     {
         if (pieceService.MoveChecker.IsMoveValid(index, endIndex))
             gameManager.Moves[index].Add(endIndex);
+    }
+
+    private bool VadilateCheck(byte index, byte endIndex)
+    {
+        fantomBoard = gameManager.Board;
+
+        (fantomBoard[index], fantomBoard[endIndex]) = (fantomBoard[endIndex], fantomBoard[index]);
+
+        return true;
     }
 
     private bool OnSide(int index) => OnRight(index) || OnLeft(index) || OnTop(index) || OnBottom(index);
