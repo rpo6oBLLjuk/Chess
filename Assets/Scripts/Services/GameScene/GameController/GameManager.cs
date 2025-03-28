@@ -37,7 +37,7 @@ public class GameManager : MonoService
     [field: SerializeField] public byte[] Board { get; set; }
     [field: SerializeField] public PieceHandler[] Pieces { get; set; }
     [field: SerializeField] public CellHandler[] Cells { get; set; }
-    [field: SerializeField] public List<byte>[] Moves { get; set; }
+    [field: SerializeField] public List<byte>[] Moves; //Field for ref-args
 
     [Header("Data")]
     public GameData GameData => gameData;

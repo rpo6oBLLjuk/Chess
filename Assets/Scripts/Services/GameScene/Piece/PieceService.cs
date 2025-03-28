@@ -50,20 +50,19 @@ public class PieceService : MonoService
         movesGenerator.GenerateAllPossibleMoves();
     }
 
-    public void ClearBoard() => gameManager.Cells.Where(cellHandler => !PiecePacker.IsEqualType( gameManager.Board[cellHandler.Index], PieceType.None)).ToList().ForEach(cellHandler => gameManager.DestroyPiece(cellHandler));
+    public void ClearBoard() => gameManager.Cells.Where(cellHandler => !PiecePacker.IsEqualType(gameManager.Board[cellHandler.Index], PieceType.None)).ToList().ForEach(cellHandler => gameManager.DestroyPiece(cellHandler));
 
     public void SpawnPiece(byte pieceData, CellHandler cellHandler) => pieceBuilder.Instantiate(pieceData, cellHandler);
-
     public void CapturePiece(CellHandler cellHandler) => pieceCapturer.CapturePiece(cellHandler);
 
     public bool IsMoveAllowed(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
-        bool canMove = MoveChecker.IsMoveAllowed(startCell.Index, endCell.Index);
+        bool canMove = MoveChecker.IsGameMoveAllowed(startCell.Index, endCell.Index);
         if (!canMove)
             notificationService.ShowPopup("Move blocked", "Piece manager", PopupType.Warning);
         return canMove;
     }
-    
+
     public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
         pieceMover.Move(pieceHandler, startCell, endCell);

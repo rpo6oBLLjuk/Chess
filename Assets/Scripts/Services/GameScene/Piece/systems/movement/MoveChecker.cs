@@ -5,7 +5,10 @@ public class MoveChecker
     [Inject] GameManager gameManager;
 
 
-    public bool IsMoveAllowed(byte startIndex, byte endIndex)
+    /// <summary>
+    /// Game only (no fantom board)
+    /// </summary>
+    public bool IsGameMoveAllowed(byte startIndex, byte endIndex)
     {
         foreach (byte moveIndex in gameManager.Moves[startIndex])
         {
@@ -19,14 +22,10 @@ public class MoveChecker
         return false;
     }
 
-    public bool IsMoveValid(byte startIndex, byte endIndex) => IsMoveValid(gameManager.Board[startIndex], gameManager.Board[endIndex], startIndex, endIndex);
-    public bool IsMoveValid(byte movingPieceData, byte endPieceData, byte startIndex, byte endIndex)
+    public bool IsMoveValid(byte movingPieceData, byte endPieceData)
     {
-        if (!IsMovementAllowed(movingPieceData, startIndex, endIndex)) //Выход если мувмент заблокирован
+        if (!IsMovementAllowed()) //Выход если мувмент заблокирован
             return false;
-
-        if (PiecePacker.IsEqualType(endPieceData, PieceType.None)) //Выход если в конечной точке пустая клетка
-            return true;
 
         if (IsCaptureAllowed(movingPieceData, endPieceData)) //Выход если фигуру в конечной точке можно съесть
             return true;
@@ -34,7 +33,7 @@ public class MoveChecker
         return false; //Выход если в конечной точке есть фигура, которую не удалось съесть
     }
 
-    public bool IsMovementAllowed(byte movingPieceData, byte startIndex, byte endIndex)
+    public bool IsMovementAllowed()
     {
         if (gameManager.GameData.AllowMovement == AllowMovement.None)
             return false;
@@ -44,7 +43,6 @@ public class MoveChecker
         //Здесь больше нет проверки корректности мува, => AllowMovement.Default тоже должен вернуть true
         return true;
     }
-
     public bool IsCaptureAllowed(byte movingPieceData, byte endPieceData)
     {
         if (gameManager.GameData.AllowCaptures == AllowCapture.None && !PiecePacker.IsEqualType(endPieceData, PieceType.None))
@@ -53,9 +51,11 @@ public class MoveChecker
         if (gameManager.GameData.AllowCaptures == AllowCapture.All)
             return true;
 
-
         if (PiecePacker.IsEqualType(endPieceData, PieceType.None))
+        {
+            this.Log($"Empty cell {PiecePacker.GetColor(movingPieceData)}");
             return true;
+        }
         if (PiecePacker.IsEqualType(endPieceData, PieceType.Other))
             return false;
 

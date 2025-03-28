@@ -8,62 +8,63 @@ public class MovesGenerator
     [Inject] GameManager gameManager;
     PieceService pieceService;
 
-    private byte[] fantomBoard;
-    private List<byte>[] fantomMoves;
 
     public void Init(PieceService pieceService) => this.pieceService = pieceService;
 
-    public void GenerateAllPossibleMoves()
+    public void GenerateAllPossibleMoves() => GenerateAllPossibleMoves(gameManager.Board, out gameManager.Moves);
+    public void GenerateAllPossibleMoves(byte[] board, out List<byte>[] moves)
     {
-        gameManager.Moves = new List<byte>[64];
+        moves = new List<byte>[64];
+        if (!pieceService.MoveChecker.IsMovementAllowed())
+            return;
 
         for (byte index = 0; index < 64; index++)
         {
-            if (PiecePacker.IsDefaultPiece(gameManager.Board[index]))
+            if (PiecePacker.IsDefaultPiece(board[index]))
             {
-                gameManager.Moves[index] = new();
-                GeneratePossibleMovesForPiece(index);
+                moves[index] = new();
+                GeneratePossibleMovesForPiece(index, board, moves);
             }
         }
     }
 
-    private void GeneratePossibleMovesForPiece(byte index)
+    private void GeneratePossibleMovesForPiece(byte index, byte[] board, List<byte>[] moves)
     {
         if (gameManager.GameData.AllowMovement == AllowMovement.All)
         {
-            gameManager.Moves[index] = Enumerable.Range(0, 64)
-                .Where(x => pieceService.MoveChecker.IsCaptureAllowed(gameManager.Board[index], gameManager.Board[x]))
+            moves[index] = Enumerable.Range(0, 64)
+                .Where(x => pieceService.MoveChecker.IsCaptureAllowed(board[index], board[x]))
                 .Select(x => (byte)x)
                 .ToList();
             return;
         }
 
-        PiecePacker.GetColor(gameManager.Board[index], out PieceColor pieceColor);
+        PiecePacker.GetColor(board[index], out PieceColor pieceColor);
 
-        switch (PiecePacker.GetType(gameManager.Board[index]))
+        switch (PiecePacker.GetType(board[index]))
         {
             case PieceType.Pawn:
-                GeneratePawnMoves(index, pieceColor);
+                GeneratePawnMoves(index, pieceColor, board, moves);
                 break;
             case PieceType.Knight:
-                GenerateKnightMoves(index, pieceColor);
+                GenerateKnightMoves(index, board, moves);
                 break;
             case PieceType.Bishop:
-                GenerateBishopMoves(index, pieceColor);
+                GenerateBishopMoves(index, board, moves);
                 break;
             case PieceType.Rook:
-                GenerateRookMoves(index, pieceColor);
+                GenerateRookMoves(index, board, moves);
                 break;
             case PieceType.Queen:
-                GenerateQueenMoves(index, pieceColor);
+                GenerateQueenMoves(index, board, moves);
                 break;
             case PieceType.King:
-                GenerateKingMoves(index, pieceColor);
+                GenerateKingMoves(index, board, moves);
                 break;
         }
     }
 
-    private void GeneratePawnMoves(byte index, PieceColor pieceColor)
+    private void GeneratePawnMoves(byte index, PieceColor pieceColor, byte[] board, List<byte>[] moves)
     {
         if (pieceColor == PieceColor.White)
         {
@@ -73,25 +74,25 @@ public class MovesGenerator
                 return;
             }
 
-            if (pieceService.MoveChecker.IsMovementAllowed(gameManager.Board[index], index, (byte)(index - 8)) && PiecePacker.IsEqualType(gameManager.Board[index - 8], PieceType.None))
+            if (PiecePacker.IsEqualType(board[index - 8], PieceType.None))
             {
-                gameManager.Moves[index].Add((byte)(index - 8));
-                if (index >= 48 && index <= 55 && pieceService.MoveChecker.IsMovementAllowed(gameManager.Board[index], index, (byte)(index - 16)) && PiecePacker.IsEqualType(gameManager.Board[index - 16], PieceType.None))
+                moves[index].Add((byte)(index - 8));
+                if (index >= 48 && index <= 55)
                 {
-                    gameManager.Moves[index].Add((byte)(index - 16));
+                    moves[index].Add((byte)(index - 16));
                 }
             }
 
             if (!OnLeft(index))
             {
-                if (PiecePacker.IsDefaultPiece(gameManager.Board[index - 9]))
-                    ApplyMove(index, (byte)(index - 9));
+                if (PiecePacker.IsDefaultPiece(board[index - 9]))
+                    ApplyMove(index, (byte)(index - 9), board, moves);
             }
 
             if (!OnRight(index))
             {
-                if (PiecePacker.IsDefaultPiece(gameManager.Board[index - 7]))
-                    ApplyMove(index, (byte)(index - 7));
+                if (PiecePacker.IsDefaultPiece(board[index - 7]))
+                    ApplyMove(index, (byte)(index - 7), board, moves);
             }
         }
         else //if (pieceColor == PieceColor.Black)
@@ -102,67 +103,67 @@ public class MovesGenerator
                 return;
             }
 
-            if (pieceService.MoveChecker.IsMovementAllowed(gameManager.Board[index], index, (byte)(index + 8)) && PiecePacker.IsEqualType(gameManager.Board[index + 8], PieceType.None))
+            if (PiecePacker.IsEqualType(board[index + 8], PieceType.None))
             {
-                gameManager.Moves[index].Add((byte)(index + 8));
+                moves[index].Add((byte)(index + 8));
 
-                if (index >= 8 && index <= 17 && pieceService.MoveChecker.IsMovementAllowed(gameManager.Board[index], index, (byte)(index + 16)) && PiecePacker.IsEqualType(gameManager.Board[index + 16], PieceType.None))
+                if (index >= 8 && index <= 17 && PiecePacker.IsEqualType(board[index + 16], PieceType.None))
                 {
-                    gameManager.Moves[index].Add((byte)(index + 16));
+                    moves[index].Add((byte)(index + 16));
                 }
             }
 
             if (!OnLeft(index))
             {
-                if (PiecePacker.IsDefaultPiece(gameManager.Board[index + 7]))
-                    ApplyMove(index, (byte)(index + 7));
+                if (PiecePacker.IsDefaultPiece(board[index + 7]))
+                    ApplyMove(index, (byte)(index + 7), board, moves);
             }
 
             if (!OnRight(index))
             {
-                if (PiecePacker.IsDefaultPiece(gameManager.Board[index + 9]))
-                    ApplyMove(index, (byte)(index + 9));
+                if (PiecePacker.IsDefaultPiece(board[index + 9]))
+                    ApplyMove(index, (byte)(index + 9), board, moves);
             }
         }
     }
 
-    private void GenerateKnightMoves(byte index, PieceColor pieceColor)
+    private void GenerateKnightMoves(byte index, byte[] board, List<byte>[] moves)
     {
         if (!OnLeft(index))
         {
             if (index >= 16)
-                ApplyMove(index, (byte)(index - 8 - 8 - 1));
+                ApplyMove(index, (byte)(index - 8 - 8 - 1), board, moves);
 
             if (index <= 47)
-                ApplyMove(index, (byte)(index + 8 + 8 - 1));
+                ApplyMove(index, (byte)(index + 8 + 8 - 1), board, moves);
         }
         if (!OnRight(index))
         {
             if (index >= 16)
-                ApplyMove(index, (byte)(index - 8 - 8 + 1));
+                ApplyMove(index, (byte)(index - 8 - 8 + 1), board, moves);
 
             if (index <= 47)
-                ApplyMove(index, (byte)(index + 8 + 8 + 1));
+                ApplyMove(index, (byte)(index + 8 + 8 + 1), board, moves);
         }
 
         if (!OnTop(index))
         {
             if (index % 8 > 1)
-                ApplyMove(index, (byte)(index - 1 - 1 - 8));
+                ApplyMove(index, (byte)(index - 1 - 1 - 8), board, moves);
 
             if (index % 8 < 6)
-                ApplyMove(index, (byte)(index + 1 + 1 - 8));
+                ApplyMove(index, (byte)(index + 1 + 1 - 8), board, moves);
         }
         if (!OnBottom(index))
         {
             if (index % 8 > 1)
-                ApplyMove(index, (byte)(index - 1 - 1 + 8));
+                ApplyMove(index, (byte)(index - 1 - 1 + 8), board, moves);
 
             if (index % 8 < 6)
-                ApplyMove(index, (byte)(index + 1 + 1 + 8));
+                ApplyMove(index, (byte)(index + 1 + 1 + 8), board, moves);
         }
     }
-    private void GenerateKingMoves(byte index, PieceColor pieceColor)
+    private void GenerateKingMoves(byte index, byte[] board, List<byte>[] moves)
     {
         bool onLeft = OnLeft(index);
         bool onRight = OnRight(index);
@@ -172,39 +173,39 @@ public class MovesGenerator
         if (!onTop)
         {
             if (!onLeft)
-                ApplyMove(index, (byte)(index - 9));
+                ApplyMove(index, (byte)(index - 9), board, moves);
 
             if (!onRight)
-                ApplyMove(index, (byte)(index - 7));
+                ApplyMove(index, (byte)(index - 7), board, moves);
 
-            ApplyMove(index, (byte)(index - 8));
+            ApplyMove(index, (byte)(index - 8), board, moves);
         }
         if (!onBottom)
         {
             if (!onLeft)
-                ApplyMove(index, (byte)(index + 7));
+                ApplyMove(index, (byte)(index + 7), board, moves);
 
             if (!onRight)
-                ApplyMove(index, (byte)(index + 9));
+                ApplyMove(index, (byte)(index + 9), board, moves);
 
-            ApplyMove(index, (byte)(index + 8));
+            ApplyMove(index, (byte)(index + 8), board, moves);
         }
 
         if (!onLeft)
-            ApplyMove(index, (byte)(index - 1));
+            ApplyMove(index, (byte)(index - 1), board, moves);
         if (!onRight)
-            ApplyMove(index, (byte)(index + 1));
+            ApplyMove(index, (byte)(index + 1), board, moves);
     }
 
-    private void GenerateBishopMoves(byte index, PieceColor pieceColor) => GenerateDiagonalMove(index, pieceColor);
-    private void GenerateRookMoves(byte index, PieceColor pieceColor) => GenerateOrthogonalMove(index, pieceColor);
-    private void GenerateQueenMoves(byte index, PieceColor pieceColor)
+    private void GenerateBishopMoves(byte index, byte[] board, List<byte>[] moves) => GenerateDiagonalMove(index, board, moves);
+    private void GenerateRookMoves(byte index, byte[] board, List<byte>[] moves) => GenerateOrthogonalMove(index, board, moves);
+    private void GenerateQueenMoves(byte index, byte[] board, List<byte>[] moves)
     {
-        GenerateDiagonalMove(index, pieceColor);
-        GenerateOrthogonalMove(index, pieceColor);
+        GenerateDiagonalMove(index, board, moves);
+        GenerateOrthogonalMove(index, board, moves);
     }
 
-    private void GenerateDiagonalMove(byte index, PieceColor pieceColor)
+    private void GenerateDiagonalMove(byte index, byte[] board, List<byte>[] moves)
     {
         int[] directions = { -9, -7, 7, 9 };
         foreach (int direction in directions)
@@ -223,14 +224,14 @@ public class MovesGenerator
                     break;
 
                 // Проверка, можно ли сделать ход на newIndex
-                if (!pieceService.MoveChecker.IsMoveValid(index, newIndex))
+                if (!pieceService.MoveChecker.IsMoveValid(board[index], board[newIndex]))
                     break;
 
                 // Добавление хода в список
-                gameManager.Moves[index].Add(newIndex);
+                moves[index].Add(newIndex);
 
                 // Если на newIndex стоит фигура противника, прерываем цикл
-                if (!PiecePacker.IsEqualType(gameManager.Board[newIndex], PieceType.None))
+                if (!PiecePacker.IsEqualType(board[newIndex], PieceType.None))
                     break;
 
                 if (OnSide(newIndex))
@@ -240,7 +241,7 @@ public class MovesGenerator
             }
         }
     }
-    private void GenerateOrthogonalMove(byte index, PieceColor pieceColor)
+    private void GenerateOrthogonalMove(byte index, byte[] board, List<byte>[] moves)
     {
         int[] directions = { -8, -1, 1, 8 };
         foreach (int direction in directions)
@@ -259,14 +260,14 @@ public class MovesGenerator
                     break;
 
                 // Проверка, можно ли сделать ход на newIndex
-                if (!pieceService.MoveChecker.IsMoveValid(index, newIndex))
+                if (!pieceService.MoveChecker.IsMoveValid(board[index], board[newIndex]))
                     break;
 
                 // Добавление хода в список
-                gameManager.Moves[index].Add(newIndex);
+                moves[index].Add(newIndex);
 
                 // Если на newIndex стоит фигура противника, прерываем цикл
-                if (!PiecePacker.IsEqualType(gameManager.Board[newIndex], PieceType.None))
+                if (!PiecePacker.IsEqualType(board[newIndex], PieceType.None))
                     break;
 
                 //if (OnSide(newIndex))
@@ -277,25 +278,10 @@ public class MovesGenerator
         }
     }
 
-
-    private void CorrectMoves()
+    private void ApplyMove(byte index, byte endIndex, byte[] board, List<byte>[] moves)
     {
-
-    }
-
-    private void ApplyMove(byte index, byte endIndex)
-    {
-        if (pieceService.MoveChecker.IsMoveValid(index, endIndex))
-            gameManager.Moves[index].Add(endIndex);
-    }
-
-    private bool VadilateCheck(byte index, byte endIndex)
-    {
-        fantomBoard = gameManager.Board;
-
-        (fantomBoard[index], fantomBoard[endIndex]) = (fantomBoard[endIndex], fantomBoard[index]);
-
-        return true;
+        if (pieceService.MoveChecker.IsMoveValid(board[index], board[endIndex]))
+            moves[index].Add(endIndex);
     }
 
     private bool OnSide(int index) => OnRight(index) || OnLeft(index) || OnTop(index) || OnBottom(index);
