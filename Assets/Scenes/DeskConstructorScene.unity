@@ -582,6 +582,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3328198729993435433, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
+      propertyPath: gameData
+      value: 
+      objectReference: {fileID: 11400000, guid: a95e5ec6be0e13f49b0c0603d4234602, type: 2}
     - target: {fileID: 4274345916326612955, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: saverUI
       value: 
@@ -625,6 +629,30 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2782442613042725787, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
       propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5896610903681076480, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5896610903681076480, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5896610903681076480, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5896610903681076480, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5896610903681076480, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5896610903681076480, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6641162050851351960, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
@@ -730,6 +758,30 @@ PrefabInstance:
     - target: {fileID: 7277683384940768167, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
       propertyPath: m_Name
       value: DeskSaveLoadMenus
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357092198765463112, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357092198765463112, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357092198765463112, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357092198765463112, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357092198765463112, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357092198765463112, guid: 8cbcb7a512d09234494c022df79edb0f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

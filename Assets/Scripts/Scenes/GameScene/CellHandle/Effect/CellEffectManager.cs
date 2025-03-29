@@ -128,7 +128,7 @@ public class CellEffectManager : MonoBehaviour
         DisablePreviousCells();
 
         previousMoveStartCell = startCell;
-        previousMoveStartCell.CellEffectController.EnablePreviousMove();
+        previousMoveStartCell?.CellEffectController.EnablePreviousMove();
 
         previousMoveEndCell = endCell;
         if (previousMoveEndCell != capturedCell)
@@ -176,6 +176,9 @@ public class CellEffectManager : MonoBehaviour
     private void EnablePossibleMoveCells(int index)
     {
         DisablePossibleMoveCells();
+
+        if (gameManager.Moves[index] == null)
+            return;
 
         foreach (byte possibleMoveCell in gameManager.Moves[index])
         {

@@ -8,6 +8,7 @@ public class GameData : ScriptableObject
 
     [field: SerializeField] public AllowCapture AllowCaptures { get; private set; }
     [field: SerializeField] public AllowMovement AllowMovement { get; set; }
+    [field: SerializeField] public bool IgnoreMoveColors { get; private set; }
 
 
     private void OnValidate() => DataChanged?.Invoke();

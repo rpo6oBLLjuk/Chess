@@ -10,6 +10,9 @@ public class MoveChecker
     /// </summary>
     public bool IsGameMoveAllowed(byte startIndex, byte endIndex)
     {
+        if(gameManager.Moves[startIndex] == null)
+            return false;
+
         foreach (byte moveIndex in gameManager.Moves[startIndex])
         {
             if (moveIndex == endIndex)
@@ -52,10 +55,7 @@ public class MoveChecker
             return true;
 
         if (PiecePacker.IsEqualType(endPieceData, PieceType.None))
-        {
-            this.Log($"Empty cell {PiecePacker.GetColor(movingPieceData)}");
             return true;
-        }
         if (PiecePacker.IsEqualType(endPieceData, PieceType.Other))
             return false;
 

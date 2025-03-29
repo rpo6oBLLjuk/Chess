@@ -13,11 +13,11 @@ public class PieceService : MonoService
     [SerializeField] PiecePrefabs piecePrefabs;
 
     public MoveChecker MoveChecker { get; private set; }
+    public MovesGenerator MovesGenerator { get; private set; }
 
     PieceBuilder pieceBuilder;
     PieceMover pieceMover;
     PieceCapturer pieceCapturer;
-    MovesGenerator movesGenerator;
 
 
     public override void OnInstantiated()
@@ -29,12 +29,12 @@ public class PieceService : MonoService
         pieceCapturer = container.Instantiate<PieceCapturer>();
 
         MoveChecker = container.Instantiate<MoveChecker>();
-        movesGenerator = container.Instantiate<MovesGenerator>();
+        MovesGenerator = container.Instantiate<MovesGenerator>();
 
         pieceBuilder.Init(piecePrefabs);
         pieceCapturer.Init();
 
-        movesGenerator.Init(this);
+        MovesGenerator.Init(this);
 
         gameManager.GameDataChanged += GameDataChanged;
     }
@@ -47,7 +47,7 @@ public class PieceService : MonoService
     public void Setup()
     {
         pieceBuilder.SetupPieces();
-        movesGenerator.GenerateAllPossibleMoves();
+        MovesGenerator.GenerateAllPossibleMoves(gameManager.GameTurnController.TurnColor);
     }
 
     public void ClearBoard() => gameManager.Cells.Where(cellHandler => !PiecePacker.IsEqualType(gameManager.Board[cellHandler.Index], PieceType.None)).ToList().ForEach(cellHandler => gameManager.DestroyPiece(cellHandler));
@@ -63,14 +63,7 @@ public class PieceService : MonoService
         return canMove;
     }
 
-    public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
-    {
-        pieceMover.Move(pieceHandler, startCell, endCell);
-        movesGenerator.GenerateAllPossibleMoves();
-    }
+    public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceMover.Move(pieceHandler, startCell, endCell);
 
-    private void GameDataChanged()
-    {
-        movesGenerator.GenerateAllPossibleMoves();
-    }
+    private void GameDataChanged() => MovesGenerator.GenerateAllPossibleMoves(gameManager.GameTurnController.TurnColor);
 }

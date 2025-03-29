@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,21 +12,26 @@ public class MovesGenerator
 
     public void Init(PieceService pieceService) => this.pieceService = pieceService;
 
-    public void GenerateAllPossibleMoves() => GenerateAllPossibleMoves(gameManager.Board, out gameManager.Moves);
-    public void GenerateAllPossibleMoves(byte[] board, out List<byte>[] moves)
+    public void GenerateAllPossibleMoves(PieceColor pieceColor) => GenerateAllPossibleMoves(gameManager.Board, out gameManager.Moves, pieceColor);
+    public void GenerateAllPossibleMoves(byte[] board, out List<byte>[] moves, PieceColor pieceColor, bool recursion = true)
     {
         moves = new List<byte>[64];
         if (!pieceService.MoveChecker.IsMovementAllowed())
             return;
 
+        //Generate incorrect moves
         for (byte index = 0; index < 64; index++)
         {
-            if (PiecePacker.IsDefaultPiece(board[index]))
+            if (PiecePacker.IsDefaultPiece(board[index]) && (PiecePacker.IsEqualColor(board[index], pieceColor) || gameManager.GameData.IgnoreMoveColors))
             {
                 moves[index] = new();
                 GeneratePossibleMovesForPiece(index, board, moves);
             }
         }
+
+        //Correcting moves
+        if (recursion)
+            CorrectionMoves(board, moves, pieceColor);
     }
 
     private void GeneratePossibleMovesForPiece(byte index, byte[] board, List<byte>[] moves)
@@ -289,4 +295,51 @@ public class MovesGenerator
     private bool OnLeft(int index) => index % 8 == 0;
     private bool OnTop(int index) => index <= 7;
     private bool OnBottom(int index) => index >= 56;
+
+    private void CorrectionMoves(byte[] board, List<byte>[] moves, PieceColor currentPlayerColor)
+    {
+        PieceColor opponentColor = currentPlayerColor.Invert();
+
+        for (int i = 0; i < moves.Length; i++)
+        {
+            if (moves[i] == null)
+                continue;
+
+            var movesCopy = moves[i].ToList();
+
+            foreach (byte move in movesCopy)
+            {
+                byte[] fantomBoard = (byte[])board.Clone();
+                fantomBoard[move] = fantomBoard[i];
+                fantomBoard[i] = 0;
+
+                GenerateAllPossibleMoves(fantomBoard, out var opponentResponses, opponentColor, false);
+
+                if (IsKingUnderCheck(fantomBoard, opponentResponses, currentPlayerColor))
+                {
+                    moves[i].Remove(move);
+                    Debug.Log($"Move {i}->{move} leads to check King_{currentPlayerColor}");
+                }
+            }
+        }
+    }
+
+
+    private bool IsKingUnderCheck(byte[] board, List<byte>[] moves, PieceColor kingColor)
+    {
+        for (int i = 0; i < moves.Length; i++)
+        {
+            if (moves[i] == null || moves[i].Count == 0)
+                continue;
+
+            foreach (byte move in moves[i])
+            {
+                if (PiecePacker.IsEqualType(board[move], PieceType.King) && PiecePacker.IsEqualColor(board[move], kingColor))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

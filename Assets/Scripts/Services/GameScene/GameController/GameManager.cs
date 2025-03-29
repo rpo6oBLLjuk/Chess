@@ -1,3 +1,4 @@
+using DG.Tweening.Core.Easing;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +32,7 @@ public class GameManager : MonoService
     public event Action BoardLoaded;
     public event Action BoardCleared;
 
+    [field: SerializeField]
     public GameTurnController GameTurnController { get; private set; } = new();
 
     [Header("Arrays")]
@@ -50,8 +52,6 @@ public class GameManager : MonoService
 
     [Header("Data")]
     [SerializeField] private GameData gameData;
-
-
 
 
     public void Setup()
@@ -78,9 +78,13 @@ public class GameManager : MonoService
         SetupServices();
     }
 
-    public void SpawnPiece(byte pieceData, CellHandler cellHandler)
+    public void SpawnPiece(byte pieceData, CellHandler cellHandler, bool onBuild = false)
     {
         pieceService.SpawnPiece(pieceData, cellHandler);
+
+        if (!onBuild)
+            pieceService.MovesGenerator.GenerateAllPossibleMoves(GameTurnController.TurnColor);
+
         PieceSpawned.Invoke(Pieces[cellHandler.Index], cellHandler);
     }
     public void CapturePiece(PieceHandler pieceHandler, CellHandler cellHandler)
@@ -93,6 +97,9 @@ public class GameManager : MonoService
     {
         PieceHandler capturedPiece = Pieces[cellHandler.Index];
         pieceService.CapturePiece(cellHandler);
+
+        pieceService.MovesGenerator.GenerateAllPossibleMoves(GameTurnController.TurnColor);
+
         PieceDestroyed?.Invoke(capturedPiece, cellHandler);
     }
 
@@ -100,7 +107,10 @@ public class GameManager : MonoService
     public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
         pieceService.MovePiece(pieceHandler, startCell, endCell);
+
         GameTurnController.PieceMoved();
+        pieceService.MovesGenerator.GenerateAllPossibleMoves(GameTurnController.TurnColor);
+
         PieceMoved?.Invoke(pieceHandler, startCell, endCell);
     }
 

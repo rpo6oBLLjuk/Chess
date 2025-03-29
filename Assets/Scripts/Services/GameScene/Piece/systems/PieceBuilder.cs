@@ -25,7 +25,7 @@ public class PieceBuilder
             currentPiece = gameManager.Board[index];
             if (!PiecePacker.IsEqualType( currentPiece, PieceType.None))
             {
-                gameManager.SpawnPiece(currentPiece, gameManager.Cells[index]);
+                gameManager.SpawnPiece(currentPiece, gameManager.Cells[index], true);
             }
         }
     }
