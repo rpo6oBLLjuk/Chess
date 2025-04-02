@@ -20,16 +20,7 @@ public class CellHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void OnPointerClick(PointerEventData eventData) => gameManager.ClickOnCell(this);
     public void OnPointerDown(PointerEventData eventData) => gameManager.PressDownOnCell(this);
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        CurrentPieceHandler?.OnBeginDrag(eventData);
-    }
-    public void OnDrag(PointerEventData eventData)
-    {
-        CurrentPieceHandler?.OnDrag(eventData);
-    }
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        CurrentPieceHandler?.OnEndDrag(eventData, this);
-    }
+    public void OnBeginDrag(PointerEventData eventData) => CurrentPieceHandler?.OnBeginDrag(eventData);
+    public void OnDrag(PointerEventData eventData) => CurrentPieceHandler?.OnDrag(eventData);
+    public void OnEndDrag(PointerEventData eventData) => CurrentPieceHandler?.OnEndDrag(eventData, this);
 }

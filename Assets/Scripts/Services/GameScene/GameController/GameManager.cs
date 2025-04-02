@@ -1,10 +1,12 @@
-using DG.Tweening.Core.Easing;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoService
 {
+    public event Action<PieceColor, bool> GameEnded;
+
+    //Editor only
     public event Action GameDataChanged
     {
         add => GameData.DataChanged += value;
@@ -13,13 +15,14 @@ public class GameManager : MonoService
 
     public event Action<CellHandler> CellClicked;
     public event Action<CellHandler> CellPressedDown;
+    
+    public event Action<PieceHandler> PieceDragStarted;
+    public event Action<PieceHandler, Vector3, CellHandler> PieceDragged;
+    public event Action<PieceHandler, Transform> PieceDragEnded;
+
     /// <summary>
-    /// Called if the movement is blocked and the shape is released.
+    /// First CellHandler: from cell, second CellHandler: to cell
     /// </summary>
-    public event Action<CellHandler> CellPressedUp;
-
-    public event Action<PieceHandler, CellHandler> PieceDragged;
-
     public event Action<PieceHandler, CellHandler, CellHandler> PieceMoved;
     /// <summary>
     /// First arg: Capturer, second arg: captured piece
@@ -32,7 +35,6 @@ public class GameManager : MonoService
     public event Action BoardLoaded;
     public event Action BoardCleared;
 
-    [field: SerializeField]
     public GameTurnController GameTurnController { get; private set; } = new();
 
     [Header("Arrays")]
@@ -69,7 +71,6 @@ public class GameManager : MonoService
         pieceService.ClearBoard();
         BoardCleared?.Invoke();
     }
-
     public void SetCustomBoard(byte[] boardPiecesData)
     {
         ClearBoard();
@@ -116,9 +117,12 @@ public class GameManager : MonoService
 
     public void ClickOnCell(CellHandler cellHandler) => CellClicked?.Invoke(cellHandler);
     public void PressDownOnCell(CellHandler cellHandler) => CellPressedDown?.Invoke(cellHandler);
-    public void PressUpOnCell(CellHandler cellHandler) => CellPressedUp?.Invoke(cellHandler);
 
-    public void PieceDragging(PieceHandler piece, CellHandler downCell) => PieceDragged?.Invoke(piece, downCell);
+    public void PieceStartDrag(PieceHandler piece) => PieceDragStarted?.Invoke(piece);
+    public void PieceDragging(PieceHandler piece, Vector3 position, CellHandler downCell) => PieceDragged?.Invoke(piece, position, downCell);
+    public void PieceEndDrag(PieceHandler piece, Transform parent) => PieceDragEnded?.Invoke(piece, parent);
+
+    public void GameEnd(PieceColor pieceColor, bool pat) => GameEnded?.Invoke(pieceColor, pat);
 
 
     private void SetupServices()

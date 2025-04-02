@@ -1,13 +1,17 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
+[Serializable]
 public class PieceBuilder
 {
     [Inject] DiContainer container;
     [Inject] GameManager gameManager;
 
     PiecePrefabs piecesPrefabs;
+
+    [SerializeField] bool logging = false;
 
 
     public void Init(PiecePrefabs piecePrefabs)
@@ -23,7 +27,7 @@ public class PieceBuilder
         for (byte index = 0; index < 64; index++)
         {
             currentPiece = gameManager.Board[index];
-            if (!PiecePacker.IsEqualType( currentPiece, PieceType.None))
+            if (!PiecePacker.IsEqualType(currentPiece, PieceType.None))
             {
                 gameManager.SpawnPiece(currentPiece, gameManager.Cells[index], true);
             }
@@ -33,7 +37,7 @@ public class PieceBuilder
     public GameObject Instantiate(byte pieceData, CellHandler cellHandler)
     {
         GameObject instance = container.InstantiatePrefab(piecesPrefabs.Piece, cellHandler.transform);
-        instance.name = $"Piece ({PiecePacker.GetFormattedData( pieceData)})]";
+        instance.name = $"Piece ({PiecePacker.GetFormattedData(pieceData)})";
         instance.GetComponentInChildren<Image>().sprite = gameManager.PiecesSkinData.Get(pieceData);
 
         if (!instance.TryGetComponent(out PieceHandler pieceHandler))
@@ -45,7 +49,9 @@ public class PieceBuilder
         gameManager.Board[cellHandler.Index] = pieceData;
         gameManager.Pieces[cellHandler.Index] = pieceHandler;
 
-        this.Log($"Piece {PiecePacker.GetFormattedDataWithColor( pieceData)} instantiated on cell {cellHandler.Index}", context: instance);
+        if (logging)
+            this.Log($"Piece {PiecePacker.GetFormattedDataWithColor(pieceData)} instantiated on cell {cellHandler.Index}", context: instance);
+        
         return instance;
     }
 }

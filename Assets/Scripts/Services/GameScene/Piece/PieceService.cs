@@ -15,9 +15,12 @@ public class PieceService : MonoService
     public MoveChecker MoveChecker { get; private set; }
     public MovesGenerator MovesGenerator { get; private set; }
 
-    PieceBuilder pieceBuilder;
-    PieceMover pieceMover;
-    PieceCapturer pieceCapturer;
+    [Header("Logging")]
+    [SerializeField] PieceBuilder pieceBuilder;
+    [SerializeField] PieceMover pieceMover;
+    [SerializeField] PieceCapturer pieceCapturer;
+
+    [SerializeField] bool logging = false;
 
 
     public override void OnInstantiated()
@@ -58,8 +61,8 @@ public class PieceService : MonoService
     public bool IsMoveAllowed(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
         bool canMove = MoveChecker.IsGameMoveAllowed(startCell.Index, endCell.Index);
-        if (!canMove)
-            notificationService.ShowPopup("Move blocked", "Piece manager", PopupType.Warning);
+        if (!canMove && logging)
+            this.InactiveLog("Move blocked");
         return canMove;
     }
 

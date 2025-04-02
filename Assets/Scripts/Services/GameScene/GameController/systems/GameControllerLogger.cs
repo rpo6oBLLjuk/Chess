@@ -10,21 +10,24 @@ public class GameControllerLogger : MonoBehaviour
 
     [Header("Specifying Condition")]
     [SerializeField] private bool logCellActions = false;
+    [SerializeField] private bool logPieceDragActions = false;
     [SerializeField] private bool logPieceActions = true;
     [SerializeField] private bool logBoardActions = false;
-
-    [Header("Other Condition")]
-    [SerializeField] private bool logPieceDragging = false;
 
 
     private void OnEnable()
     {
         gameManager.CellClicked += CellClicked;
         gameManager.CellPressedDown += CellPressedDown;
+
+        gameManager.PieceDragStarted += PieceDragStart;
         gameManager.PieceDragged += PieceDragged;
+        gameManager.PieceDragEnded += PieceDragEnd;
+
         gameManager.PieceMoved += PieceMoved;
         gameManager.PieceCaptured += PieceCaptured;
         gameManager.PieceDestroyed += PieceDestroyed;
+
         gameManager.BoardLoaded += BoardLoaded;
         gameManager.BoardCleared += BoardCleared;
     }
@@ -33,10 +36,15 @@ public class GameControllerLogger : MonoBehaviour
     {
         gameManager.CellClicked -= CellClicked;
         gameManager.CellPressedDown -= CellPressedDown;
+
+        gameManager.PieceDragStarted -= PieceDragStart;
         gameManager.PieceDragged -= PieceDragged;
+        gameManager.PieceDragEnded -= PieceDragEnd;
+
         gameManager.PieceMoved -= PieceMoved;
         gameManager.PieceCaptured -= PieceCaptured;
         gameManager.PieceDestroyed -= PieceDestroyed;
+
         gameManager.BoardLoaded -= BoardLoaded;
         gameManager.BoardCleared -= BoardCleared;
     }
@@ -44,7 +52,9 @@ public class GameControllerLogger : MonoBehaviour
     private void CellClicked(CellHandler cellHandler) => CellLog($"Cell {cellHandler.Index} clicked");
     private void CellPressedDown(CellHandler cellHandler) => CellLog($"Cell {cellHandler.Index} pressed down");
 
-    private void PieceDragged(PieceHandler piece, CellHandler downCell) => SendLog($"Dragging piece across ({downCell.Index}) cell", logPieceDragging);
+    private void PieceDragStart(PieceHandler pieceHandler) => PieceDragLog($"Drag start for piece {pieceHandler.name}");
+    private void PieceDragged(PieceHandler piece, Vector3 position, CellHandler downCell) => PieceDragLog($"Dragging piece across ({downCell.Index}) cell at {position} position");
+    private void PieceDragEnd(PieceHandler pieceHandler, Transform parent) => PieceDragLog($"Drag end for piece {pieceHandler.name}, parent: {parent.name}");
 
     private void PieceMoved(PieceHandler piece, CellHandler startCell, CellHandler endCell) => PieceLog($"Piece moved from {startCell.Index} to {endCell.Index}");
     private void PieceCaptured(PieceHandler capturerPiece, PieceHandler capturedPiece, CellHandler cell) => PieceLog($"Piece captured on cell {cell.Index}");
@@ -54,6 +64,7 @@ public class GameControllerLogger : MonoBehaviour
     private void BoardLoaded() => BoardLog("Board loaded");
 
     private void CellLog(string message) => SendLog(message, logCellActions);
+    private void PieceDragLog(string message) => SendLog(message, logPieceDragActions);
     private void PieceLog(string message) => SendLog(message, logPieceActions);
     private void BoardLog(string message) => SendLog(message, logBoardActions);
 

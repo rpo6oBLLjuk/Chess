@@ -1,7 +1,5 @@
 using System;
-using UnityEngine;
 
-[Serializable]
 public class GameTurnController
 {
     public Action<PieceColor> OnTurnChanged;
@@ -15,17 +13,8 @@ public class GameTurnController
             OnTurnChanged?.Invoke(turnColor);
         }
     }
-    public bool UseTurn = true;
-
-    [SerializeField] private PieceColor turnColor;
-    [SerializeField] private bool logging = false;
+    private PieceColor turnColor;
 
 
-    public void PieceMoved()
-    {
-        if (UseTurn)
-            TurnColor = TurnColor.Invert();
-        else if (logging)
-            this.Log("State turn disabled");
-    }
+    public void PieceMoved() => TurnColor = TurnColor.Invert();
 }

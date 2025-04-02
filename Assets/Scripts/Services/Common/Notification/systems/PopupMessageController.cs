@@ -25,7 +25,7 @@ public class PopupMessageController
         ConfiguratePopup(popup, message, sender, popupType);
         AnimatePopup(popup);
 
-        this.Log(message, sender);
+        this.InactiveLog(message, sender);
     }
 
     private void ConfiguratePopup(GameObject popup, string message, string sender = default, PopupType popupType = PopupType.None)

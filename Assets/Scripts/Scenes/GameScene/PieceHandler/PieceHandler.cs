@@ -7,7 +7,6 @@ using Zenject;
 
 public class PieceHandler : MonoBehaviour
 {
-    [Inject] NotificationService notificationService;
     [Inject] GameManager gameManager;
 
     [field: SerializeField]
@@ -22,8 +21,6 @@ public class PieceHandler : MonoBehaviour
     bool isDragging = false;
     Vector3 draggedPosition;
     PointerEventData lastDragEventData;
-
-    CellHandler previousCellUnderPiece;
 
 
     public void Init()
@@ -50,29 +47,26 @@ public class PieceHandler : MonoBehaviour
         isDragging = true;
 
         parentCell = transform.parent;
-
         transform.SetParent(canvas.transform);
 
-        isDragging = true;
-        transform.DOScale(Vector3.one * gameManager.PiecesSkinData.AnimationData.scaleMultiplier, gameManager.PiecesSkinData.AnimationData.scaleDuration);
+        gameManager.PieceStartDrag(this);
     }
-    public void OnDrag(PointerEventData eventData) => SetDraggedData(eventData);
+    public void OnDrag(PointerEventData eventData) => SetDraggingData(eventData);
     public void OnEndDrag(PointerEventData eventData, CellHandler startCell)
     {
-        MoveAttempt(eventData, startCell);
-
-        transform.DOMove(parentCell.position, gameManager.PiecesSkinData.AnimationData.magnetToCellDuration)
-            .OnComplete(() => transform.SetParent(parentCell));
-
         isDragging = false;
-        transform.DOScale(Vector3.one, gameManager.PiecesSkinData.AnimationData.scaleDuration);
+
+        MoveAttempt(eventData, startCell);
+        gameManager.PieceEndDrag(this, parentCell);
     }
 
     private void Drag()
     {
-        transform.position = Vector3.Lerp(rectTransform.position, draggedPosition, gameManager.PiecesSkinData.AnimationData.magnetToMouseLerpValue * Time.unscaledDeltaTime);
         if (GetCellUnderPiece(lastDragEventData, out CellHandler cellHandler))
-            gameManager.PieceDragging(this, cellHandler);
+        {
+            Vector3 position = Vector3.Lerp(rectTransform.position, draggedPosition, gameManager.PiecesSkinData.AnimationData.magnetToMouseLerpValue * Time.unscaledDeltaTime);
+            gameManager.PieceDragging(this, position, cellHandler);
+        }
     }
 
     private bool GetCellUnderPiece(PointerEventData eventData, out CellHandler cellHandler)
@@ -85,16 +79,12 @@ public class PieceHandler : MonoBehaviour
         foreach (RaycastResult result in results)
         {
             if (result.gameObject != this && result.gameObject.TryGetComponent(out cellHandler))
-            {
-                previousCellUnderPiece = cellHandler;
                 return true;
-            }
         }
 
         return false;
     }
-
-    private void SetDraggedData(PointerEventData data)
+    private void SetDraggingData(PointerEventData data)
     {
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, data.position, data.pressEventCamera, out Vector3 globalMousePos))
             draggedPosition = globalMousePos;
@@ -109,21 +99,21 @@ public class PieceHandler : MonoBehaviour
             {
                 if (gameManager.IsMoveAllowed(this, startCell, cellHandler))
                 {
-                    gameManager.MovePiece(this, startCell, cellHandler);
-
                     parentCell = cellHandler.transform;
+
+                    gameManager.MovePiece(this, startCell, cellHandler);
                 }
             }
             else
             {
-                notificationService.ShowPopup("Piece was moved to it's cell", "Piece Handler", PopupType.Warning);
+                //this.InactiveLog("Piece was moved to it's cell");
             }
         }
         else
         {
-            notificationService.ShowPopup("Piece not on a board", "Piece Handler", PopupType.Warning);
+            //this.InactiveLog("Piece was moved not on a board");
         }
 
-        gameManager.PressUpOnCell(previousCellUnderPiece);
+        transform.SetParent(parentCell, true);
     }
 }

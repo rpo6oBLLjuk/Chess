@@ -17,7 +17,6 @@ public class BoardBuilder
 
     private bool leftUpCellIsWhite = true;
 
-
     public void Init(CellsSkinData cellsSkinData, GridLayoutGroup boardGridLayout, GameObject cellPrefab)
     {
         this.cellsSkinData = cellsSkinData;

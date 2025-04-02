@@ -279,6 +279,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4010817428650126097, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -1841.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4010817428650126097, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -920.54
+      objectReference: {fileID: 0}
     - target: {fileID: 4274345916326612955, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: saverUI
       value: 
@@ -287,6 +295,14 @@ PrefabInstance:
       propertyPath: loaderUI
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4342301397929414709, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
+      propertyPath: m_Name
+      value: ExitButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468532080680124277, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
+      propertyPath: m_text
+      value: Game end
+      objectReference: {fileID: 0}
     - target: {fileID: 5635583701886145906, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: m_fontSize
       value: 18
@@ -294,6 +310,18 @@ PrefabInstance:
     - target: {fileID: 5664807077094881010, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: m_Name
       value: GameCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880266572893491606, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1441.0808
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880266572893491606, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1120.5354
+      objectReference: {fileID: 0}
+    - target: {fileID: 6027047241942039452, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6027047241942039452, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: m_SizeDelta.y
@@ -315,9 +343,14 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 80.55
       objectReference: {fileID: 0}
+    - target: {fileID: 9066287745687110835, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
+      propertyPath: m_fontSize
+      value: 71.6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2267555957999625860, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
+    - {fileID: 19710286371485998, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}

@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using Zenject;
 
@@ -8,7 +6,7 @@ public class CellEffectManager : MonoBehaviour
 {
     [Inject] GameManager gameManager;
 
-    [SerializeField] private bool selectInactive = false;
+    [SerializeField] CellEffectManagerData data;
 
 
     CellHandler selectedCell;
@@ -29,7 +27,7 @@ public class CellEffectManager : MonoBehaviour
     private void OnEnable()
     {
         gameManager.CellPressedDown += CellPressedDown;
-        gameManager.CellPressedUp += CellPressedUp;
+        gameManager.PieceDragEnded += PieceDragEnd;
 
         gameManager.PieceMoved += PieceMoved;
         gameManager.PieceCaptured += PieceCaptured;
@@ -42,7 +40,7 @@ public class CellEffectManager : MonoBehaviour
     private void OnDisable()
     {
         gameManager.CellPressedDown -= CellPressedDown;
-        gameManager.CellPressedUp -= CellPressedUp;
+        gameManager.PieceDragEnded -= PieceDragEnd;
 
         gameManager.PieceMoved -= PieceMoved;
         gameManager.PieceCaptured -= PieceCaptured;
@@ -57,7 +55,7 @@ public class CellEffectManager : MonoBehaviour
         DisableSelectedCell();
         DisablePossibleMoveCells();
 
-        if (!PiecePacker.IsEqualType(gameManager.Board[cellHandler.Index], PieceType.None) || selectInactive)
+        if (gameManager.Moves[cellHandler.Index].Count > 0 || data.SelectInactiveCells)
         {
             EnableSelectedCell(cellHandler);
             EnablePossibleMoveCells(cellHandler.Index);
@@ -70,7 +68,7 @@ public class CellEffectManager : MonoBehaviour
         }
     }
 
-    private void CellPressedUp(CellHandler cellHandler)
+    private void PieceDragEnd(PieceHandler _, Transform __)
     {
         DisableHoverCell();
     }
@@ -93,12 +91,10 @@ public class CellEffectManager : MonoBehaviour
         EnableCapturedCell(cellHandler);
     }
 
-    private void PieceDragged(PieceHandler piece, CellHandler cellHandler)
+    private void PieceDragged(PieceHandler piece, Vector3 _, CellHandler cellHandler)
     {
-        if (hoverCell != cellHandler)
-        {
+        if (gameManager.Moves[cellHandler.Index].Count > 0 && hoverCell != cellHandler)
             EnableHoverCell(cellHandler);
-        }
     }
 
     private void BoardCleared()

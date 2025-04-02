@@ -22,9 +22,9 @@ public class MovesGenerator
         //Generate incorrect moves
         for (byte index = 0; index < 64; index++)
         {
+            moves[index] = new();
             if (PiecePacker.IsDefaultPiece(board[index]) && (PiecePacker.IsEqualColor(board[index], pieceColor) || gameManager.GameData.IgnoreMoveColors))
             {
-                moves[index] = new();
                 GeneratePossibleMovesForPiece(index, board, moves);
             }
         }
@@ -298,29 +298,60 @@ public class MovesGenerator
 
     private void CorrectionMoves(byte[] board, List<byte>[] moves, PieceColor currentPlayerColor)
     {
+        if (gameManager.GameData.AllowMovement == AllowMovement.All)
+            return;
+
+        bool isChecked = false;
+
         PieceColor opponentColor = currentPlayerColor.Invert();
 
+        byte[] fantomBoard = (byte[])board.Clone();
+        GenerateAllPossibleMoves(fantomBoard, out var opponentResponses, opponentColor, false);
+        if (IsKingUnderCheck(fantomBoard, opponentResponses, currentPlayerColor))
+        {
+            isChecked = true;
+        }
+
+        //Отбраковка всех неверных мувов, приводящих к самошаху
         for (int i = 0; i < moves.Length; i++)
         {
-            if (moves[i] == null)
-                continue;
-
             var movesCopy = moves[i].ToList();
 
             foreach (byte move in movesCopy)
             {
-                byte[] fantomBoard = (byte[])board.Clone();
+                fantomBoard = (byte[])board.Clone();
                 fantomBoard[move] = fantomBoard[i];
                 fantomBoard[i] = 0;
 
-                GenerateAllPossibleMoves(fantomBoard, out var opponentResponses, opponentColor, false);
+                GenerateAllPossibleMoves(fantomBoard, out opponentResponses, opponentColor, false);
 
                 if (IsKingUnderCheck(fantomBoard, opponentResponses, currentPlayerColor))
                 {
                     moves[i].Remove(move);
-                    Debug.Log($"Move {i}->{move} leads to check King_{currentPlayerColor}");
+
+                    //this.Log($"Move {i}->{move} leads to check King_{currentPlayerColor}");
                 }
             }
+        }
+
+        if (isChecked)
+            this.LogWarning($"Check for {currentPlayerColor}");
+
+        foreach (var move in moves)
+        {
+            if (move?.Count > 0)
+                return;
+        }
+
+        if (isChecked)
+        {
+            this.LogError($"Checkmate for {currentPlayerColor}");
+            gameManager.GameEnd(opponentColor, false);
+        }
+        else
+        {
+            this.FastLog($"Pat for {currentPlayerColor}");
+            gameManager.GameEnd(opponentColor, true);
         }
     }
 
