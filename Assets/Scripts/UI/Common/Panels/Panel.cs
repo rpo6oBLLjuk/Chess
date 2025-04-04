@@ -14,7 +14,10 @@ public class Panel : MonoBehaviour
     protected virtual void Start()
     {
         if (autoHideOnAwake)
+        {
+            Initialize();
             Hide();
+        }
         hideButton?.onClick.AddListener(Hide);
     }
 

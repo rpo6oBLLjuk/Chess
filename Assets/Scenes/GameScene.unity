@@ -299,10 +299,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExitButton
       objectReference: {fileID: 0}
-    - target: {fileID: 5468532080680124277, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
-      propertyPath: m_text
-      value: Game end
-      objectReference: {fileID: 0}
     - target: {fileID: 5635583701886145906, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: m_fontSize
       value: 18
@@ -334,18 +330,6 @@ PrefabInstance:
     - target: {fileID: 8469642259227391539, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: m_CellSize.y
       value: 370
-      objectReference: {fileID: 0}
-    - target: {fileID: 8895464317062185841, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
-      propertyPath: m_text
-      value: Game
-      objectReference: {fileID: 0}
-    - target: {fileID: 8895464317062185841, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
-      propertyPath: m_fontSize
-      value: 80.55
-      objectReference: {fileID: 0}
-    - target: {fileID: 9066287745687110835, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
-      propertyPath: m_fontSize
-      value: 71.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

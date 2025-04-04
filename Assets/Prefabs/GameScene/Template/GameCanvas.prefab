@@ -1264,7 +1264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7386006687288875784, guid: 5d50840a6f9a4bd43abedf78f982bd6f, type: 3}
       propertyPath: m_text
-      value: Title
+      value: Game
       objectReference: {fileID: 0}
     - target: {fileID: 7386006687288875784, guid: 5d50840a6f9a4bd43abedf78f982bd6f, type: 3}
       propertyPath: m_fontSize
@@ -1375,6 +1375,10 @@ PrefabInstance:
     - target: {fileID: 3822788385877525050, guid: c1d0ffc5e1cf1a646b03f3672d7a91e8, type: 3}
       propertyPath: m_Name
       value: GameEndPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6941446388112980787, guid: c1d0ffc5e1cf1a646b03f3672d7a91e8, type: 3}
+      propertyPath: m_text
+      value: Game end
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

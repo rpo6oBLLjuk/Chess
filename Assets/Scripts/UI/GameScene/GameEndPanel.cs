@@ -25,6 +25,7 @@ public class GameEndPanel : AnimatedPanel
 
     private void GameEnd(PieceColor pieceColor, bool pat)
     {
+        this.Log("GameEnd panel showed");
         Show();
 
         gameEndTypeText.text = pat ? patText : checkmateText;

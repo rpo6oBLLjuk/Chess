@@ -25,7 +25,7 @@ public class MainPanelSwitcher : MonoBehaviour
             if (panelContainer.panel == null)
                 continue;
 
-            panelContainer.showButton.onClick.AddListener(() =>
+            panelContainer.showButton?.onClick.AddListener(() =>
             {
                 mainPanel.Hide();
                 panelContainer.panel.Show();

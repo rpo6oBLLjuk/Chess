@@ -43,7 +43,7 @@ public class AnimatedElement : MonoBehaviour
                 defaultData.scale,
                 animStartData.scale,
                 animStartData.easeType,
-                showDuration,
+                (forceShow) ? 0 : showDuration,
                 (forceShow) ? 0 : animStartData.delay);
     }
     public virtual Tween Hide(float hideDuration = 0, bool forceHide = false)
@@ -56,7 +56,7 @@ public class AnimatedElement : MonoBehaviour
                 animEndData.scale,
                 defaultData.scale,
                 animEndData.easeType,
-                hideDuration,
+                (forceHide) ? 0 : hideDuration,
                 (forceHide) ? 0 : animEndData.delay);
     }
 
@@ -84,6 +84,7 @@ public class AnimatedElement : MonoBehaviour
 
         sequence.SetDelay(delay);
         sequence.Play();
+
         return sequence;
     }
 
