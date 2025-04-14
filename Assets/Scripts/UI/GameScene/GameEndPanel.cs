@@ -9,12 +9,15 @@ public class GameEndPanel : AnimatedPanel
     [Inject] GameManager gameManager;
 
     [Header("References")]
-    [SerializeField] TextMeshProUGUI gameEndTypeText;
-    [SerializeField] TextMeshProUGUI winnerColorText;
+    [SerializeField] TextMeshProUGUI gameEndTypeTMP;
+    [SerializeField] TextMeshProUGUI winnerTMP;
 
     [Header("Values")]
-    [SerializeField] string checkmateText = "Win";
+    [SerializeField] string checkmateText = "Checkmate";
     [SerializeField] string patText = "Pat";
+
+    [Space]
+    [SerializeField] string winnerText = "Winner: ";
 
     [Space]
     [SerializeField] Button exitButton;
@@ -26,10 +29,10 @@ public class GameEndPanel : AnimatedPanel
     private void GameEnd(PieceColor pieceColor, bool pat)
     {
         this.Log("GameEnd panel showed");
-        Show();
+        AnimShow();
 
-        gameEndTypeText.text = pat ? patText : checkmateText;
-        winnerColorText.text = pieceColor.ToString();
+        gameEndTypeTMP.text = pat ? patText : checkmateText;
+        winnerTMP.text = $"{winnerText}{pieceColor}";
 
         exitButton.onClick.AddListener(CustomHide);
     }

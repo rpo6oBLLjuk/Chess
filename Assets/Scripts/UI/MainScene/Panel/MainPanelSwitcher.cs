@@ -16,10 +16,8 @@ public class MainPanelSwitcher : MonoBehaviour
     [SerializeField] private List<PanelContainer> widgets;
 
 
-    private void OnEnable()
+    private void Start()
     {
-        mainPanel.Initialize();
-
         foreach (PanelContainer panelContainer in widgets)
         {
             if (panelContainer.panel == null)
@@ -27,17 +25,14 @@ public class MainPanelSwitcher : MonoBehaviour
 
             panelContainer.showButton?.onClick.AddListener(() =>
             {
-                mainPanel.Hide();
-                panelContainer.panel.Show();
+                mainPanel.AnimHide();
+                panelContainer.panel.AnimShow();
             });
 
             panelContainer.panel.HideButton.onClick.AddListener(mainPanel.ForceShow);
-
-            panelContainer.panel.Initialize();
-            panelContainer.panel.ForceHide();
         }
 
-        mainPanel.Show();
+        mainPanel.AnimShow();
     }
 }
 

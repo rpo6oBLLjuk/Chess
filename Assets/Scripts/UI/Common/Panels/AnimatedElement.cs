@@ -21,7 +21,13 @@ public class AnimatedElement : MonoBehaviour
     [SerializeField] private AnimationData animStartData;
     [SerializeField] private AnimationData animEndData;
 
-    [HideInInspector] private AnimationData defaultData = new();
+    [Space]
+    [SerializeField] bool useLoopAnim;
+    [SerializeField] float loopDuration = 1.0f;
+    [SerializeField] AnimationData loopAnimEndData;
+
+    [SerializeField] private AnimationData defaultData = new();
+    [HideInInspector] Sequence loopSequence;
 
 
     public void Initialize()
@@ -35,32 +41,36 @@ public class AnimatedElement : MonoBehaviour
 
     public virtual Tween Show(float showDuration = 0, bool forceShow = false)
     {
-        return PlayAnim(rectTransform,
-                defaultData.position,
-                defaultData.position + animStartData.position,
-                defaultData.rotation,
-                animStartData.rotation,
-                defaultData.scale,
-                animStartData.scale,
-                animStartData.easeType,
-                (forceShow) ? 0 : showDuration,
-                (forceShow) ? 0 : animStartData.delay);
+        Tween showTween = GetAnim(rectTransform,
+            defaultData.position + animStartData.position, defaultData.position,
+            animStartData.rotation, defaultData.rotation,
+            animStartData.scale, defaultData.scale,
+            animStartData.easeType,
+            (forceShow) ? 0 : showDuration,
+            (forceShow) ? 0 : animStartData.delay);
+
+        if (useLoopAnim)
+            showTween.OnComplete(PlayLoopAnim);
+
+        showTween.Play();
+
+        return showTween;
     }
     public virtual Tween Hide(float hideDuration = 0, bool forceHide = false)
     {
-        return PlayAnim(rectTransform,
-                defaultData.position + animEndData.position,
-                defaultData.position,
-                animEndData.rotation,
-                defaultData.rotation,
-                animEndData.scale,
-                defaultData.scale,
-                animEndData.easeType,
-                (forceHide) ? 0 : hideDuration,
-                (forceHide) ? 0 : animEndData.delay);
+        //if (useLoopAnim)
+        //    rectTransform.DOKillAllTweens();
+
+        return GetAnim(rectTransform,
+            defaultData.position, defaultData.position + animEndData.position,
+            defaultData.rotation, animEndData.rotation,
+            defaultData.scale, animEndData.scale,
+            animEndData.easeType,
+            (forceHide) ? 0 : hideDuration,
+            (forceHide) ? 0 : animEndData.delay).Play();
     }
 
-    private Tween PlayAnim(RectTransform rectTransform, Vector3 toPosition, Vector3 fromPosition, Quaternion toRotation, Quaternion fromRotation, Vector3 toScale, Vector3 fromScale, Ease easeType, float duration, float delay = 0)
+    private Tween GetAnim(RectTransform rectTransform, Vector3 fromPosition, Vector3 toPosition, Quaternion fromRotation, Quaternion toRotation, Vector3 fromScale, Vector3 toScale, Ease easeType, float duration, float delay = 0)
     {
         Sequence sequence = DOTween.Sequence(rectTransform);
 
@@ -83,10 +93,35 @@ public class AnimatedElement : MonoBehaviour
         );
 
         sequence.SetDelay(delay);
-        sequence.Play();
-
         return sequence;
     }
+
+    private void PlayLoopAnim()
+    {
+        if (useLoopAnim)
+        {
+            loopSequence?.Kill();
+            loopSequence = DOTween.Sequence(rectTransform);
+
+            loopSequence.Join(GetAnim(rectTransform,
+                loopAnimEndData.position + defaultData.position, defaultData.position,
+                loopAnimEndData.rotation, defaultData.rotation,
+                loopAnimEndData.scale, defaultData.scale,
+                loopAnimEndData.easeType, loopDuration, loopAnimEndData.delay));
+
+            loopSequence.Append(GetAnim(rectTransform,
+                defaultData.position, defaultData.position + loopAnimEndData.position,
+                defaultData.rotation, loopAnimEndData.rotation,
+                defaultData.scale, loopAnimEndData.scale,
+                loopAnimEndData.easeType, loopDuration, loopAnimEndData.delay));
+
+            loopSequence.SetLoops(-1);
+            loopSequence.Play();
+        }
+    }
+
+
+    private void OnDestroy() => rectTransform.DOKill();
 
     private void Reset() => rectTransform = GetComponent<RectTransform>();
     private void OnDrawGizmosSelected()

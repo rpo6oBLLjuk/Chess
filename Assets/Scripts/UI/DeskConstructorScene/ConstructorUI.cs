@@ -57,8 +57,8 @@ public class ConstructorUI : MonoBehaviour
         });
         destroyButton = InstantiateButtonWithCallback("Destroy (inactive)", systemButtonsParent, () => DestroyButtonCallback());
 
-        saveButton = InstantiateButtonWithCallback("Save", systemButtonsParent, () => saverUI.Show());
-        loadButton = InstantiateButtonWithCallback("Load", systemButtonsParent, () => loaderUI.Show());
+        saveButton = InstantiateButtonWithCallback("Save", systemButtonsParent, () => saverUI.AnimShow());
+        loadButton = InstantiateButtonWithCallback("Load", systemButtonsParent, () => loaderUI.AnimShow());
 
         clearBoardButton = InstantiateButtonWithCallback("Clear board", systemButtonsParent, () => gameManager.ClearBoard());
     }

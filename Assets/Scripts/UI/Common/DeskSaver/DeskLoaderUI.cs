@@ -15,16 +15,18 @@ public class DeskLoaderUI : AnimatedPanel
     private List<GameObject> pool = new();
 
 
-    private void Awake()
+    protected override void Start()
     {
+        base.Start();
+
         defaultSave.SetActive(false);
     }
 
-    public override void Show()
+    public override void AnimShow()
     {
         ResetPool();
         if (CreateSavesButtons())
-            base.Show();
+            base.AnimShow();
     }
 
     private void ResetPool()
@@ -60,7 +62,7 @@ public class DeskLoaderUI : AnimatedPanel
     private void ApplyButtonClickCallback(string saveName)
     {
         gameManager.SetCustomBoard(deskSaver.LoadBoard(saveName));
-        Hide();
+        AnimHide();
     }
 
     private void DeleteButtonClickCallback(string savename, GameObject saveObj)
@@ -73,7 +75,7 @@ public class DeskLoaderUI : AnimatedPanel
                 deskSaver.DeleteBoard(savename);
 
                 if (pool.Count == 0)
-                    Hide();
+                    AnimHide();
             }
         }, "Are you sure you want to delete this desk?", "Delete File", DialogType.OkCancel);
     }

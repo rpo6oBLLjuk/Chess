@@ -335,7 +335,7 @@ public class MovesGenerator
         }
 
         if (isChecked)
-            this.LogWarning($"Check for {currentPlayerColor}");
+            this.Log($"Check for {currentPlayerColor}");
 
         foreach (var move in moves)
         {
@@ -345,12 +345,12 @@ public class MovesGenerator
 
         if (isChecked)
         {
-            this.LogError($"Checkmate for {currentPlayerColor}");
+            this.Log($"Checkmate for {currentPlayerColor}");
             gameManager.GameEnd(opponentColor, false);
         }
         else
         {
-            this.FastLog($"Pat for {currentPlayerColor}");
+            this.Log($"Pat for {currentPlayerColor}");
             gameManager.GameEnd(opponentColor, true);
         }
     }

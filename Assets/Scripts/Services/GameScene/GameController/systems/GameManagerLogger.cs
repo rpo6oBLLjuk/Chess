@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-public class GameControllerLogger : MonoBehaviour
+public class GameManagerLogger : MonoBehaviour
 {
     [Inject] private GameManager gameManager;
 
@@ -57,7 +57,7 @@ public class GameControllerLogger : MonoBehaviour
     private void PieceDragEnd(PieceHandler pieceHandler, Transform parent) => PieceDragLog($"Drag end for piece {pieceHandler.name}, parent: {parent.name}");
 
     private void PieceMoved(PieceHandler piece, CellHandler startCell, CellHandler endCell) => PieceLog($"Piece moved from {startCell.Index} to {endCell.Index}");
-    private void PieceCaptured(PieceHandler capturerPiece, PieceHandler capturedPiece, CellHandler cell) => PieceLog($"Piece captured on cell {cell.Index}");
+    private void PieceCaptured(PieceHandler capturerPiece, PieceHandler capturedPiece, byte capturedPieceData, CellHandler cell) => PieceLog($"Piece captured on cell {cell.Index}");
     private void PieceDestroyed(PieceHandler capturerPiece, CellHandler cell) => PieceLog($"Piece destroyed on cell {cell.Index}");
 
     private void BoardCleared() => BoardLog("Board cleared");

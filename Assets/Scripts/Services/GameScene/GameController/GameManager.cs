@@ -25,9 +25,9 @@ public class GameManager : MonoService
     /// </summary>
     public event Action<PieceHandler, CellHandler, CellHandler> PieceMoved;
     /// <summary>
-    /// First arg: Capturer, second arg: captured piece
+    /// First arg: Capturer, second arg: captured piece, third arg: captured piece data
     /// </summary>
-    public event Action<PieceHandler, PieceHandler, CellHandler> PieceCaptured;
+    public event Action<PieceHandler, PieceHandler, byte, CellHandler> PieceCaptured;
 
     public event Action<PieceHandler, CellHandler> PieceSpawned;
     public event Action<PieceHandler, CellHandler> PieceDestroyed;
@@ -90,9 +90,11 @@ public class GameManager : MonoService
     }
     public void CapturePiece(PieceHandler pieceHandler, CellHandler cellHandler)
     {
+        byte capturedPieceData = Board[cellHandler.Index];
         PieceHandler capturedPiece = Pieces[cellHandler.Index];
+
         pieceService.CapturePiece(cellHandler);
-        PieceCaptured?.Invoke(pieceHandler, capturedPiece, cellHandler);
+        PieceCaptured?.Invoke(pieceHandler, capturedPiece, capturedPieceData, cellHandler);
     }
     public void DestroyPiece(CellHandler cellHandler)
     {

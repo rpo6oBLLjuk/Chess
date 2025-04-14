@@ -9,22 +9,33 @@ public class Panel : MonoBehaviour
     [SerializeField] protected Button hideButton;
     [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
 
-    [SerializeField] private bool autoHideOnAwake = true;
+    [SerializeField] protected bool autoHideOnAwake = true;
+
 
     protected virtual void Start()
     {
+        Initialize();
+
         if (autoHideOnAwake)
-        {
-            Initialize();
-            Hide();
-        }
-        hideButton?.onClick.AddListener(Hide);
+            ForceHide();
+        hideButton?.onClick.AddListener(HideCanvasGroup);
     }
 
     public virtual void Initialize() { }
 
-    public virtual void Show() => SetCanvasGroupState(true);
-    public virtual void Hide() => SetCanvasGroupState(false);
+    public virtual void ForceShow()
+    {
+        ShowCanvasGroup();
+        CanvasGroup.alpha = 1.0f;
+    }
+    public virtual void ForceHide()
+    {
+        HideCanvasGroup();
+        CanvasGroup.alpha = 0.0f;
+    }
+
+    protected void ShowCanvasGroup() => SetCanvasGroupState(true);
+    protected void HideCanvasGroup() => SetCanvasGroupState(false);
 
     private void SetCanvasGroupState(bool value)
     {

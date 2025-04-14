@@ -25,7 +25,7 @@ public class DialogController
         ConfigurateDialog(currentDialog, callback, message, sender, dialogType);
 
         currectDialogPanel = currentDialog.GetComponentInChildren<AnimatedPanel>();
-        currectDialogPanel.Show();
+        currectDialogPanel.AnimShow();
     }
 
     private void ConfigurateDialog(GameObject dialog, Action<bool> callback, string message, string sender = default, DialogType dialogType = DialogType.OkCancel)
@@ -47,14 +47,14 @@ public class DialogController
         this.Log($"Dialog \"{message}\" CONFIRMED", sender);
 
         callback?.Invoke(true);
-        currectDialogPanel.GetComponentInChildren<AnimatedPanel>().Hide();
+        currectDialogPanel.GetComponentInChildren<AnimatedPanel>().AnimHide();
     }
     private void CancelButtonListener(Action<bool> callback, string message, string sender)
     {
         this.Log($"Dialog \"{message}\" CANCELED", sender);
 
         callback?.Invoke(false);
-        currectDialogPanel.GetComponentInChildren<AnimatedPanel>().Hide();
+        currectDialogPanel.GetComponentInChildren<AnimatedPanel>().AnimHide();
     }
 
 

@@ -86,7 +86,7 @@ public class CellEffectManager : MonoBehaviour
         EnablePreviousCells(startCell, endCell);
     }
 
-    private void PieceCaptured(PieceHandler eater, PieceHandler eaten, CellHandler cellHandler)
+    private void PieceCaptured(PieceHandler capturerPiece, PieceHandler capturedPiece, byte capturedPieceData, CellHandler cellHandler)
     {
         EnableCapturedCell(cellHandler);
     }

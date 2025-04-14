@@ -2090,7 +2090,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1347561138099279657, guid: d9f1eab8509cab84c8deac6f16b2db0c, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 1347561138099279657, guid: d9f1eab8509cab84c8deac6f16b2db0c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2126,7 +2126,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1347561138099279657, guid: d9f1eab8509cab84c8deac6f16b2db0c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00012207031
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1347561138099279657, guid: d9f1eab8509cab84c8deac6f16b2db0c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2289,15 +2289,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &640406548 stripped
+--- !u!114 &862862105 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 411660185310649381, guid: d9f1eab8509cab84c8deac6f16b2db0c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2939441739213355190, guid: d9f1eab8509cab84c8deac6f16b2db0c, type: 3}
   m_PrefabInstance: {fileID: 640406541}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b44305caf7a9122458e2761ada6c154b, type: 3}
+  m_Script: {fileID: 11500000, guid: ffd41551f5ff66446a232c17169e027c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1109994260
@@ -2376,7 +2376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3a03db4806b3a4b928e1e122f39040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainPanel: {fileID: 640406548}
+  mainPanel: {fileID: 862862105}
   widgets:
   - panel: {fileID: 1870016567}
     showButton: {fileID: 640406547}
@@ -2575,18 +2575,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4373733487644064357, guid: 4ea6eed98893da643957e743e6d42e53, type: 3}
-      propertyPath: smoothness
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4373733487644064357, guid: 4ea6eed98893da643957e743e6d42e53, type: 3}
-      propertyPath: scrollWeight
-      value: 0.0001
-      objectReference: {fileID: 0}
-    - target: {fileID: 4373733487644064357, guid: 4ea6eed98893da643957e743e6d42e53, type: 3}
-      propertyPath: horizontalElementsCount
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4398066656212765461, guid: 4ea6eed98893da643957e743e6d42e53, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2621,10 +2609,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5029090753784414045, guid: 4ea6eed98893da643957e743e6d42e53, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5029090753784414045, guid: 4ea6eed98893da643957e743e6d42e53, type: 3}
-      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5049718757397558662, guid: 4ea6eed98893da643957e743e6d42e53, type: 3}
