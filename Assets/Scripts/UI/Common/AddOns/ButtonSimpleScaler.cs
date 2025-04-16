@@ -10,8 +10,11 @@ public class ButtonSimpleScaler : MonoBehaviour, IPointerDownHandler, IPointerEx
 
     private Vector3 defaultScale;
 
+
     private void Awake() => defaultScale = transform.localScale;
 
     public void OnPointerDown(PointerEventData eventData) => transform.DOScale(newLocalScale, duration);
     public void OnPointerExit(PointerEventData eventData) => transform.DOScale(defaultScale, duration);
+
+    private void OnDisable() => transform.DOKill();
 }

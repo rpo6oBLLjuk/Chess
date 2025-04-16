@@ -35,6 +35,9 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     public int VerticalElementsCount => verticalElementsCount;
     [SerializeField] private int verticalElementsCount = 0;
 
+    public bool Horizontal => scrollRect.horizontal;
+    public bool Vertical => scrollRect.vertical;
+
     [Header("Values")]
     [SerializeField] private float smoothness = 20f;
     [SerializeField] private float scrollWeight = 0.0001f;
@@ -53,8 +56,8 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
     private bool started = false;
 
-    public bool Horizontal => scrollRect.horizontal;
-    public bool Vertical => scrollRect.vertical;
+    private bool startIndexUpdated = false;
+
 
     public void ScrollTo(int x, int y)
     {
@@ -172,7 +175,7 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     {
         int contentCount = scrollRect.content.transform.GetChildCount(countingInactiveChildren);
 
-        if (Horizontal && horizontalElementsCount != contentCount)
+        if (!startIndexUpdated || (Horizontal && horizontalElementsCount != contentCount))
         {
             Log($"{gameObject.name}: Horizontal Elements Count принудительно изменено с {horizontalElementsCount} на {contentCount}", this);
 
@@ -183,7 +186,7 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
             forcePositionUpdate = true;
         }
-        else if (Vertical && verticalElementsCount != contentCount)
+        else if (!startIndexUpdated || (Vertical && verticalElementsCount != contentCount))
         {
             Log($"Vertical Elements Count принудительно изменено с {verticalElementsCount} на {contentCount}", this);
 
@@ -194,6 +197,8 @@ public class SnapScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
             forcePositionUpdate = true;
         }
+
+        startIndexUpdated = true;
     }
 
     private void Log(string log, UnityEngine.Object link = null)

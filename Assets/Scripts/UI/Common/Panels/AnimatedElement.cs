@@ -121,7 +121,7 @@ public class AnimatedElement : MonoBehaviour
     }
 
 
-    private void OnDestroy() => rectTransform.DOKill();
+    private void OnDisable() => rectTransform.DOKill();
 
     private void Reset() => rectTransform = GetComponent<RectTransform>();
     private void OnDrawGizmosSelected()

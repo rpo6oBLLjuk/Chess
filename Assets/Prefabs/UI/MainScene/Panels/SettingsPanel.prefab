@@ -259,6 +259,12 @@ MonoBehaviour:
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
     delay: 0
+  defaultData:
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 1, y: 1, z: 1}
+    easeType: 6
+    delay: 0
 --- !u!1 &1074853442887047987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2911,6 +2917,12 @@ MonoBehaviour:
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
     delay: 0
+  defaultData:
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 1, y: 1, z: 1}
+    easeType: 6
+    delay: 0
 --- !u!1 &4117836070998263503
 GameObject:
   m_ObjectHideFlags: 0
@@ -3619,7 +3631,7 @@ MonoBehaviour:
   horizontalElementsCount: 3
   verticalElementsCount: 0
   smoothness: 20
-  scrollWeight: 0.0001
+  scrollWeight: 0.001
   endLerpValue: 0.000001
   countingInactiveChildren: 0
   logging: 0
@@ -5832,6 +5844,12 @@ MonoBehaviour:
   useLoopAnim: 0
   loopDuration: 1
   loopAnimEndData:
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 1, y: 1, z: 1}
+    easeType: 6
+    delay: 0
+  defaultData:
     position: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}

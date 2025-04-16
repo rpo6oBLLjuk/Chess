@@ -49,5 +49,5 @@ public class AnimatedPanel : Panel
         AnimatedWidgetElements.ForEach(element => element.Hide(forceHide: true));
     }
 
-    private void OnDestroy() => CanvasGroup.DOKill(this);
+    private void OnDisable() => CanvasGroup.DOKill(this);
 }
