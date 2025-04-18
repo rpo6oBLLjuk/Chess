@@ -42,7 +42,9 @@ public class PieceEffectManager : MonoBehaviour
     public void PieceDragged(PieceHandler pieceHandler, Vector3 position, CellHandler cellHandler)
     {
         if (IsDragable(gameManager.Pieces.IndexOf(pieceHandler)))
+        {
             pieceHandler.transform.position = position;
+        }
     }
 
     public void PieceEndDrag(PieceHandler pieceHandler, Transform parent)

@@ -1,27 +1,31 @@
+using CustomInspector;
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PopupData", menuName = "Scriptable Objects/Notification/PopupData")]
 public class PopupData : ScriptableObject
 {
+    [Serializable]
+    public class PopupTypeData
+    {
+        public Sprite sprite;
+        public Color color;
+    }
+
     [Header("References")]
     public GameObject popup;
-    public Sprite infoSprite;
-    public Color infoColor = Color.white;
-    public Sprite warningSprite;
-    public Color warningColor = Color.yellow;
-    public Sprite errorSprite;
-    public Color errorColor = Color.red;
 
-    [Header("Values")]
-    public float duration = 1f;
-    public float showTime = 0.25f;
-    public float hideTime = 0.25f;
+    [Tab("Data")] public PopupTypeData Info;
+    [Tab("Data")] public PopupTypeData Warning;
+    [Tab("Data")] public PopupTypeData Error;
 
-    [Header("Other settings")]
-    public bool horizontalScale = true;
-    public bool verticalScale = false;
+    [Tab("Values")] public float duration = 1f;
+    [Tab("Values")] public float showTime = 0.25f;
+    [Tab("Values")] public float hideTime = 0.25f;
 
-    [Header("PopupList")]
-    public bool useList;
-    [Tooltip("Only if useList"), Min(2)] public int listSize = 3;
+    [Tab("Other settings")] public bool horizontalScale = true;
+    [Tab("Other settings")] public bool verticalScale = false;
+
+    [Tab("PopupList")] public bool useList;
+    [Tab("PopupList"), ShowIf(nameof(useList)), Min(2)] public int listSize = 3;
 }

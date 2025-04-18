@@ -1,18 +1,19 @@
+using CustomInspector;
 using UnityEngine;
 using Zenject;
 
 public class GameManagerLogger : MonoBehaviour
 {
-    [Inject] private GameManager gameManager;
+    [Inject] GameManager gameManager;
 
-    [Header("Main Condition")]
-    [SerializeField] private bool logging = true;
+    [HorizontalLine("Main Condition")]
+    [SerializeField] bool logging = true;
 
-    [Header("Specifying Condition")]
-    [SerializeField] private bool logCellActions = false;
-    [SerializeField] private bool logPieceDragActions = false;
-    [SerializeField] private bool logPieceActions = true;
-    [SerializeField] private bool logBoardActions = false;
+    [HorizontalLine(1, FixedColor.Black, 7, message = "Specifying Condition")]
+    [SerializeField, ShowIf(nameof(logging))] bool logCellActions = false;
+    [SerializeField, ShowIf(nameof(logging))] bool logPieceDragActions = false;
+    [SerializeField, ShowIf(nameof(logging))] bool logPieceActions = true;
+    [SerializeField, ShowIf(nameof(logging))] bool logBoardActions = false;
 
 
     private void OnEnable()

@@ -13,6 +13,15 @@ MonoBehaviour:
   m_Name: PopupData
   m_EditorClassIdentifier: 
   popup: {fileID: 4638931309391419011, guid: b321d3e3cbf8c9c4bbb7992ff7268b98, type: 3}
+  Info:
+    sprite: {fileID: 21300000, guid: 46712e23d71a3994d906c3660e5f528c, type: 3}
+    color: {r: 1, g: 1, b: 1, a: 1}
+  Warning:
+    sprite: {fileID: 21300000, guid: 4c73403134d9eb3458d9c495a33c2c13, type: 3}
+    color: {r: 1, g: 0.9215687, b: 0.015686275, a: 1}
+  Error:
+    sprite: {fileID: 21300000, guid: 0774bcb7613f85e4b8fcdbd60eff9319, type: 3}
+    color: {r: 1, g: 0, b: 0, a: 1}
   infoSprite: {fileID: 21300000, guid: 46712e23d71a3994d906c3660e5f528c, type: 3}
   infoColor: {r: 1, g: 1, b: 1, a: 1}
   warningSprite: {fileID: 21300000, guid: 4c73403134d9eb3458d9c495a33c2c13, type: 3}

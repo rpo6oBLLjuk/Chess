@@ -38,18 +38,18 @@ public class PopupMessageController
         popupImg.sprite = popupType switch
         {
             PopupType.None => null,
-            PopupType.Info => data.infoSprite,
-            PopupType.Warning => data.warningSprite,
-            PopupType.Error => data.errorSprite,
+            PopupType.Info => data.Info.sprite,
+            PopupType.Warning => data.Warning.sprite,
+            PopupType.Error => data.Error.sprite,
             _ => null
         };
 
         popupImg.color = popupType switch
         {
             PopupType.None => new Color(0, 0, 0, 0),
-            PopupType.Info => data.infoColor,
-            PopupType.Warning => data.warningColor,
-            PopupType.Error => data.errorColor,
+            PopupType.Info => data.Info.color,
+            PopupType.Warning => data.Warning.color,
+            PopupType.Error => data.Error.color,
             _ => new Color(0, 0, 0, 0)
         };
 

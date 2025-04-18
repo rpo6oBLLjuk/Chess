@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83e7529992b8c5442a20aff9de886cec, type: 3}
   m_Name: PieceEffectManagerData
   m_EditorClassIdentifier: 
+  <DragInactivePieces>k__BackingField: 0

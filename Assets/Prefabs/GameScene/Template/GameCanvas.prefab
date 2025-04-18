@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a0bfaedec6e304288135a70d8a4532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logging: 0
+  logging: 1
   logCellActions: 0
   logPieceDragActions: 0
   logPieceActions: 0
