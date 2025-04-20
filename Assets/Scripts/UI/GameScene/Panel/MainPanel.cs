@@ -1,10 +1,13 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Zenject;
 
 public class MainPanel : AnimatedPanel
 {
+    [Inject] SceneLoader sceneLoader;
+
     [SerializeField] private Button playButton;
+
 
     protected override void Start()
     {
@@ -14,6 +17,6 @@ public class MainPanel : AnimatedPanel
 
     private void LoadGameScene()
     {
-        SceneManager.LoadScene(1);
+        sceneLoader.LoadGameModeSelectionScene();
     }
 }

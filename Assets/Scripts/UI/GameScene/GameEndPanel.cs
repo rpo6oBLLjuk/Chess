@@ -7,6 +7,7 @@ using Zenject;
 public class GameEndPanel : AnimatedPanel
 {
     [Inject] GameManager gameManager;
+    [Inject] SceneLoader sceneLoader;
 
     [Header("References")]
     [SerializeField] TextMeshProUGUI gameEndTypeTMP;
@@ -37,8 +38,8 @@ public class GameEndPanel : AnimatedPanel
         exitButton.onClick.AddListener(CustomHide);
     }
 
-    public void CustomHide()
+    private void CustomHide()
     {
-        SceneManager.LoadScene(0);
+        sceneLoader.LoadMainScene();
     }
 }

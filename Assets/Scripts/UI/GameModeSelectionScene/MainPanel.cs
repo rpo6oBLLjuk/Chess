@@ -1,11 +1,13 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI.GameModeSelectionScene.Panel
 {
     public class MainPanel : AnimatedPanel
     {
+        [Inject] SceneLoader sceneLoader;
+
         [SerializeField] Button pvpButton;
         [SerializeField] Button pveButton;
 
@@ -19,12 +21,12 @@ namespace UI.GameModeSelectionScene.Panel
 
         private void PvPOnClick()
         {
-            SceneManager.LoadScene(3);
+            sceneLoader.LoadGameScene();
         }
 
         private void PvEOnClick()
         {
-            SceneManager.LoadScene(3);
+            sceneLoader.LoadGameScene();
         }
     }
 }

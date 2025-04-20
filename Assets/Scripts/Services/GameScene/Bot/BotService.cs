@@ -23,7 +23,3 @@ public class BotService : MonoService
     {
     }
 }
-
-class BotServiceInstaller : SimpleMonoInstaller<BotService>
-{
-}
