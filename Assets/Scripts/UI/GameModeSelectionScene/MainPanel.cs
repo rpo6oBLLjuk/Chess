@@ -10,12 +10,13 @@ namespace UI.GameModeSelectionScene.Panel
 
         [SerializeField] Button pvpButton;
         [SerializeField] Button pveButton;
-
+        [SerializeField] Button constructorButton;
 
         private void OnEnable()
         {
             pvpButton.onClick.AddListener(PvPOnClick);
             pveButton.onClick.AddListener(PvEOnClick);
+            constructorButton.onClick.AddListener(ConstructorOnClick);
         }
 
 
@@ -27,6 +28,11 @@ namespace UI.GameModeSelectionScene.Panel
         private void PvEOnClick()
         {
             sceneLoader.LoadGameScene();
+        }
+
+        private void ConstructorOnClick()
+        {
+            sceneLoader.LoadConstructorScene();
         }
     }
 }

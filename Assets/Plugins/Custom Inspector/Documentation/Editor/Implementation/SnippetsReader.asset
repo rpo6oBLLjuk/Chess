@@ -1021,7 +1021,7 @@ MonoBehaviour:
     animatorParameterAttributeExamples:
       animatorController: {fileID: 9100000, guid: 3a1cea91d6692bf40b069a1d3b66f1b5, type: 2}
       animator: {fileID: 0}
-      paramName2: NewFloat
+      paramName2: <missing>
       paramName: <missing>
     asButtonAttributeExamples:
       selectableBoolean: 0
@@ -1065,7 +1065,7 @@ MonoBehaviour:
       onlyTens: 20
       onlyHundreds: 300
     delayed2AttributeExamples:
-      delayed: Edit Here
+      delayed: 111
       instant: Edit Here
       b2: 0
     displayAutoPropertyAttributeExamples:
@@ -1171,7 +1171,7 @@ MonoBehaviour:
     layerAttributeExamples:
       layer: 0
       layer1: 0
-      layer2: 0
+      layer2: 1
     maskAttributeExamples:
       myInt: 5
       rc: 0
@@ -1233,7 +1233,7 @@ MonoBehaviour:
       noRichText: We are <color=green><b>not</b></color> sad.
     sceneAttributeExamples:
       gameScene: 0
-      startScene: Assets/Custom Inspector/Demo/CI_DemoScene.unity
+      startScene: Assets/Scenes/MainScene.unity
       _: 0
     selfFillAttributeExamples:
       cam: {fileID: 0}
@@ -1341,8 +1341,8 @@ MonoBehaviour:
       c: 0
       d: 0
     validateAttributeExamples:
-      evenNumber: 2
-      oddNumber: 1
+      evenNumber: 26
+      oddNumber: 5
     array2DExamples:
       images:
         rowAmount: 4
@@ -1389,11 +1389,11 @@ MonoBehaviour:
         max: 1.53
     filePathExamples:
       filePath:
-        path: Assets
-        assetReference: {fileID: 0}
+        path: Assets/Prefabs/UI/UIObjects/Achievement.prefab
+        assetReference: {fileID: 6971966068208332117, guid: b3007a2d006b41e40906117268c2ded0, type: 3}
       meshPath:
-        path: <invalid>
-        assetReference: {fileID: 0}
+        path: Library/unity default resources
+        assetReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
       path:
         path: <invalid>
         assetReference: {fileID: 0}
@@ -1402,7 +1402,7 @@ MonoBehaviour:
         path: Assets
         assetReference: {fileID: 102900000, guid: 00000000000000001000000000000000, type: 3}
       path2:
-        path: <invalid>
+        path: 
         assetReference: {fileID: 0}
       path3:
         path: Assets/Trash

@@ -22,11 +22,13 @@ public class PiecesSkinData : ScriptableObject
     [SerializeField] private PieceSkinData Queen;
     [SerializeField] private PieceSkinData King;
 
-    public Sprite Get(byte pieceData)
-    {
-        PieceColor pieceColor = PiecePacker.GetColor(pieceData);
 
-        return PiecePacker.GetType(pieceData) switch
+
+    public Sprite Get(byte pieceData) => Get(PiecePacker.GetType(pieceData), PiecePacker.GetColor(pieceData));
+
+    public Sprite Get(PieceType pieceType, PieceColor pieceColor)
+    {
+        return pieceType switch
         {
             PieceType.Pawn => (pieceColor == PieceColor.White) ? Pawn.WhiteSkin : Pawn.BlackSkin,
             PieceType.Knight => (pieceColor == PieceColor.White) ? Knight.WhiteSkin : Knight.BlackSkin,

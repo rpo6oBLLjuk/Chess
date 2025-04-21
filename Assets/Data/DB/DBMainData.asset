@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65f59451473740049833ba848b2f9af7, type: 3}
+  m_Name: DBMainData
+  m_EditorClassIdentifier: 
+  <Username>k__BackingField: qqqq
+  <Password>k__BackingField: 
+  <ConnectionString>k__BackingField: server=9gk5d.h.filess.io;user=Chess_boxvaporof;database=Chess_boxvaporof;port=3306;password=3534bbaa4cdcde9b9438b05ae518e0094c3ed67c;SslMode=None;

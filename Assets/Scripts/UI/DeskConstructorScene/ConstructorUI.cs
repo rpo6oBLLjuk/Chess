@@ -1,7 +1,5 @@
+using CustomInspector;
 using System;
-using System.Linq;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -11,24 +9,19 @@ public class ConstructorUI : MonoBehaviour
     [Inject] NotificationService notificationService;
     [Inject] GameManager gameManager;
 
-    [SerializeField] private Button defaultButton;
-    [SerializeField] private Transform pieceButtonsParent;
-    [SerializeField] private Transform systemButtonsParent;
+    [SerializeField, Dictionary] ReorderableDictionary<PieceType, Button> pieceButtons;
+    [SerializeField] Button colorChangeButton;
+    [SerializeField] Button destroyButton;
+    [SerializeField] Button clearBoardButton;
+
+    [SerializeField] Button saveButton;
+    [SerializeField] Button loadButton;
+
 
     [SerializeField] private DeskSaverUI saverUI;
     [SerializeField] private DeskLoaderUI loaderUI;
 
-    private Button saveButton;
-    private Button loadButton;
-    private Button colorButton;
-    private Button destroyButton;
-    private Button clearBoardButton;
-
-    [SerializeField] private Sprite whiteColorSprite;
-    [SerializeField] private Sprite blackColorSprite;
-
     private bool destroyerIsActive;
-
     private PieceColor currectPieceColor = PieceColor.White;
 
 
@@ -36,55 +29,27 @@ public class ConstructorUI : MonoBehaviour
     {
         destroyerIsActive = false;
 
-        defaultButton.gameObject.SetActive(false);
-
+        currectPieceColor = PieceColor.White;
+        UpdatePieceButtonSprites();
 
         foreach (PieceType pieceType in Enum.GetValues(typeof(PieceType)))
         {
             if (pieceType != PieceType.None && pieceType != PieceType.Other)
-                InstantiateButtonWithCallback(pieceType.ToString(), pieceButtonsParent, () => SpawnerButtonCallback(pieceType));
+                AddCallback(pieceButtons[pieceType], () => SpawnButtonCallback(pieceType));
         }
+        AddCallback(colorChangeButton, ColorChangeButtonCallback);
+        AddCallback(destroyButton, DestroyButtonCallback);
+        AddCallback(clearBoardButton, gameManager.ClearBoard);
 
-        colorButton = InstantiateButtonWithCallback("White", systemButtonsParent, () =>
-        {
-            currectPieceColor = (currectPieceColor == PieceColor.White) ? PieceColor.Black : PieceColor.White;
-
-            TextMeshProUGUI tmpro = colorButton.GetComponentInChildren<TextMeshProUGUI>();
-            tmpro.text = currectPieceColor.ToString();
-            tmpro.color = (currectPieceColor == PieceColor.White) ? Color.white : Color.black;
-
-            colorButton.GetComponent<Image>().sprite = (currectPieceColor == PieceColor.White) ? whiteColorSprite : blackColorSprite;
-        });
-        destroyButton = InstantiateButtonWithCallback("Destroy (inactive)", systemButtonsParent, () => DestroyButtonCallback());
-
-        saveButton = InstantiateButtonWithCallback("Save", systemButtonsParent, () => saverUI.AnimShow());
-        loadButton = InstantiateButtonWithCallback("Load", systemButtonsParent, () => loaderUI.AnimShow());
-
-        clearBoardButton = InstantiateButtonWithCallback("Clear board", systemButtonsParent, () => gameManager.ClearBoard());
+        AddCallback(saveButton, saverUI.AnimShow);
+        AddCallback(loadButton, loaderUI.AnimShow);
     }
 
-    private Button InstantiateButtonWithCallback(string name, Transform parent, Action callback)
+    private void AddCallback(Button button, Action callback) => button.onClick.AddListener(() => callback.Invoke());
+
+    private void SpawnButtonCallback(PieceType pieceType)
     {
-        Button buttonInstance = InstantiateButton(name, parent).GetComponent<Button>();
-        buttonInstance.onClick.AddListener(() => callback.Invoke());
-
-        return buttonInstance;
-    }
-
-    private GameObject InstantiateButton(string name, Transform parent)
-    {
-        GameObject buttonInstance = Instantiate(defaultButton.gameObject, parent);
-        buttonInstance.SetActive(true);
-
-        buttonInstance.name = $"{name}Button";
-        buttonInstance.GetComponentInChildren<TextMeshProUGUI>().text = name;
-
-        return buttonInstance;
-    }
-
-    private void SpawnerButtonCallback(PieceType pieceType)
-    {
-        var foundIndex = Array.FindIndex(gameManager.Board, piece => PiecePacker.IsEqualType( piece, PieceType.None));
+        var foundIndex = Array.FindIndex(gameManager.Board, piece => PiecePacker.IsEqualType(piece, PieceType.None));
 
         if (foundIndex == -1)
             notificationService.ShowPopup("Board full", "Spawner", PopupType.Error);
@@ -92,6 +57,11 @@ public class ConstructorUI : MonoBehaviour
             gameManager.SpawnPiece(PiecePacker.PackPiece(pieceType, currectPieceColor), gameManager.Cells[foundIndex]);
     }
 
+    private void ColorChangeButtonCallback()
+    {
+        currectPieceColor = (currectPieceColor == PieceColor.White) ? PieceColor.Black : PieceColor.White;
+        UpdatePieceButtonSprites();
+    }
     private void DestroyButtonCallback()
     {
         destroyerIsActive = !destroyerIsActive;
@@ -99,17 +69,28 @@ public class ConstructorUI : MonoBehaviour
         if (destroyerIsActive)
         {
             gameManager.CellClicked += DestroyPiece;
-            destroyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Destroy (active)";
+            destroyButton.GetComponentInChildren<Outline>().enabled = true;
         }
         else
         {
             gameManager.CellClicked -= DestroyPiece;
-            destroyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Destroy (inactive)";
+            destroyButton.GetComponentInChildren<Outline>().enabled = false;
         }
     }
+
     private void DestroyPiece(CellHandler cellHandler)
     {
-        if (!PiecePacker.IsEqualType( gameManager.Board[cellHandler.Index], PieceType.None))
+        if (!PiecePacker.IsEqualType(gameManager.Board[cellHandler.Index], PieceType.None))
             gameManager.DestroyPiece(cellHandler);
+    }
+    private void UpdatePieceButtonSprites()
+    {
+        foreach (PieceType pieceType in Enum.GetValues(typeof(PieceType)))
+        {
+            if (pieceType != PieceType.None && pieceType != PieceType.Other)
+            {
+                pieceButtons[pieceType].transform.GetComponentInChildrenOnly<Image>().sprite = gameManager.PiecesSkinData.Get(pieceType, currectPieceColor);
+            }
+        }
     }
 }

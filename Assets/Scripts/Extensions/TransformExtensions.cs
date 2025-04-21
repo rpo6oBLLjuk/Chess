@@ -38,4 +38,15 @@ public static class TransformExtensions
             return childCount;
         }
     }
+
+    public static T GetComponentInChildrenOnly<T>(this Transform parent) where T : Component
+    {
+        for(int i = 0; i < parent.childCount; i++)
+        {
+            if(parent.GetChild(i).TryGetComponent(out T t))
+                return t;
+        }
+
+        return null;
+    }
 }
