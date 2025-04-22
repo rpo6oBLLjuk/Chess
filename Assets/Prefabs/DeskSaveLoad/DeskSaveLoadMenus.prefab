@@ -297,6 +297,10 @@ PrefabInstance:
       propertyPath: m_Type
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3696775675358011396, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3785268065671014153, guid: b462e70e1652aa14eb76f511e8f2c932, type: 3}
       propertyPath: m_Name
       value: LoaderMenu

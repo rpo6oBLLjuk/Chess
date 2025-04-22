@@ -11,6 +11,8 @@ public class Panel : MonoBehaviour
 
     [SerializeField] protected bool autoHideOnAwake = true;
 
+    private bool initialized = false;
+
 
     protected virtual void Start()
     {
@@ -21,7 +23,11 @@ public class Panel : MonoBehaviour
         hideButton?.onClick.AddListener(HideCanvasGroup);
     }
 
-    public virtual void Initialize() { }
+    public virtual void Initialize()
+    {
+        if(initialized) return;
+        initialized = true;
+    }
 
     public virtual void ForceShow()
     {

@@ -20,11 +20,17 @@ public class SceneLoader : MonoService
     [SerializeField, Tab("Settings")] Ease endEaseType;
     [SerializeField, Tab("Settings")] float endDuration = 0.25f;
 
+    private float canvasWidth;
+    
+    private bool isLoading = false;
 
-    public override void OnInstantiated()
+
+
+    public void Start()
     {
-        base.OnInstantiated();
-        loadingImage.localPosition = new Vector3(-Screen.width, loadingImage.localPosition.y, loadingImage.localPosition.z);
+        canvasWidth = GetComponentInChildren<Canvas>().GetComponent<RectTransform>().rect.width;
+
+        loadingImage.localPosition = new Vector3(-canvasWidth, loadingImage.localPosition.y, loadingImage.localPosition.z);
     }
 
     public void LoadMainScene(IProgress<float> progress = null) => LoadScene(mainScene, progress).Forget();
@@ -35,11 +41,16 @@ public class SceneLoader : MonoService
 
     private async UniTask LoadScene(int sceneIndex, IProgress<float> progress = null)
     {
+        if (isLoading)
+            return;
+
+        isLoading = true;
+
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
         operation.allowSceneActivation = false;
 
         Tween openTween = loadingImage.DOLocalMoveX(0, startDuration)
-            .From(-Screen.width)
+            .From(-canvasWidth)
             .SetEase(startEaseType);
 
         while (operation.progress < 0.9f)
@@ -53,8 +64,10 @@ public class SceneLoader : MonoService
             await openTween.AsyncWaitForCompletion().AsUniTask();
 
         operation.allowSceneActivation = true;
-        loadingImage.DOLocalMoveX(Screen.width, endDuration)
+        loadingImage.DOLocalMoveX(canvasWidth, endDuration)
             .From(0)
             .SetEase(endEaseType);
+
+        isLoading = false;
     }
 }

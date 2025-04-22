@@ -17,8 +17,6 @@ public class NotificationService : MonoService
     {
         popupMessageController = new(popupData, popupParent);
         dialogController = new(dialogData, dialogCanvas.transform);
-
-        Debug.Log("Notification Service instantiated");
     }
 
     public void ShowPopup(string message, string sender = default, PopupType popupType = PopupType.None) => popupMessageController.Show(message, sender, popupType);

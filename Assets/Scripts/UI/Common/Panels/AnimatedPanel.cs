@@ -9,7 +9,11 @@ public class AnimatedPanel : Panel
     [SerializeField] private List<AnimatedElement> AnimatedWidgetElements;
 
 
-    public override void Initialize() => AnimatedWidgetElements.ForEach(element => element.Initialize());
+    public override void Initialize()
+    {
+        base.Initialize();
+        AnimatedWidgetElements.ForEach(element => element.Initialize());
+    }
 
     protected override void Start()
     {

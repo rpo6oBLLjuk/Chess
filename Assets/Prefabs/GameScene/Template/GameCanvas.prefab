@@ -1956,7 +1956,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7386006687288875784, guid: 5d50840a6f9a4bd43abedf78f982bd6f, type: 3}
       propertyPath: m_text
-      value: Constructor
+      value: Game
       objectReference: {fileID: 0}
     - target: {fileID: 7386006687288875784, guid: 5d50840a6f9a4bd43abedf78f982bd6f, type: 3}
       propertyPath: m_fontSize

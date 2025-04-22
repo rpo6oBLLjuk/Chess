@@ -32,6 +32,7 @@ public class MainPanelSwitcher : MonoBehaviour
             panelContainer.panel.HideButton.onClick.AddListener(mainPanel.ForceShow);
         }
 
+        mainPanel.Initialize();
         mainPanel.AnimShow();
     }
 }

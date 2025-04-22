@@ -962,6 +962,10 @@ PrefabInstance:
       value: GameCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 6027047241942039452, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6027047241942039452, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
@@ -984,6 +988,14 @@ PrefabInstance:
     - target: {fileID: 7043895313622862422, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7810929510983703411, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8895464317062185841, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
+      propertyPath: m_text
+      value: Constructor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
