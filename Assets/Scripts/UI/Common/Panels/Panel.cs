@@ -11,7 +11,7 @@ public class Panel : MonoBehaviour
 
     [SerializeField] protected bool autoHideOnAwake = true;
 
-    private bool initialized = false;
+    protected bool initialized = false;
 
 
     protected virtual void Start()
@@ -20,28 +20,31 @@ public class Panel : MonoBehaviour
 
         if (autoHideOnAwake)
             ForceHide();
-        hideButton?.onClick.AddListener(HideCanvasGroup);
+        hideButton?.onClick.AddListener(DisableCanvasGroup);
     }
 
     public virtual void Initialize()
     {
-        if(initialized) return;
+        if (initialized)
+        {
+            return;
+        }
         initialized = true;
     }
 
     public virtual void ForceShow()
     {
-        ShowCanvasGroup();
+        EnableCanvasGroup();
         CanvasGroup.alpha = 1.0f;
     }
     public virtual void ForceHide()
     {
-        HideCanvasGroup();
+        DisableCanvasGroup();
         CanvasGroup.alpha = 0.0f;
     }
 
-    protected void ShowCanvasGroup() => SetCanvasGroupState(true);
-    protected void HideCanvasGroup() => SetCanvasGroupState(false);
+    protected void EnableCanvasGroup() => SetCanvasGroupState(true);
+    protected void DisableCanvasGroup() => SetCanvasGroupState(false);
 
     private void SetCanvasGroupState(bool value)
     {

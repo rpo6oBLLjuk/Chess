@@ -4086,6 +4086,7 @@ GameObject:
   - component: {fileID: 5478785041651986288}
   - component: {fileID: 6864337688158956354}
   - component: {fileID: 727746956175707081}
+  - component: {fileID: 8276796759893484242}
   m_Layer: 5
   m_Name: SettingsPanel
   m_TagString: Untagged
@@ -4185,6 +4186,22 @@ MonoBehaviour:
   - {fileID: 985429454755995048}
   - {fileID: 2469979803563950280}
   - {fileID: 1369577170609235387}
+--- !u!114 &8276796759893484242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5478785041651986290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b8d1744219594f45a305a29bcac29ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Settings>k__BackingField: {fileID: 11400000, guid: 7695d8fb986e88a46a049a4497a56bf6, type: 2}
+  saveDirectory: Saves/Settings/
+  fileName: settings
+  defaultData: {fileID: 11400000, guid: 8d42b72e67b653942b128b2ecaafa63f, type: 2}
 --- !u!1 &5652954491788521614
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,11 +12,14 @@ public class MainPanel : AnimatedPanel
     protected override void Start()
     {
         base.Start();
-        playButton.onClick.AddListener(LoadGameScene);
+        playButton?.onClick.AddListener(LoadGameScene);
     }
 
     private void LoadGameScene()
     {
-        sceneLoader.LoadGameModeSelectionScene();
+        if (sceneLoader != null)
+            sceneLoader.LoadGameModeSelectionScene();
+        else
+            Debug.LogError("Scene loader is null");
     }
 }

@@ -4,7 +4,7 @@ using Zenject;
 
 public class SettingsManager : MonoService
 {
-    [field: Foldout] public SettingsData Settings { get; private set; }
+    [field: SerializeField, Foldout] public SettingsData Settings { get; private set; }
 
     [Inject] NotificationService notificationService;
 
@@ -17,5 +17,10 @@ public class SettingsManager : MonoService
     public void Init()
     {
 
+    }
+
+    private void Awake()
+    {
+        Application.targetFrameRate = Settings.TargetFrameRate;
     }
 }

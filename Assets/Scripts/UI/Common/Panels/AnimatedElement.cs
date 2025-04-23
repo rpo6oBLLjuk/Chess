@@ -104,15 +104,15 @@ public class AnimatedElement : MonoBehaviour
             loopSequence = DOTween.Sequence(rectTransform);
 
             loopSequence.Join(GetAnim(rectTransform,
-                loopAnimEndData.position + defaultData.position, defaultData.position,
-                loopAnimEndData.rotation, defaultData.rotation,
-                loopAnimEndData.scale, defaultData.scale,
-                loopAnimEndData.easeType, loopDuration, loopAnimEndData.delay));
-
-            loopSequence.Append(GetAnim(rectTransform,
                 defaultData.position, defaultData.position + loopAnimEndData.position,
                 defaultData.rotation, loopAnimEndData.rotation,
                 defaultData.scale, loopAnimEndData.scale,
+                loopAnimEndData.easeType, loopDuration, loopAnimEndData.delay));
+
+            loopSequence.Append(GetAnim(rectTransform,
+                loopAnimEndData.position + defaultData.position, defaultData.position,
+                loopAnimEndData.rotation, defaultData.rotation,
+                loopAnimEndData.scale, defaultData.scale,
                 loopAnimEndData.easeType, loopDuration, loopAnimEndData.delay));
 
             loopSequence.SetLoops(-1);

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: CurrentSettingsData
   m_EditorClassIdentifier: 
   <MasterVolume>k__BackingField: 100
-  <MsicVolume>k__BackingField: 100
+  <MusicVolume>k__BackingField: 100
   <SoundsVolume>k__BackingField: 100
   <VSync>k__BackingField: 1
-  <TargetFrameRate>k__BackingField: 60
+  <TargetFrameRate>k__BackingField: 120
   <Language>k__BackingField: 

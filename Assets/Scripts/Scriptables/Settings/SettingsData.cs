@@ -6,7 +6,7 @@ public class SettingsData : ScriptableObject
 {
     [field: HorizontalLine("Audio")]
     [field: SerializeField, Range(0, 100)] public float MasterVolume { get; private set; }
-    [field: SerializeField, Range(0, 100)] public float MsicVolume { get; private set; }
+    [field: SerializeField, Range(0, 100)] public float MusicVolume { get; private set; }
     [field: SerializeField, Range(0, 100)] public float SoundsVolume { get; private set; }
 
     [field: HorizontalLine("Graphics")]

@@ -11,6 +11,9 @@ public class AnimatedPanel : Panel
 
     public override void Initialize()
     {
+        if (initialized)
+            return;
+
         base.Initialize();
         AnimatedWidgetElements.ForEach(element => element.Initialize());
     }
@@ -23,7 +26,7 @@ public class AnimatedPanel : Panel
 
     public virtual void AnimShow()
     {
-        ShowCanvasGroup();
+        EnableCanvasGroup();
 
         CanvasGroup.DOFade(1, data.showDuration)
             .From(0);
@@ -32,7 +35,7 @@ public class AnimatedPanel : Panel
     }
     public virtual void AnimHide()
     {
-        HideCanvasGroup();
+        DisableCanvasGroup();
 
         CanvasGroup.DOFade(0, data.showDuration)
             .From(1);
@@ -42,13 +45,13 @@ public class AnimatedPanel : Panel
 
     public override void ForceShow()
     {
-       base .ForceShow();
+        base.ForceShow();
 
         AnimatedWidgetElements.ForEach(element => element.Show(forceShow: true));
     }
     public override void ForceHide()
     {
-       base.ForceHide();
+        base.ForceHide();
 
         AnimatedWidgetElements.ForEach(element => element.Hide(forceHide: true));
     }
