@@ -17,9 +17,6 @@ public class MainPanel : AnimatedPanel
 
     private void LoadGameScene()
     {
-        if (sceneLoader != null)
-            sceneLoader.LoadGameModeSelectionScene();
-        else
-            Debug.LogError("Scene loader is null");
+        sceneLoader?.LoadGameModeSelectionScene();
     }
 }

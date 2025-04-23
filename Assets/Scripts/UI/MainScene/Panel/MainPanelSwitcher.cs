@@ -33,8 +33,6 @@ public class MainPanelSwitcher : MonoBehaviour
         }
 
         mainPanel.Initialize();
-        Debug.LogError("Animated Panel Initialized");
-
         mainPanel.AnimShow();
     }
 }

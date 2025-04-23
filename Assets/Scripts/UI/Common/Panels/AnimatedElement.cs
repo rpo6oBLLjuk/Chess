@@ -103,7 +103,7 @@ public class AnimatedElement : MonoBehaviour
             loopSequence?.Kill();
             loopSequence = DOTween.Sequence(rectTransform);
 
-            loopSequence.Join(GetAnim(rectTransform,
+            loopSequence.Append(GetAnim(rectTransform,
                 defaultData.position, defaultData.position + loopAnimEndData.position,
                 defaultData.rotation, loopAnimEndData.rotation,
                 defaultData.scale, loopAnimEndData.scale,
@@ -116,7 +116,7 @@ public class AnimatedElement : MonoBehaviour
                 loopAnimEndData.easeType, loopDuration, loopAnimEndData.delay));
 
             loopSequence.SetLoops(-1);
-            loopSequence.Play();
+            loopSequence.PlayForward();
         }
     }
 

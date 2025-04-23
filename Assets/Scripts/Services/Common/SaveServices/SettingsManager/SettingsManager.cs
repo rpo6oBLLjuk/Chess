@@ -14,13 +14,27 @@ public class SettingsManager : MonoService
     [SerializeField] SettingsData defaultData;
 
 
-    public void Init()
+    private void Awake()
+    {
+        SetGraphicsSettings();
+    }
+
+    public void UpdateVolumeData(float masterVolume, float musicVolume, float soundVolume)
+    {
+
+    }
+    public void UpdateGraphicsData(bool useVSync, int targetFrameRate)
+    {
+
+    }
+    public void UpdateLanguageData(string language)
     {
 
     }
 
-    private void Awake()
+    private void SetGraphicsSettings()
     {
+        QualitySettings.vSyncCount = Settings.VSync ? 1 : 0;
         Application.targetFrameRate = Settings.TargetFrameRate;
     }
 }
