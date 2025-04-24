@@ -1,20 +1,23 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(RectTransform))]
 public class ButtonSimpleScaler : MonoBehaviour, IPointerDownHandler, IPointerExitHandler
 {
-    [SerializeField] private Vector3 newLocalScale = Vector3.one;
-    [SerializeField] private float duration = 0.1f;
+    [SerializeField] protected Button button;
 
-    private Vector3 defaultScale;
+    [SerializeField] protected Vector3 newLocalScale = Vector3.one;
+    [SerializeField] protected float duration = 0.1f;
+
+    protected Vector3 defaultScale;
 
 
-    private void Awake() => defaultScale = transform.localScale;
+    protected virtual void Awake() => defaultScale = transform.localScale;
 
     public void OnPointerDown(PointerEventData eventData) => transform.DOScale(newLocalScale, duration);
     public void OnPointerExit(PointerEventData eventData) => transform.DOScale(defaultScale, duration);
 
-    private void OnDisable() => transform.DOKill();
+    protected virtual void OnDisable() => transform.DOKill();
 }

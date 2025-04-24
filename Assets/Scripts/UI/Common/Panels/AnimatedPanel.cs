@@ -26,6 +26,8 @@ public class AnimatedPanel : Panel
 
     public virtual void AnimShow()
     {
+        panelManager.PanelShowed(this);
+
         EnableCanvasGroup();
 
         CanvasGroup.DOFade(1, data.showDuration)
@@ -46,6 +48,8 @@ public class AnimatedPanel : Panel
     public override void ForceShow()
     {
         base.ForceShow();
+
+        panelManager.PanelShowed(this);
 
         AnimatedWidgetElements.ForEach(element => element.Show(forceShow: true));
     }

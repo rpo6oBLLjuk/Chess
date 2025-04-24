@@ -1,8 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class Panel : MonoBehaviour
 {
+    [Inject] protected PanelManager panelManager;
+
     public Button HideButton => hideButton;
 
     [Header("Panel settings")]
