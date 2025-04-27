@@ -37,6 +37,5 @@ public class PanelManager : MonoService
             QiutRequest?.Invoke();
             this.FastLog("Quit?");
         }
-
     }
 }

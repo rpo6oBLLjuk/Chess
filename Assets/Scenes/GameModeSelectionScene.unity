@@ -128,9 +128,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 274809394}
+  - component: {fileID: 274809396}
   - component: {fileID: 274809395}
   m_Layer: 0
-  m_Name: DBService
+  m_Name: PanelManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,12 +159,27 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 274809393}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b76534c4a2515864fad0a14dce3ca902, type: 3}
+  m_Script: {fileID: 11500000, guid: 10ed477f535074345ad4f37441757339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainData: {fileID: 11400000, guid: ad1c8a5a1cb2a4b4d92d61b9f55fdc0d, type: 2}
+  _closeAction: {fileID: 1982202826720234063, guid: 9e734156c4c6c5f4089eba0f5b9a8595, type: 3}
+  mainPanel: {fileID: 991102048}
+  pool: []
+--- !u!114 &274809396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274809393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84e25e3666f8b8b4fb12ae586d843a04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  service: {fileID: 274809395}
 --- !u!1 &372690447
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +406,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1347561138099279657, guid: fac09df235b6b3c49b12c9add2c1b9e1, type: 3}
   m_PrefabInstance: {fileID: 991102046}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &991102048 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2003861680211563222, guid: fac09df235b6b3c49b12c9add2c1b9e1, type: 3}
+  m_PrefabInstance: {fileID: 991102046}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42637e0694df9d949932ddfe62cfb7ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1058528137
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,7 +704,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 274809396}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:

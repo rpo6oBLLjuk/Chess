@@ -113,7 +113,7 @@ public class MovesGenerator
             {
                 moves[index].Add((byte)(index + 8));
 
-                if (index >= 8 && index <= 17 && PiecePacker.IsEqualType(board[index + 16], PieceType.None))
+                if (index >= 8 && index <= 15 && PiecePacker.IsEqualType(board[index + 16], PieceType.None))
                 {
                     moves[index].Add((byte)(index + 16));
                 }

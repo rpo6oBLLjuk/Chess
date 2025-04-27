@@ -26,7 +26,7 @@ public class AnimatedPanel : Panel
 
     public virtual void AnimShow()
     {
-        panelManager.PanelShowed(this);
+        panelManager?.PanelShowed(this);
 
         EnableCanvasGroup();
 

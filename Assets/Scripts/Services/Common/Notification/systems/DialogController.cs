@@ -6,26 +6,26 @@ using UnityEngine.UI;
 public class DialogController
 {
     private DialogData data;
-
     private Transform parentCanvas;
 
-    private GameObject currentDialog;
     private AnimatedPanel currectDialogPanel;
 
 
-    public DialogController(DialogData data, Transform parent)
+    public void Init(DialogData data, Transform parent)
     {
         this.data = data;
         this.parentCanvas = parent;
     }
 
-    public void ShowDialog(Action<bool> callback, string message, string sender = default, DialogType dialogType = DialogType.OkCancel)
+    public AnimatedPanel ShowDialog(Action<bool> callback, string message, string sender = default, DialogType dialogType = DialogType.OkCancel)
     {
-        currentDialog = InstantiateDialod(dialogType);
+        GameObject currentDialog = InstantiateDialod(dialogType);
         ConfigurateDialog(currentDialog, callback, message, sender, dialogType);
 
         currectDialogPanel = currentDialog.GetComponentInChildren<AnimatedPanel>();
         currectDialogPanel.AnimShow();
+
+        return currectDialogPanel;
     }
 
     private void ConfigurateDialog(GameObject dialog, Action<bool> callback, string message, string sender = default, DialogType dialogType = DialogType.OkCancel)
