@@ -36,5 +36,6 @@ public class SettingsManager : MonoService
     {
         QualitySettings.vSyncCount = Settings.VSync ? 1 : 0;
         Application.targetFrameRate = Settings.TargetFrameRate;
+        Screen.fullScreen = Settings.FullScreen;
     }
 }

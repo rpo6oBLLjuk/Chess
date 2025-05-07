@@ -1,13 +1,3 @@
-using CustomInspector;
-using Zenject;
-
-public class PanelManagerInstaller : MonoInstaller
+public class PanelManagerInstaller : SimpleMonoInstaller<PanelManager>
 {
-    [SelfFill] PanelManager _panelManager;
-
-    public override void InstallBindings()
-    {
-        Container.Unbind<PanelManager>();
-        Container.Bind<PanelManager>().FromInstance(_panelManager).AsSingle();
-    }
 }

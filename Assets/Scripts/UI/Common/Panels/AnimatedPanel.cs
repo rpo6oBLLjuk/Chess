@@ -49,7 +49,7 @@ public class AnimatedPanel : Panel
     {
         base.ForceShow();
 
-        panelManager.PanelShowed(this);
+        panelManager?.PanelShowed(this);
 
         AnimatedWidgetElements.ForEach(element => element.Show(forceShow: true));
     }

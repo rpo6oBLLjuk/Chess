@@ -17,4 +17,5 @@ MonoBehaviour:
   <SoundsVolume>k__BackingField: 100
   <VSync>k__BackingField: 1
   <TargetFrameRate>k__BackingField: 60
+  <FullScreen>k__BackingField: 1
   <Language>k__BackingField: 
