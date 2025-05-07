@@ -52,9 +52,7 @@ public class AnimatedElement : MonoBehaviour
         if (useLoopAnim)
             showTween.OnComplete(PlayLoopAnim);
 
-        showTween.Play();
-
-        return showTween;
+        return showTween.Play();
     }
     public virtual Tween Hide(float hideDuration = 0, bool forceHide = false)
     {
