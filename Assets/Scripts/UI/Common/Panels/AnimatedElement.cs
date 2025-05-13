@@ -10,7 +10,7 @@ public class AnimatedElement : MonoBehaviour
     [Serializable]
     private class AnimationData
     {
-        public Vector3 position;
+        public Vector2 anchoredPosition;
         public Quaternion rotation;
         public Vector3 scale = Vector3.one;
 
@@ -34,7 +34,7 @@ public class AnimatedElement : MonoBehaviour
     {
         rectTransform = rectTransform != null ? rectTransform : GetComponent<RectTransform>();
 
-        defaultData.position = rectTransform.position;
+        defaultData.anchoredPosition = rectTransform.anchoredPosition;
         defaultData.rotation = rectTransform.localRotation;
         defaultData.scale = rectTransform.localScale;
     }
@@ -42,7 +42,7 @@ public class AnimatedElement : MonoBehaviour
     public virtual Tween Show(float showDuration = 0, bool forceShow = false)
     {
         Tween showTween = GetAnim(rectTransform,
-            defaultData.position + animStartData.position, defaultData.position,
+            defaultData.anchoredPosition + animStartData.anchoredPosition, defaultData.anchoredPosition,
             animStartData.rotation, defaultData.rotation,
             animStartData.scale, defaultData.scale,
             animStartData.easeType,
@@ -52,9 +52,7 @@ public class AnimatedElement : MonoBehaviour
         if (useLoopAnim)
             showTween.OnComplete(PlayLoopAnim);
 
-        showTween.Play();
-
-        return showTween;
+        return showTween.Play();
     }
     public virtual Tween Hide(float hideDuration = 0, bool forceHide = false)
     {
@@ -62,7 +60,7 @@ public class AnimatedElement : MonoBehaviour
         //    rectTransform.DOKillAllTweens();
 
         return GetAnim(rectTransform,
-            defaultData.position, defaultData.position + animEndData.position,
+            defaultData.anchoredPosition, defaultData.anchoredPosition + animEndData.anchoredPosition,
             defaultData.rotation, animEndData.rotation,
             defaultData.scale, animEndData.scale,
             animEndData.easeType,
@@ -70,18 +68,18 @@ public class AnimatedElement : MonoBehaviour
             (forceHide) ? 0 : animEndData.delay).Play();
     }
 
-    private Tween GetAnim(RectTransform rectTransform, Vector3 fromPosition, Vector3 toPosition, Quaternion fromRotation, Quaternion toRotation, Vector3 fromScale, Vector3 toScale, Ease easeType, float duration, float delay = 0)
+    private Tween GetAnim(RectTransform rectTransform, Vector2 fromAnchoredPosition, Vector2 toAnchoredPosition, Quaternion fromRotation, Quaternion toRotation, Vector3 fromScale, Vector3 toScale, Ease easeType, float duration, float delay = 0)
     {
         Sequence sequence = DOTween.Sequence(rectTransform);
 
         sequence.Join(
-            rectTransform.DOMove(toPosition, duration)
-                .From(fromPosition)
+            rectTransform.DOAnchorPos(toAnchoredPosition, duration)
+                .From(fromAnchoredPosition)
                 .SetEase(easeType)
         );
 
         sequence.Join(
-            rectTransform.DORotateQuaternion(toRotation, duration)
+            rectTransform.DOLocalRotateQuaternion(toRotation, duration)
                 .From(fromRotation)
                 .SetEase(easeType)
         );
@@ -104,13 +102,13 @@ public class AnimatedElement : MonoBehaviour
             loopSequence = DOTween.Sequence(rectTransform);
 
             loopSequence.Append(GetAnim(rectTransform,
-                defaultData.position, defaultData.position + loopAnimEndData.position,
+                defaultData.anchoredPosition, defaultData.anchoredPosition + loopAnimEndData.anchoredPosition,
                 defaultData.rotation, loopAnimEndData.rotation,
                 defaultData.scale, loopAnimEndData.scale,
                 loopAnimEndData.easeType, loopDuration, loopAnimEndData.delay));
 
             loopSequence.Append(GetAnim(rectTransform,
-                loopAnimEndData.position + defaultData.position, defaultData.position,
+                loopAnimEndData.anchoredPosition + defaultData.anchoredPosition, defaultData.anchoredPosition,
                 loopAnimEndData.rotation, defaultData.rotation,
                 loopAnimEndData.scale, defaultData.scale,
                 loopAnimEndData.easeType, loopDuration, loopAnimEndData.delay));
@@ -130,9 +128,9 @@ public class AnimatedElement : MonoBehaviour
             return;
 
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(rectTransform.position + animStartData.position, rectTransform.rect.size);
+        Gizmos.DrawWireCube(rectTransform.position + (Vector3)animStartData.anchoredPosition, rectTransform.rect.size);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(rectTransform.position + animEndData.position, rectTransform.rect.size);
+        Gizmos.DrawWireCube(rectTransform.position + (Vector3)animEndData.anchoredPosition, rectTransform.rect.size);
     }
 }

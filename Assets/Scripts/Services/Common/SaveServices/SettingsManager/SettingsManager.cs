@@ -11,6 +11,7 @@ public class SettingsManager : MonoService
     [SerializeField] string saveDirectory = "Saves/Settings/";
     [SerializeField] string fileName = "settings";
 
+    [Button(nameof(SetGraphicsSettings))]
     [SerializeField] SettingsData defaultData;
 
 
@@ -32,9 +33,11 @@ public class SettingsManager : MonoService
 
     }
 
+    
     private void SetGraphicsSettings()
     {
         QualitySettings.vSyncCount = Settings.VSync ? 1 : 0;
         Application.targetFrameRate = Settings.TargetFrameRate;
+        Screen.fullScreen = Settings.FullScreen;
     }
 }

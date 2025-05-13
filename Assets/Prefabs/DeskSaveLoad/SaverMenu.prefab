@@ -769,7 +769,9 @@ MonoBehaviour:
   <CanvasGroup>k__BackingField: {fileID: 616529846472140733}
   autoHideOnAwake: 1
   data: {fileID: 11400000, guid: 0a7b3ba00b19ecb4f9459f9283c078b4, type: 2}
-  AnimatedWidgetElements: []
+  AnimatedWidgetElements:
+  - {fileID: 0}
+  - {fileID: 0}
   saveNameInput: {fileID: 8025626458804484600}
   saveButton: {fileID: 1319977167437425311}
 --- !u!1 &6213983622711356941

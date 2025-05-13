@@ -956,7 +956,9 @@ MonoBehaviour:
   <CanvasGroup>k__BackingField: {fileID: 3696775675358011396}
   autoHideOnAwake: 1
   data: {fileID: 11400000, guid: 0a7b3ba00b19ecb4f9459f9283c078b4, type: 2}
-  AnimatedWidgetElements: []
+  AnimatedWidgetElements:
+  - {fileID: 0}
+  - {fileID: 0}
   defaultSave: {fileID: 6526600091134527023}
 --- !u!1 &4277458139014206624
 GameObject:

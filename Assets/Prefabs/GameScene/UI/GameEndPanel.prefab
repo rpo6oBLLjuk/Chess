@@ -318,7 +318,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3803068808927943520}
-  - component: {fileID: 916727277319057236}
   m_Layer: 5
   m_Name: MiddlePanel
   m_TagString: Untagged
@@ -340,52 +339,13 @@ RectTransform:
   m_Children:
   - {fileID: 2247853872534783309}
   - {fileID: 5134749748512156662}
-  m_Father: {fileID: 6223852414917904051}
+  m_Father: {fileID: 1228452180098172210}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1222.49}
+  m_AnchoredPosition: {x: 0, y: -722.49}
   m_SizeDelta: {x: 0, y: 644.99}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &916727277319057236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2654992160752327929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c669b40dddf96cc42b9ffd54c1ea1f1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rectTransform: {fileID: 3803068808927943520}
-  animStartData:
-    position: {x: 0, y: 1000, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
-    easeType: 6
-    delay: 0
-  animEndData:
-    position: {x: 0, y: 1000, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
-    easeType: 6
-    delay: 0
-  useLoopAnim: 0
-  loopDuration: 1
-  loopAnimEndData:
-    position: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
-    easeType: 6
-    delay: 0
-  defaultData:
-    position: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
-    easeType: 6
-    delay: 0
 --- !u!1 &2781522323663671534
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,9 +602,7 @@ MonoBehaviour:
   autoHideOnAwake: 1
   data: {fileID: 11400000, guid: 0a7b3ba00b19ecb4f9459f9283c078b4, type: 2}
   AnimatedWidgetElements:
-  - {fileID: 6285604240202775321}
-  - {fileID: 916727277319057236}
-  - {fileID: 7219889624867600771}
+  - {fileID: 4268709585057509863}
   gameEndTypeTMP: {fileID: 448730213787502776}
   winnerTMP: {fileID: 429966193855044243}
   checkmateText: Checkmate
@@ -735,7 +693,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5977570379144487399}
-  - component: {fileID: 7219889624867600771}
   m_Layer: 5
   m_Name: BottomPanel
   m_TagString: Untagged
@@ -756,52 +713,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4245824315936694177}
-  m_Father: {fileID: 6223852414917904051}
+  m_Father: {fileID: 1228452180098172210}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -522.493}
-  m_SizeDelta: {x: 0, y: -2044.986}
+  m_SizeDelta: {x: 0, y: -1044.986}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7219889624867600771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5338945676704954051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c669b40dddf96cc42b9ffd54c1ea1f1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rectTransform: {fileID: 5977570379144487399}
-  animStartData:
-    position: {x: 0, y: 1000, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
-    easeType: 6
-    delay: 0
-  animEndData:
-    position: {x: 0, y: 1000, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
-    easeType: 6
-    delay: 0
-  useLoopAnim: 0
-  loopDuration: 1
-  loopAnimEndData:
-    position: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
-    easeType: 6
-    delay: 0
-  defaultData:
-    position: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
-    easeType: 6
-    delay: 0
 --- !u!1 &6350983217180699980
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,6 +929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca7e989bbb21b0d4d8f0e9682d0d0dc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 0}
   newLocalScale: {x: 0.75, y: 0.75, z: 1}
   duration: 0.1
 --- !u!1 &7206463410773946208
@@ -1024,8 +943,9 @@ GameObject:
   - component: {fileID: 1228452180098172210}
   - component: {fileID: 3609710320697699153}
   - component: {fileID: 2617646019844682678}
+  - component: {fileID: 4268709585057509863}
   m_Layer: 5
-  m_Name: Background (1)
+  m_Name: Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1044,6 +964,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2082682537830548583}
+  - {fileID: 6862501805056569307}
+  - {fileID: 3803068808927943520}
+  - {fileID: 5977570379144487399}
   m_Father: {fileID: 6223852414917904051}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1089,6 +1012,45 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4268709585057509863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7206463410773946208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c669b40dddf96cc42b9ffd54c1ea1f1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 1228452180098172210}
+  animStartData:
+    anchoredPosition: {x: 0, y: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 1.5, y: 1.5, z: 1}
+    easeType: 6
+    delay: 0
+  animEndData:
+    anchoredPosition: {x: 0, y: -1840}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 1, y: 1, z: 1}
+    easeType: 6
+    delay: 0
+  useLoopAnim: 0
+  loopDuration: 1
+  loopAnimEndData:
+    anchoredPosition: {x: 0, y: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 1, y: 1, z: 1}
+    easeType: 6
+    delay: 0
+  defaultData:
+    anchoredPosition: {x: 0, y: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 1, y: 1, z: 1}
+    easeType: 6
+    delay: 0
 --- !u!1 &7641814667227944453
 GameObject:
   m_ObjectHideFlags: 0
@@ -1513,6 +1475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca7e989bbb21b0d4d8f0e9682d0d0dc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 0}
   newLocalScale: {x: 0.75, y: 0.75, z: 1}
   duration: 0.1
 --- !u!1 &8423566796484014648
@@ -1524,7 +1487,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6862501805056569307}
-  - component: {fileID: 6285604240202775321}
   m_Layer: 5
   m_Name: TopPanel
   m_TagString: Untagged
@@ -1546,52 +1508,13 @@ RectTransform:
   m_Children:
   - {fileID: 8936709696686230080}
   - {fileID: 3465223287688502048}
-  m_Father: {fileID: 6223852414917904051}
+  m_Father: {fileID: 1228452180098172210}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -700}
+  m_AnchoredPosition: {x: 0, y: -200}
   m_SizeDelta: {x: 0, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6285604240202775321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8423566796484014648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c669b40dddf96cc42b9ffd54c1ea1f1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rectTransform: {fileID: 6862501805056569307}
-  animStartData:
-    position: {x: 0, y: 1000, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
-    easeType: 6
-    delay: 0
-  animEndData:
-    position: {x: 0, y: 1000, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
-    easeType: 6
-    delay: 0
-  useLoopAnim: 0
-  loopDuration: 1
-  loopAnimEndData:
-    position: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
-    easeType: 6
-    delay: 0
-  defaultData:
-    position: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
-    easeType: 6
-    delay: 0
 --- !u!1 &8707380524338071487
 GameObject:
   m_ObjectHideFlags: 0
@@ -1699,9 +1622,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1228452180098172210}
-  - {fileID: 6862501805056569307}
-  - {fileID: 3803068808927943520}
-  - {fileID: 5977570379144487399}
   m_Father: {fileID: 3553746467234549877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1725,7 +1645,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8926218228610845834}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0

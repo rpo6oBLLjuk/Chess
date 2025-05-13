@@ -35,6 +35,7 @@ public class GameEndPanel : AnimatedPanel
         gameEndTypeTMP.text = pat ? patText : checkmateText;
         winnerTMP.text = $"{winnerText}{pieceColor}";
 
+        exitButton.onClick.AddListener(AnimHide);
         exitButton.onClick.AddListener(CustomHide);
     }
 

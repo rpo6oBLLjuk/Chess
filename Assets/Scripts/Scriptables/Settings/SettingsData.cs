@@ -12,6 +12,7 @@ public class SettingsData : ScriptableObject
     [field: HorizontalLine("Graphics")]
     [field: SerializeField] public bool VSync { get; private set; } = true;
     [field: SerializeField, FixedValues(10, 15, 30, 60, 90, 120, 144)] public int TargetFrameRate { get; private set; }
+    [field: SerializeField] public bool FullScreen { get; private set; } = true;
 
     [field: HorizontalLine("Language")]
     [field: SerializeField] public string Language { get; private set; }

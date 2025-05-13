@@ -7,6 +7,7 @@ public class SnapButtonsController : MonoBehaviour
     [SerializeField] SnapScrollRect snapScrollRect;
     [SerializeField] List<Button> menuButtons;
 
+    [SerializeField] bool logging = false;
 
     private void Awake()
     {
@@ -18,7 +19,9 @@ public class SnapButtonsController : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 snapScrollRect.ScrollTo(index, index);
-                Debug.Log($"Index: {index}");
+
+                if (logging)
+                    Debug.Log($"Index: {index}");
             });
 
         }
