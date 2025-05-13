@@ -927,27 +927,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 5194651644725435876}
   animStartData:
-    position: {x: 0, y: 500, z: 0}
+    anchoredPosition: {x: 0, y: 400}
     rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
+    scale: {x: 1.5, y: 1.5, z: 1.5}
     easeType: 27
     delay: 0
   animEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
+    scale: {x: 0, y: 0, z: 0}
     easeType: 6
     delay: 0
   useLoopAnim: 0
   loopDuration: 1
   loopAnimEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
     delay: 0
   defaultData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -1004,13 +1004,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 7275791435243442460}
   animStartData:
-    position: {x: 250, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 27
     delay: 0.5
   animEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -1018,13 +1018,13 @@ MonoBehaviour:
   useLoopAnim: 1
   loopDuration: 5
   loopAnimEndData:
-    position: {x: 0, y: -100, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: -0.043619387, w: 0.99904823}
     scale: {x: 1.1, y: 1.1, z: 1}
     easeType: 7
     delay: 0
   defaultData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -1080,13 +1080,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 6678117462220183637}
   animStartData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 0, y: 0, z: 0}
     easeType: 27
     delay: 0
   animEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -1094,13 +1094,13 @@ MonoBehaviour:
   useLoopAnim: 0
   loopDuration: 1
   loopAnimEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
     delay: 0
   defaultData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -1293,13 +1293,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 4496417286659997888}
   animStartData:
-    position: {x: -250, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 27
     delay: 0.5
   animEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -1307,13 +1307,13 @@ MonoBehaviour:
   useLoopAnim: 1
   loopDuration: 5
   loopAnimEndData:
-    position: {x: 0, y: -100, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0.043619387, w: 0.99904823}
     scale: {x: 1.1, y: 1.1, z: 1}
     easeType: 7
     delay: 0
   defaultData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -2514,13 +2514,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 6384083766297011588}
   animStartData:
-    position: {x: 0, y: -500, z: 0}
+    anchoredPosition: {x: 0, y: -400}
     rotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1}
+    scale: {x: 1.5, y: 1.5, z: 1.5}
     easeType: 27
     delay: 0
   animEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: -400}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -2528,13 +2528,13 @@ MonoBehaviour:
   useLoopAnim: 0
   loopDuration: 1
   loopAnimEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
     delay: 0
   defaultData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6

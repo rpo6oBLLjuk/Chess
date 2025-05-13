@@ -22,18 +22,13 @@ public class PanelManager : MonoService
     public void PanelShowed(AnimatedPanel panel) //May be need add listener to panel event
     {
         if (panel.Hideable)
-        {
             pool.Add(panel);
-            Debug.Log("Panel Showed");
-        }
     }
 
     public void PanelHided(AnimatedPanel panel) //May be need add listener to panel event
     {
         if (panel.Hideable)
-        {
             pool.Remove(panel);
-        }
     }
 
     private void OnEnable()
@@ -73,7 +68,6 @@ public class PanelManager : MonoService
                     "Quit?",
                     "Return to Main",
                     DialogType.OkCancel);
-                this.FastLog("Quit?");
             }
             else
             {

@@ -1,3 +1,5 @@
+using Coffee.UIEffects;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -9,7 +11,15 @@ public class CapturedPiecesWidget : MonoBehaviour
     [SerializeField] Transform whitePiecesContainer;
     [SerializeField] Transform blackPiecesContainer;
 
-    [SerializeField] GameObject defaultPiece;
+    [Serializable]
+    private class DefaultPieceData
+    {
+        public Transform Container;
+        public GameObject DefaultPiece;
+        public UIEffectPreset DefaiultUIEffectPreset;
+    }
+    [SerializeField] DefaultPieceData whitePieceData;
+    [SerializeField] DefaultPieceData blackPieceData;
 
 
     private void OnEnable()
@@ -24,14 +34,18 @@ public class CapturedPiecesWidget : MonoBehaviour
 
     private void Awake()
     {
-        defaultPiece.SetActive(false);
+        whitePieceData.DefaultPiece.SetActive(false);
+        blackPieceData.DefaultPiece.SetActive(false);
     }
 
     private void PieceCaptured(PieceHandler _, PieceHandler capturedPiece, byte capturedPieceData, CellHandler __)
     {
-        GameObject instance = Instantiate(defaultPiece, PiecePacker.IsEqualColor(capturedPieceData, PieceColor.White) ? whitePiecesContainer : blackPiecesContainer);
-        instance.SetActive(true);
+        DefaultPieceData pieceData = PiecePacker.IsEqualColor(capturedPieceData, PieceColor.White) ? whitePieceData : blackPieceData;
         
+        GameObject instance = Instantiate(pieceData.DefaultPiece, pieceData.Container);
+        instance.SetActive(true);
+
         instance.GetComponent<Image>().sprite = gameManager.PiecesSkinData.Get(capturedPieceData);
+        instance.GetComponent<UIEffect>().LoadPreset(pieceData.DefaiultUIEffectPreset);
     }
 }

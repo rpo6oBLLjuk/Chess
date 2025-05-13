@@ -229,13 +229,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 6830900460479187394}
   animStartData:
-    position: {x: 1080, y: 0, z: 0}
+    anchoredPosition: {x: 1080, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
     delay: 0
   animEndData:
-    position: {x: 1080, y: 0, z: 0}
+    anchoredPosition: {x: 1080, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -243,7 +243,13 @@ MonoBehaviour:
   useLoopAnim: 0
   loopDuration: 1
   loopAnimEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 1, y: 1, z: 1}
+    easeType: 6
+    delay: 0
+  defaultData:
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -435,13 +441,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 6805187145724136940}
   animStartData:
-    position: {x: 1080, y: 0, z: 0}
+    anchoredPosition: {x: 1080, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
     delay: 0.2
   animEndData:
-    position: {x: 1080, y: 0, z: 0}
+    anchoredPosition: {x: 1080, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -449,7 +455,13 @@ MonoBehaviour:
   useLoopAnim: 0
   loopDuration: 1
   loopAnimEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 1, y: 1, z: 1}
+    easeType: 6
+    delay: 0
+  defaultData:
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -669,6 +681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44305caf7a9122458e2761ada6c154b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Hideable: 1
   hideButton: {fileID: 9222133214474724595}
   <CanvasGroup>k__BackingField: {fileID: 6864337688158956354}
   autoHideOnAwake: 1

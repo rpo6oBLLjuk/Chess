@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1b6988bc8fdf48b4896110606a86b61, type: 3}
-  m_Name: PieceButton_PieceImage
+  m_Name: BlackPiece_Outline
   m_EditorClassIdentifier: 
   m_ToneFilter: 0
   m_ToneIntensity: 1
