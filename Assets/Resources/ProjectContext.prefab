@@ -236,10 +236,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b25cbb1728a774a9a54edd39ccf4ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainScene: 0
-  gameModeSelectionScene: 1
-  gameScene: 3
-  constructorScene: 2
+  <MainScene>k__BackingField: 0
+  <GameModeSelectionScene>k__BackingField: 1
+  <GameScene>k__BackingField: 3
+  <ConstructorScene>k__BackingField: 2
   loadingImage: {fileID: 201389978814112165}
   startEaseType: 12
   startDuration: 0.2

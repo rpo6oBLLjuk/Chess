@@ -30,7 +30,7 @@ public class AnimatedElement : MonoBehaviour
     [HideInInspector] Sequence loopSequence;
 
 
-    public void Initialize()
+    public void Awake()
     {
         rectTransform = rectTransform != null ? rectTransform : GetComponent<RectTransform>();
 

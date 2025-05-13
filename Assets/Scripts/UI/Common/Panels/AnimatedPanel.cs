@@ -11,13 +11,13 @@ public class AnimatedPanel : Panel
     private bool initialized = false;
 
 
-    public void Initialize()
+    public void Awake()
     {
         if (initialized)
             return;
         initialized = true;
 
-        AnimatedWidgetElements.ForEach(element => element.Initialize());
+        AnimatedWidgetElements.ForEach(element => element.Awake());
     }
 
     protected override void Start()
