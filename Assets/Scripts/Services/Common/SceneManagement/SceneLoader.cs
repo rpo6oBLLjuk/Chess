@@ -8,10 +8,12 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoService
 {
-    [SerializeField, Scene, Tab("Scenes")] int mainScene;
-    [SerializeField, Scene, Tab("Scenes")] int gameModeSelectionScene;
-    [SerializeField, Scene, Tab("Scenes")] int gameScene;
-    [SerializeField, Scene, Tab("Scenes")] int constructorScene;
+    public event Action<int> SceneLoaded;
+
+    [field: SerializeField, Scene, Tab("Scenes")] public int MainScene { get; private set; }
+    [field: SerializeField, Scene, Tab("Scenes")] public int GameModeSelectionScene { get; private set; }
+    [field: SerializeField, Scene, Tab("Scenes")] public int GameScene { get; private set; }
+    [field: SerializeField, Scene, Tab("Scenes")] public int ConstructorScene { get; private set; }
 
     [SerializeField, Tab("References")] RectTransform loadingImage;
 
@@ -33,13 +35,13 @@ public class SceneLoader : MonoService
         loadingImage.localPosition = new Vector3(-canvasWidth, loadingImage.localPosition.y, loadingImage.localPosition.z);
     }
 
-    public void LoadMainScene(IProgress<float> progress = null) => LoadScene(mainScene, progress).Forget();
-    public void LoadGameModeSelectionScene(IProgress<float> progress = null) => LoadScene(gameModeSelectionScene, progress).Forget();
-    public void LoadGameScene(IProgress<float> progress = null) => LoadScene(gameScene, progress).Forget();
-    public void LoadConstructorScene(IProgress<float> progress = null) => LoadScene(constructorScene, progress).Forget();
+    public void LoadMainScene(IProgress<float> progress = null, bool inverseLoadScreen = false) => LoadScene(MainScene, progress, inverseLoadScreen).Forget();
+    public void LoadGameModeSelectionScene(IProgress<float> progress = null, bool inverseLoadScreen = false) => LoadScene(GameModeSelectionScene, progress, inverseLoadScreen).Forget();
+    public void LoadGameScene(IProgress<float> progress = null, bool inverseLoadScreen = false) => LoadScene(GameScene, progress, inverseLoadScreen).Forget();
+    public void LoadConstructorScene(IProgress<float> progress = null, bool inverseLoadScreen = false) => LoadScene(ConstructorScene, progress, inverseLoadScreen).Forget();
 
 
-    private async UniTask LoadScene(int sceneIndex, IProgress<float> progress = null)
+    private async UniTask LoadScene(int sceneIndex, IProgress<float> progress = null, bool inverseLoadScreen = false)
     {
         if (isLoading)
             return;
@@ -49,9 +51,7 @@ public class SceneLoader : MonoService
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
         operation.allowSceneActivation = false;
 
-        Tween openTween = loadingImage.DOLocalMoveX(0, startDuration)
-            .From(-canvasWidth)
-            .SetEase(startEaseType);
+        Tween openTween = GetOpenTween(inverseLoadScreen);
 
         while (operation.progress < 0.9f)
         {
@@ -63,11 +63,25 @@ public class SceneLoader : MonoService
         if (!openTween.IsComplete())
             await openTween.AsyncWaitForCompletion().AsUniTask();
 
+
         operation.allowSceneActivation = true;
-        loadingImage.DOLocalMoveX(canvasWidth, endDuration)
-            .From(0)
-            .SetEase(endEaseType);
+        GetCloseTween(inverseLoadScreen);
 
         isLoading = false;
+
+        SceneLoaded?.Invoke(sceneIndex);
+    }
+
+    private Tween GetOpenTween(bool inverse)
+    {
+        return inverse
+            ? loadingImage.DOLocalMoveX(0, startDuration).From(canvasWidth).SetEase(startEaseType)
+            : loadingImage.DOLocalMoveX(0, startDuration).From(-canvasWidth).SetEase(startEaseType);
+    }
+    private Tween GetCloseTween(bool inverse)
+    {
+        return inverse
+            ? loadingImage.DOLocalMoveX(-canvasWidth, endDuration).From(0).SetEase(endEaseType)
+            : loadingImage.DOLocalMoveX(canvasWidth, endDuration).From(0).SetEase(endEaseType);
     }
 }

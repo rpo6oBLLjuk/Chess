@@ -457,6 +457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffd41551f5ff66446a232c17169e027c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Hideable: 0
   hideButton: {fileID: 0}
   <CanvasGroup>k__BackingField: {fileID: 3755220358052127237}
   autoHideOnAwake: 0

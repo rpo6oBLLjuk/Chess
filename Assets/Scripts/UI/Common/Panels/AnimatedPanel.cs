@@ -8,13 +8,15 @@ public class AnimatedPanel : Panel
     [SerializeField] private AnimatedPanelData data;
     [SerializeField] private List<AnimatedElement> AnimatedWidgetElements;
 
+    private bool initialized = false;
 
-    public override void Initialize()
+
+    public void Initialize()
     {
         if (initialized)
             return;
+        initialized = true;
 
-        base.Initialize();
         AnimatedWidgetElements.ForEach(element => element.Initialize());
     }
 
@@ -37,6 +39,8 @@ public class AnimatedPanel : Panel
     }
     public virtual void AnimHide()
     {
+        panelManager?.PanelHided(this);
+
         DisableCanvasGroup();
 
         CanvasGroup.DOFade(0, data.showDuration)
@@ -49,13 +53,15 @@ public class AnimatedPanel : Panel
     {
         base.ForceShow();
 
-        panelManager.PanelShowed(this);
+        panelManager?.PanelShowed(this);
 
         AnimatedWidgetElements.ForEach(element => element.Show(forceShow: true));
     }
     public override void ForceHide()
     {
         base.ForceHide();
+
+        panelManager?.PanelHided(this);
 
         AnimatedWidgetElements.ForEach(element => element.Hide(forceHide: true));
     }

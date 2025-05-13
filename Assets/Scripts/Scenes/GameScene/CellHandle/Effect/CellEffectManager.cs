@@ -1,3 +1,4 @@
+using ModestTree;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -60,7 +61,14 @@ public class CellEffectManager : MonoBehaviour
             EnableSelectedCell(cellHandler);
             EnablePossibleMoveCells(cellHandler.Index);
 
-            DisablePreviousCells();
+            if (data.DisablePreviousMoveCellsBeforeSelect)
+            {
+                DisablePreviousCells();
+            }
+            if (data.DisableCapturedCellsBeforeSelect)
+            {
+                DisableCapturedCell();
+            }
         }
         else
         {
@@ -93,7 +101,7 @@ public class CellEffectManager : MonoBehaviour
 
     private void PieceDragged(PieceHandler piece, Vector3 _, CellHandler cellHandler)
     {
-        if (gameManager.Moves[cellHandler.Index].Count > 0 && hoverCell != cellHandler)
+        if (hoverCell != cellHandler && (gameManager.Moves[gameManager.Pieces.IndexOf(piece)].Count > 0 || /*CellEffector.data.DragInactivePiece*/false))
             EnableHoverCell(cellHandler);
     }
 

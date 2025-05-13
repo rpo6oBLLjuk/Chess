@@ -1,3 +1,4 @@
+using Coffee.UIEffects;
 using CustomInspector;
 using System;
 using UnityEngine;
@@ -69,12 +70,12 @@ public class ConstructorUI : MonoBehaviour
         if (destroyerIsActive)
         {
             gameManager.CellClicked += DestroyPiece;
-            destroyButton.GetComponentInChildren<Outline>().enabled = true;
+            destroyButton.GetComponentInChildren<UIEffect>().enabled = true;
         }
         else
         {
             gameManager.CellClicked -= DestroyPiece;
-            destroyButton.GetComponentInChildren<Outline>().enabled = false;
+            destroyButton.GetComponentInChildren<UIEffect>().enabled = false;
         }
     }
 

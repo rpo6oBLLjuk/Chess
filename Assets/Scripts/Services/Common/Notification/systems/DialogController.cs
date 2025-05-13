@@ -2,9 +2,12 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class DialogController
 {
+    [Inject] DiContainer container;
+
     private DialogData data;
     private Transform parentCanvas;
 
@@ -58,7 +61,7 @@ public class DialogController
     }
 
 
-    private GameObject InstantiateDialod(DialogType dialogType) => UnityEngine.Object.Instantiate(GetDialogByType(dialogType), parentCanvas);
+    private GameObject InstantiateDialod(DialogType dialogType) => container.InstantiatePrefab(GetDialogByType(dialogType), parentCanvas);
     private GameObject GetDialogByType(DialogType dialogType) => dialogType switch
     {
         DialogType.OkCancel => data.OkCancelDialog,

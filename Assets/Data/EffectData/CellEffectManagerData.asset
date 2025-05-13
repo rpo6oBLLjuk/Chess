@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: CellEffectManagerData
   m_EditorClassIdentifier: 
   <SelectInactiveCells>k__BackingField: 0
+  <DisablePreviousMoveCellsBeforeSelect>k__BackingField: 1
+  <DisableCapturedCellsBeforeSelect>k__BackingField: 0

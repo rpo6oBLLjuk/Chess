@@ -1,3 +1,4 @@
+using CustomInspector;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -9,30 +10,18 @@ public class Panel : MonoBehaviour
     public Button HideButton => hideButton;
 
     [Header("Panel settings")]
-    [SerializeField] protected Button hideButton;
+    [field: SerializeField] public bool Hideable = true; 
+    [SerializeField, ShowIf(nameof(Hideable))] protected Button hideButton;
     [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
 
     [SerializeField] protected bool autoHideOnAwake = true;
 
-    protected bool initialized = false;
-
 
     protected virtual void Start()
     {
-        Initialize();
-
         if (autoHideOnAwake)
             ForceHide();
         hideButton?.onClick.AddListener(DisableCanvasGroup);
-    }
-
-    public virtual void Initialize()
-    {
-        if (initialized)
-        {
-            return;
-        }
-        initialized = true;
     }
 
     public virtual void ForceShow()
