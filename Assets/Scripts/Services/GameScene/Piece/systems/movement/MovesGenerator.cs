@@ -6,6 +6,7 @@ using Zenject;
 
 public class MovesGenerator
 {
+    [Inject] NotificationService notificationService;
     [Inject] GameManager gameManager;
     PieceService pieceService;
 
@@ -83,7 +84,7 @@ public class MovesGenerator
             if (PiecePacker.IsEqualType(board[index - 8], PieceType.None))
             {
                 moves[index].Add((byte)(index - 8));
-                if (index >= 48 && index <= 55)
+                if (index >= 48 && index <= 55 && PiecePacker.IsEqualType(board[index - 16], PieceType.None))
                 {
                     moves[index].Add((byte)(index - 16));
                 }
@@ -335,7 +336,7 @@ public class MovesGenerator
         }
 
         if (isChecked)
-            this.Log($"Check for {currentPlayerColor}");
+            notificationService.ShowPopup($"Check for {currentPlayerColor}", popupType: PopupType.Warning);
 
         foreach (var move in moves)
         {
@@ -345,12 +346,12 @@ public class MovesGenerator
 
         if (isChecked)
         {
-            this.Log($"Checkmate for {currentPlayerColor}");
+            notificationService.ShowPopup($"Checkmate for {currentPlayerColor}", popupType: PopupType.Info);
             gameManager.GameEnd(opponentColor, false);
         }
         else
         {
-            this.Log($"Pat for {currentPlayerColor}");
+            notificationService.ShowPopup($"Pat for {currentPlayerColor}", popupType: PopupType.Info);
             gameManager.GameEnd(opponentColor, true);
         }
     }

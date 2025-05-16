@@ -101,7 +101,7 @@ public class CellEffectManager : MonoBehaviour
 
     private void PieceDragged(PieceHandler piece, Vector3 _, CellHandler cellHandler)
     {
-        if (hoverCell != cellHandler && (gameManager.Moves[gameManager.Pieces.IndexOf(piece)].Count > 0 || /*CellEffector.data.DragInactivePiece*/false))
+        if (cellHandler && hoverCell != cellHandler && (gameManager.Moves[gameManager.Pieces.IndexOf(piece)].Count > 0 || /*CellEffector.data.DragInactivePiece*/false))
             EnableHoverCell(cellHandler);
     }
 

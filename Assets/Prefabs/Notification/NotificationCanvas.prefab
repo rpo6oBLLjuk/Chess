@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popupData: {fileID: 11400000, guid: 029cfc7aa80d35b4cbe09892ffce2a51, type: 2}
+  debugMessageControllerData: {fileID: 11400000, guid: 6692c63183fc35d4a8b620c8171c04f8, type: 2}
   dialogData: {fileID: 11400000, guid: 90b6b798fab08034a85bebcc655fe56a, type: 2}
   popupParent: {fileID: 9168151694234675181}
   dialogCanvas: {fileID: 3442887978241914944}

@@ -22,16 +22,10 @@ MonoBehaviour:
   Error:
     sprite: {fileID: 21300000, guid: 0774bcb7613f85e4b8fcdbd60eff9319, type: 3}
     color: {r: 1, g: 0, b: 0, a: 1}
-  infoSprite: {fileID: 21300000, guid: 46712e23d71a3994d906c3660e5f528c, type: 3}
-  infoColor: {r: 1, g: 1, b: 1, a: 1}
-  warningSprite: {fileID: 21300000, guid: 4c73403134d9eb3458d9c495a33c2c13, type: 3}
-  warningColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  errorSprite: {fileID: 21300000, guid: 0774bcb7613f85e4b8fcdbd60eff9319, type: 3}
-  errorColor: {r: 1, g: 0, b: 0, a: 1}
-  duration: 1
+  duration: 10
   showTime: 0.25
   hideTime: 0.25
   horizontalScale: 1
   verticalScale: 0
   useList: 1
-  listSize: 3
+  listSize: 8

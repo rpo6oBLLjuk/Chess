@@ -1603,11 +1603,11 @@ MonoBehaviour:
   whitePieceData:
     Container: {fileID: 4017712177960829686}
     DefaultPiece: {fileID: 5786661827393116451}
-    DefaiultUIEffectPreset: {fileID: 11400000, guid: a236713b93d90ee4c86a826bf20d92d0, type: 2}
+    DefaiultUIEffectPreset: {fileID: 11400000, guid: 315600554cc22254bbdc3d0890d960ed, type: 2}
   blackPieceData:
     Container: {fileID: 3098633184921108285}
     DefaultPiece: {fileID: 1445360214592522775}
-    DefaiultUIEffectPreset: {fileID: 11400000, guid: 8c396066f2296d745bf31e688af46347, type: 2}
+    DefaiultUIEffectPreset: {fileID: 11400000, guid: 39fa4368328f2d94ebed80f3f82d1742, type: 2}
 --- !u!1 &7402507983838426218
 GameObject:
   m_ObjectHideFlags: 0

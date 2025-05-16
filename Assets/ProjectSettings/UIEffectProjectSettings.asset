@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RuntimePresets: []
   m_RuntimePresetsV2:
-  - {fileID: 11400000, guid: a236713b93d90ee4c86a826bf20d92d0, type: 2}
-  - {fileID: 11400000, guid: 8c396066f2296d745bf31e688af46347, type: 2}
+  - {fileID: 11400000, guid: 39fa4368328f2d94ebed80f3f82d1742, type: 2}
+  - {fileID: 11400000, guid: 315600554cc22254bbdc3d0890d960ed, type: 2}
+  - {fileID: 11400000, guid: 9e69a393d7c5a3b4a94d73de1a17cd9c, type: 2}
   m_UseHDRColorPicker: 0
   m_ShaderVariantCollection: {fileID: 0}
   m_ShaderVariantRegistry:
@@ -38,47 +39,5 @@ ShaderVariantCollection:
       variants:
       - keywords: COLOR_FILTER
         passType: 0
-      - keywords: COLOR_FILTER DETAIL_MULTIPLY
-        passType: 0
-      - keywords: COLOR_FILTER DETAIL_REPLACE SAMPLING_BLUR_FAST
-        passType: 0
-      - keywords: COLOR_FILTER EDGE_PLAIN
-        passType: 0
-      - keywords: COLOR_FILTER EDGE_PLAIN SAMPLING_BLUR_FAST
-        passType: 0
-      - keywords: COLOR_FILTER GRADATION_COLOR2
-        passType: 0
-      - keywords: COLOR_FILTER SAMPLING_BLUR_DETAIL
-        passType: 0
-      - keywords: COLOR_FILTER SAMPLING_BLUR_FAST
-        passType: 0
-      - keywords: COLOR_FILTER SAMPLING_BLUR_FAST TRANSITION_FADE
-        passType: 0
       - keywords: COLOR_FILTER SAMPLING_BLUR_MEDIUM
-        passType: 0
-      - keywords: COLOR_FILTER SAMPLING_BLUR_MEDIUM TONE_GRAYSCALE
-        passType: 0
-      - keywords: COLOR_FILTER SAMPLING_BLUR_MEDIUM TONE_NEGATIVE
-        passType: 0
-      - keywords: COLOR_FILTER SAMPLING_BLUR_MEDIUM TONE_POSTERIZE
-        passType: 0
-      - keywords: COLOR_FILTER SAMPLING_BLUR_MEDIUM TONE_RETRO
-        passType: 0
-      - keywords: COLOR_FILTER SAMPLING_BLUR_MEDIUM TONE_SEPIA
-        passType: 0
-      - keywords: COLOR_FILTER TRANSITION_CUTOFF
-        passType: 0
-      - keywords: COLOR_FILTER TRANSITION_FADE
-        passType: 0
-      - keywords: EDGE_PLAIN
-        passType: 0
-      - keywords: EDGE_SHINY
-        passType: 0
-      - keywords: SAMPLING_BLUR_FAST TRANSITION_FADE
-        passType: 0
-      - keywords: TRANSITION_CUTOFF
-        passType: 0
-      - keywords: TRANSITION_FADE
-        passType: 0
-      - keywords: TRANSITION_MASK
         passType: 0

@@ -62,11 +62,10 @@ public class PieceHandler : MonoBehaviour
 
     private void Drag()
     {
-        if (GetCellUnderPiece(lastDragEventData, out CellHandler cellHandler))
-        {
-            Vector3 position = Vector3.Lerp(rectTransform.position, draggedPosition, gameManager.PiecesSkinData.AnimationData.magnetToMouseLerpValue * Time.unscaledDeltaTime);
-            gameManager.PieceDragging(this, position, cellHandler);
-        }
+        GetCellUnderPiece(lastDragEventData, out CellHandler cellHandler);
+        Vector3 position = Vector3.Lerp(rectTransform.position, draggedPosition, gameManager.PiecesSkinData.AnimationData.magnetToMouseLerpValue * Time.unscaledDeltaTime);
+        
+        gameManager.PieceDragging(this, position, cellHandler);
     }
 
     private bool GetCellUnderPiece(PointerEventData eventData, out CellHandler cellHandler)

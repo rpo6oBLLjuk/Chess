@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1b6988bc8fdf48b4896110606a86b61, type: 3}
-  m_Name: WhitePiece_Outline
+  m_Name: BoardButton_Destroy
   m_EditorClassIdentifier: 
   m_ToneFilter: 0
   m_ToneIntensity: 1
@@ -18,7 +18,7 @@ MonoBehaviour:
   m_ColorIntensity: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_ColorGlow: 0
-  m_SamplingFilter: 2
+  m_SamplingFilter: 0
   m_SamplingIntensity: 0
   m_SamplingWidth: 1
   m_TransitionFilter: 0
@@ -48,13 +48,13 @@ MonoBehaviour:
   m_SrcBlendMode: 1
   m_DstBlendMode: 10
   m_ShadowMode: 3
-  m_ShadowDistance: {x: 1, y: 1}
-  m_ShadowIteration: 2
+  m_ShadowDistance: {x: 0.5, y: 0.5}
+  m_ShadowIteration: 5
   m_ShadowFade: 1
   m_ShadowMirrorScale: 0.5
   m_ShadowBlurIntensity: 1
   m_ShadowColorFilter: 4
-  m_ShadowColor: {r: 0, g: 0, b: 0, a: 1}
+  m_ShadowColor: {r: 1, g: 0, b: 0, a: 1}
   m_ShadowColorGlow: 0
   m_GradationMode: 0
   m_GradationIntensity: 1
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_GradationScale: 1
   m_GradationRotation: 0
   m_EdgeMode: 0
-  m_EdgeWidth: 0.5
+  m_EdgeWidth: 1
   m_EdgeColorFilter: 4
   m_EdgeColor: {r: 1, g: 1, b: 1, a: 1}
   m_EdgeColorGlow: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_EdgeShinyAutoPlaySpeed: 1
   m_PatternArea: 1
   m_DetailFilter: 0
-  m_DetailIntensity: 1
+  m_DetailIntensity: 0
   m_DetailColor: {r: 1, g: 1, b: 1, a: 1}
   m_DetailThreshold:
     m_Min: 0
