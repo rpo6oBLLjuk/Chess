@@ -939,22 +939,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4446546780583040791, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
-      propertyPath: logCellActions
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4446546780583040791, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
-      propertyPath: logBoardActions
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4446546780583040791, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
-      propertyPath: logPieceActions
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4446546780583040791, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
-      propertyPath: logPieceDragActions
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4599770656691335712, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

@@ -13,7 +13,7 @@ public class MovesGenerator
 
     public void Init(PieceService pieceService) => this.pieceService = pieceService;
 
-    public void GenerateAllPossibleMoves(PieceColor pieceColor) => GenerateAllPossibleMoves(gameManager.Board, out gameManager.Moves, pieceColor);
+    public void GenerateAllPossibleMoves(PieceColor pieceColor) => GenerateAllPossibleMoves(gameManager.Board, out gameManager.PossibleMoves, pieceColor);
     public void GenerateAllPossibleMoves(byte[] board, out List<byte>[] moves, PieceColor pieceColor, bool recursion = true)
     {
         moves = new List<byte>[64];

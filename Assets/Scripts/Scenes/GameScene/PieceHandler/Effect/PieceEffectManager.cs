@@ -38,7 +38,6 @@ public class PieceEffectManager : MonoBehaviour
             pieceHandler.transform.DOScale(Vector3.one * gameManager.PiecesSkinData.AnimationData.scaleMultiplier, gameManager.PiecesSkinData.AnimationData.scaleDuration);
         }
     }
-
     public void PieceDragged(PieceHandler pieceHandler, Vector3 position, CellHandler cellHandler)
     {
         if (IsDragable(gameManager.Pieces.IndexOf(pieceHandler)))
@@ -46,7 +45,6 @@ public class PieceEffectManager : MonoBehaviour
             pieceHandler.transform.position = position;
         }
     }
-
     public void PieceEndDrag(PieceHandler pieceHandler, Transform parent)
     {
         pieceHandler.transform.DOMove(parent.position, gameManager.PiecesSkinData.AnimationData.magnetToCellDuration)
@@ -56,13 +54,13 @@ public class PieceEffectManager : MonoBehaviour
     }
 
     public void PieceSpawned(PieceHandler pieceHandler, CellHandler cellHandler) => pieceHandler.PieceEffectController.OnInitialized(gameManager.PiecesSkinData.AnimationData.showTime);
-    public void PieceCaptured(PieceHandler capturerPiece, PieceHandler capturedPiece, byte capturedPieceData, CellHandler cellHandler) => capturedPiece.PieceEffectController.Destroy(gameManager.PiecesSkinData.AnimationData.destroyTime);
-    public void PieceDestroyed(PieceHandler destroyedHandler, CellHandler cellHandler) => destroyedHandler.PieceEffectController.Destroy(gameManager.PiecesSkinData.AnimationData.destroyTime);
+    public void PieceCaptured(PieceHandler capturerPiece, PieceHandler capturedPiece, byte capturedPieceData, CellHandler cellHandler) => capturedPiece.PieceEffectController.Destroy(gameManager.PiecesSkinData.AnimationData.destroyTime, data.DestroyAnimationCurve);
+    public void PieceDestroyed(PieceHandler destroyedHandler, CellHandler cellHandler) => destroyedHandler.PieceEffectController.Destroy(gameManager.PiecesSkinData.AnimationData.destroyTime, data.DestroyAnimationCurve);
 
 
     private bool IsDragable(int index)
     {
-        if (data.DragInactivePieces || gameManager.Moves[index].Count > 0)
+        if (data.DragInactivePieces || gameManager.PossibleMoves[index].Count > 0)
             return true;
 
         return false;

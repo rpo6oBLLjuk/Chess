@@ -10,10 +10,10 @@ public class MoveChecker
     /// </summary>
     public bool IsGameMoveAllowed(byte startIndex, byte endIndex)
     {
-        if(gameManager.Moves[startIndex] == null)
+        if(gameManager.PossibleMoves[startIndex] == null)
             return false;
 
-        foreach (byte moveIndex in gameManager.Moves[startIndex])
+        foreach (byte moveIndex in gameManager.PossibleMoves[startIndex])
         {
             if (moveIndex == endIndex)
             {

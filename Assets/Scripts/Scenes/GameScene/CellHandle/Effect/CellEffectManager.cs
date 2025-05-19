@@ -56,7 +56,7 @@ public class CellEffectManager : MonoBehaviour
         DisableSelectedCell();
         DisablePossibleMoveCells();
 
-        if (gameManager.Moves[cellHandler.Index].Count > 0 || data.SelectInactiveCells)
+        if (gameManager.PossibleMoves[cellHandler.Index].Count > 0 || data.SelectInactiveCells)
         {
             EnableSelectedCell(cellHandler);
             EnablePossibleMoveCells(cellHandler.Index);
@@ -101,7 +101,7 @@ public class CellEffectManager : MonoBehaviour
 
     private void PieceDragged(PieceHandler piece, Vector3 _, CellHandler cellHandler)
     {
-        if (cellHandler && hoverCell != cellHandler && (gameManager.Moves[gameManager.Pieces.IndexOf(piece)].Count > 0 || /*CellEffector.data.DragInactivePiece*/false))
+        if (cellHandler && hoverCell != cellHandler && (gameManager.PossibleMoves[gameManager.Pieces.IndexOf(piece)].Count > 0 || /*CellEffector.data.DragInactivePiece*/false))
             EnableHoverCell(cellHandler);
     }
 
@@ -181,10 +181,10 @@ public class CellEffectManager : MonoBehaviour
     {
         DisablePossibleMoveCells();
 
-        if (gameManager.Moves[index] == null)
+        if (gameManager.PossibleMoves[index] == null)
             return;
 
-        foreach (byte possibleMoveCell in gameManager.Moves[index])
+        foreach (byte possibleMoveCell in gameManager.PossibleMoves[index])
         {
             CellHandler cellHandler = gameManager.Cells[possibleMoveCell];
             possibleMoveCells.Add(cellHandler);

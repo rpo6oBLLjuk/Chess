@@ -6,4 +6,5 @@ public class PieceEffectManagerData : ScriptableObject
 {
     [field: MessageBox("Need inject to CellEffectManager", MessageBoxType.Warning)]
     [field: SerializeField] public bool DragInactivePieces { get; private set; } = false;
+    [field: SerializeField] public AnimationCurve DestroyAnimationCurve { get; private set; }
 }

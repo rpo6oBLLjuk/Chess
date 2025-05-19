@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PieceAnimationData", menuName = "Scriptable Objects/Piece/AnimationData")]
 public class PieceAnimationData : ScriptableObject
 {
-    public float delayBeforeHadnle = 0.3f;
+    public float delayBeforeHandle = 0.3f;
 
     public float showTime = 0.1f;
     public float destroyTime = 0.1f;

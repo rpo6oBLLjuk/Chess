@@ -20,17 +20,22 @@ public class PieceEffectHandler : MonoBehaviour
         tween.Play();
     }
 
-    public void Destroy(float duration)
+    public void Destroy(float duration, AnimationCurve positionCurve)
     {
         gameObject.transform.SetParent(transform.root);
+        RectTransform rectTransform = transform.GetComponentInChildren<RectTransform>();
         image.raycastTarget = false;
 
         Sequence tween = DOTween.Sequence(transform);
 
-        tween.Append(image.DOFade(0, duration));
-        tween.Join(transform.DOScale(Vector3.one * 1.25f, duration));
-        tween.OnComplete(() => Destroy(gameObject));
+        tween.Join(rectTransform.DOAnchorPosY(rectTransform.anchoredPosition.y - 100, duration)
+            .SetEase(positionCurve));
 
+        tween.Join(image.DOFade(0, duration / 2)
+            .SetDelay(duration / 2));
+        tween.Join(transform.DOScale(Vector3.one * 0.5f, duration/2));
+
+        tween.OnComplete(() => Destroy(gameObject));
         tween.Play();
     }
 
