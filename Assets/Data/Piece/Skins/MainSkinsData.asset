@@ -31,3 +31,5 @@ MonoBehaviour:
   King:
     WhiteSkin: {fileID: 2145688461, guid: b277623a6b6185e48940a033ae824366, type: 3}
     BlackSkin: {fileID: 1788064253, guid: b277623a6b6185e48940a033ae824366, type: 3}
+  defaultPreset: {fileID: 11400000, guid: 39fa4368328f2d94ebed80f3f82d1742, type: 2}
+  gradationPreset: {fileID: 11400000, guid: 3954c4da4a22ed649aa8c3c9a038b7e5, type: 2}

@@ -39,5 +39,39 @@ ShaderVariantCollection:
       variants:
       - keywords: COLOR_FILTER
         passType: 0
+      - keywords: COLOR_FILTER DETAIL_ADDITIVE GRADATION_GRADIENT
+        passType: 0
+      - keywords: COLOR_FILTER DETAIL_MASKING GRADATION_GRADIENT
+        passType: 0
+      - keywords: COLOR_FILTER EDGE_PLAIN GRADATION_GRADIENT
+        passType: 0
+      - keywords: COLOR_FILTER EDGE_SHINY GRADATION_GRADIENT
+        passType: 0
+      - keywords: COLOR_FILTER GRADATION_COLOR2
+        passType: 0
+      - keywords: COLOR_FILTER GRADATION_COLOR4
+        passType: 0
+      - keywords: COLOR_FILTER GRADATION_GRADIENT
+        passType: 0
+      - keywords: COLOR_FILTER GRADATION_GRADIENT TARGET_HUE
+        passType: 0
+      - keywords: COLOR_FILTER GRADATION_RADIAL
+        passType: 0
       - keywords: COLOR_FILTER SAMPLING_BLUR_MEDIUM
+        passType: 0
+      - keywords: COLOR_FILTER TARGET_HUE
+        passType: 0
+      - keywords: COLOR_FILTER TARGET_LUMINANCE
+        passType: 0
+      - keywords: COLOR_FILTER TONE_GRAYSCALE
+        passType: 0
+      - keywords: COLOR_FILTER TONE_NEGATIVE
+        passType: 0
+      - keywords: COLOR_FILTER TONE_POSTERIZE
+        passType: 0
+      - keywords: COLOR_FILTER TONE_RETRO
+        passType: 0
+      - keywords: COLOR_FILTER TONE_SEPIA
+        passType: 0
+      - keywords: COLOR_FILTER TRANSITION_SHINY
         passType: 0

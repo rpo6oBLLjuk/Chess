@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,6 +8,8 @@ public class MovesGenerator
     [Inject] NotificationService notificationService;
     [Inject] GameManager gameManager;
     PieceService pieceService;
+
+    private PieceHandler previousCheckedKing;
 
 
     public void Init(PieceService pieceService) => this.pieceService = pieceService;
@@ -222,22 +223,17 @@ public class MovesGenerator
             {
                 byte newIndex = (byte)(index + direction * offset);
 
-                // ѕроверка, что newIndex находитс€ в пределах доски (0..63)
                 if (newIndex < 0 || newIndex > 63)
                     break;
 
-                // ѕроверка, что фигура не вышла за пределы доски по горизонтали
                 if (Mathf.Abs((newIndex % 8) - (index % 8)) != offset)
                     break;
 
-                // ѕроверка, можно ли сделать ход на newIndex
                 if (!pieceService.MoveChecker.IsMoveValid(board[index], board[newIndex]))
                     break;
 
-                // ƒобавление хода в список
                 moves[index].Add(newIndex);
 
-                // ≈сли на newIndex стоит фигура противника, прерываем цикл
                 if (!PiecePacker.IsEqualType(board[newIndex], PieceType.None))
                     break;
 
@@ -258,27 +254,19 @@ public class MovesGenerator
             {
                 byte newIndex = (byte)(index + direction * offset);
 
-                // ѕроверка, что newIndex находитс€ в пределах доски (0..63)
                 if (newIndex < 0 || newIndex > 63)
                     break;
 
-                // ѕроверка, что фигура не вышла за пределы доски по горизонтали
                 if ((newIndex / 8 != index / 8) && (newIndex % 8 != index % 8))
                     break;
 
-                // ѕроверка, можно ли сделать ход на newIndex
                 if (!pieceService.MoveChecker.IsMoveValid(board[index], board[newIndex]))
                     break;
 
-                // ƒобавление хода в список
                 moves[index].Add(newIndex);
 
-                // ≈сли на newIndex стоит фигура противника, прерываем цикл
                 if (!PiecePacker.IsEqualType(board[newIndex], PieceType.None))
                     break;
-
-                //if (OnSide(newIndex))
-                //    break;
 
                 offset++;
             }
@@ -336,7 +324,26 @@ public class MovesGenerator
         }
 
         if (isChecked)
-            notificationService.ShowPopup($"Check for {currentPlayerColor}", popupType: PopupType.Warning);
+        {
+            this.Log($"Check for {currentPlayerColor}");
+            for (int i = 0; i < gameManager.Board.Length; i++)
+            {
+                byte pieceData = gameManager.Board[i];
+                if (PiecePacker.IsEqualColor(pieceData, currentPlayerColor) &&
+                    PiecePacker.IsEqualType(pieceData, PieceType.King))
+                {
+                    previousCheckedKing = gameManager.Pieces[i];
+                    break;
+                }
+            }
+
+            gameManager.OnKingChecked?.Invoke(previousCheckedKing);
+        }
+        else if (previousCheckedKing != null)
+        {
+            gameManager.OnCheckResolved?.Invoke(previousCheckedKing);
+            previousCheckedKing = null;
+        }
 
         foreach (var move in moves)
         {
@@ -346,7 +353,7 @@ public class MovesGenerator
 
         if (isChecked)
         {
-            notificationService.ShowPopup($"Checkmate for {currentPlayerColor}", popupType: PopupType.Info);
+            this.Log($"Checkmate for {currentPlayerColor}");
             gameManager.GameEnd(opponentColor, false);
         }
         else

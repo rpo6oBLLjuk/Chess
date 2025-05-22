@@ -1,3 +1,4 @@
+using Coffee.UIEffects;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 public class PieceEffectHandler : MonoBehaviour
 {
     [SerializeField] private Image image;
+    [SerializeField] private UIEffect uiEffect;
+    [SerializeField] private UIEffectTweener effectTweener;
 
 
     public void OnInitialized(float duration)
@@ -20,6 +23,17 @@ public class PieceEffectHandler : MonoBehaviour
         tween.Play();
     }
 
+    public void Check(UIEffectPreset checkPreset)
+    {
+        uiEffect.LoadPreset(checkPreset);
+        effectTweener.enabled = true;
+    }
+    public void ResolveCheck(UIEffectPreset defaultPreset)
+    {
+        uiEffect.LoadPreset(defaultPreset);
+        effectTweener.enabled = false;
+    }
+
     public void Destroy(float duration, AnimationCurve positionCurve)
     {
         gameObject.transform.SetParent(transform.root);
@@ -33,7 +47,7 @@ public class PieceEffectHandler : MonoBehaviour
 
         tween.Join(image.DOFade(0, duration / 2)
             .SetDelay(duration / 2));
-        tween.Join(transform.DOScale(Vector3.one * 0.5f, duration/2));
+        tween.Join(transform.DOScale(Vector3.one * 0.5f, duration / 2));
 
         tween.OnComplete(() => Destroy(gameObject));
         tween.Play();

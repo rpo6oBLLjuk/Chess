@@ -3,8 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PieceAnimationData", menuName = "Scriptable Objects/Piece/AnimationData")]
 public class PieceAnimationData : ScriptableObject
 {
-    public float delayBeforeHandle = 0.3f;
-
     public float showTime = 0.1f;
     public float destroyTime = 0.1f;
 
@@ -14,4 +12,6 @@ public class PieceAnimationData : ScriptableObject
     public float magnetToCellDuration = 0.1f;
     [Tooltip("Scaled by Time.deltaTime")]
     public float magnetToMouseLerpValue = 15f;
+
+    public AnimationCurve destroyCurve;
 }

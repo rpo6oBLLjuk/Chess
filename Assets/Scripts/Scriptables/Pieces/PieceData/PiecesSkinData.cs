@@ -1,3 +1,4 @@
+using Coffee.UIEffects;
 using System;
 using UnityEngine;
 
@@ -21,6 +22,9 @@ public class PiecesSkinData : ScriptableObject
     [SerializeField] private PieceSkinData Rook;
     [SerializeField] private PieceSkinData Queen;
     [SerializeField] private PieceSkinData King;
+
+    [field: SerializeField] public UIEffectPreset defaultPreset;
+    [field: SerializeField] public UIEffectPreset gradationPreset;
 
 
 

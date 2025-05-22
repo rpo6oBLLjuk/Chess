@@ -14,6 +14,9 @@ public class PieceEffectManager
     {
         this.data = data;
 
+        gameManager.OnKingChecked += KingChecked;
+        gameManager.OnCheckResolved += CheckResolved;
+
         gameManager.PieceSpawned += PieceSpawned;
         gameManager.PieceCaptured += PieceCaptured;
         gameManager.PieceDestroyed += PieceDestroyed;
@@ -26,6 +29,9 @@ public class PieceEffectManager
     }
     public void OnDisable()
     {
+        gameManager.OnKingChecked -= KingChecked;
+        gameManager.OnCheckResolved -= CheckResolved;
+
         gameManager.PieceDestroyed -= PieceSpawned;
         gameManager.PieceCaptured -= PieceCaptured;
         gameManager.PieceDestroyed -= PieceDestroyed;
@@ -57,9 +63,11 @@ public class PieceEffectManager
     public void PieceMoveBlocked(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => MovePieceToCell(pieceHandler, startCell);
 
     public void PieceSpawned(PieceHandler pieceHandler, CellHandler cellHandler) => pieceHandler.PieceEffectController.OnInitialized(gameManager.PiecesSkinData.AnimationData.showTime);
-    public void PieceCaptured(PieceHandler capturerPiece, PieceHandler capturedPiece, byte capturedPieceData, CellHandler cellHandler) => capturedPiece.PieceEffectController.Destroy(gameManager.PiecesSkinData.AnimationData.destroyTime, data.DestroyAnimationCurve);
-    public void PieceDestroyed(PieceHandler destroyedHandler, CellHandler cellHandler) => destroyedHandler.PieceEffectController.Destroy(gameManager.PiecesSkinData.AnimationData.destroyTime, data.DestroyAnimationCurve);
+    public void PieceCaptured(PieceHandler capturerPiece, PieceHandler capturedPiece, byte capturedPieceData, CellHandler cellHandler) => capturedPiece.PieceEffectController.Destroy(gameManager.PiecesSkinData.AnimationData.destroyTime, gameManager.PiecesSkinData.AnimationData.destroyCurve);
+    public void PieceDestroyed(PieceHandler destroyedHandler, CellHandler cellHandler) => destroyedHandler.PieceEffectController.Destroy(gameManager.PiecesSkinData.AnimationData.destroyTime, gameManager.PiecesSkinData.AnimationData.destroyCurve);
 
+    public void KingChecked(PieceHandler pieceHandler) => pieceHandler.PieceEffectController.Check(gameManager.PiecesSkinData.gradationPreset);
+    public void CheckResolved(PieceHandler pieceHandler) => pieceHandler.PieceEffectController.ResolveCheck(gameManager.PiecesSkinData.defaultPreset);
 
     private void MovePieceToCell(PieceHandler pieceHandler, CellHandler cellHandler)
     {

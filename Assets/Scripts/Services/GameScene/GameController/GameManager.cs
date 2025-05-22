@@ -13,6 +13,9 @@ public class GameManager : MonoService
         remove => GameData.DataChanged -= value;
     }
 
+    public Action<PieceHandler> OnKingChecked;
+    public Action<PieceHandler> OnCheckResolved;
+
     public event Action<CellHandler> CellClicked;
     public event Action<CellHandler> CellPressedDown;
 
