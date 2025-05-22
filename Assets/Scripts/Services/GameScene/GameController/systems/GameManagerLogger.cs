@@ -55,7 +55,7 @@ public class GameManagerLogger : MonoBehaviour
 
     private void PieceDragStart(PieceHandler pieceHandler) => PieceDragLog($"Drag start for piece {pieceHandler.name}");
     private void PieceDragged(PieceHandler piece, Vector3 position, CellHandler downCell) => PieceDragLog($"Dragging piece across ({downCell?.Index}) cell at {position} position");
-    private void PieceDragEnd(PieceHandler pieceHandler, Transform parent) => PieceDragLog($"Drag end for piece {pieceHandler.name}, parent: {parent.name}");
+    private void PieceDragEnd(PieceHandler pieceHandler, CellHandler parent) => PieceDragLog($"Drag end for piece {pieceHandler.name}, parent: {parent.name}");
 
     private void PieceMoved(PieceHandler piece, CellHandler startCell, CellHandler endCell) => PieceLog($"Piece moved from {startCell.Index} to {endCell.Index}");
     private void PieceCaptured(PieceHandler capturerPiece, PieceHandler capturedPiece, byte capturedPieceData, CellHandler cell) => PieceLog($"Piece captured on cell {cell.Index}");

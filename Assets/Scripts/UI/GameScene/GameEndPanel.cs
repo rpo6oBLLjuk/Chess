@@ -1,6 +1,6 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -23,14 +23,15 @@ public class GameEndPanel : AnimatedPanel
     [Space]
     [SerializeField] Button exitButton;
 
+    [SerializeField] float afterGameEndDelay = 1f;
+
 
     private void OnEnable() => gameManager.GameEnded += GameEnd;
     private void OnDisable() => gameManager.GameEnded -= GameEnd;
 
     private void GameEnd(PieceColor pieceColor, bool pat)
     {
-        this.Log("GameEnd panel showed");
-        AnimShow();
+        DOVirtual.DelayedCall(afterGameEndDelay, AnimShow);
 
         gameEndTypeTMP.text = pat ? patText : checkmateText;
         winnerTMP.text = $"{winnerText}{pieceColor}";

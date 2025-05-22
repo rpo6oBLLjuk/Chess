@@ -76,7 +76,7 @@ public class CellEffectManager : MonoBehaviour
         }
     }
 
-    private void PieceDragEnd(PieceHandler _, Transform __)
+    private void PieceDragEnd(PieceHandler _, CellHandler __)
     {
         DisableHoverCell();
     }

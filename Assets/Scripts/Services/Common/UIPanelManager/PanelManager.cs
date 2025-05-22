@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 public class PanelManager : MonoService
@@ -11,7 +10,7 @@ public class PanelManager : MonoService
     [Inject] NotificationService notificationService;
     [Inject] SceneLoader sceneLoader;
 
-    public event Action QiutRequest;
+    public event Action<bool> QuitReuqest;
 
     [SerializeField] InputActionReference _closeAction;
     [SerializeField] List<AnimatedPanel> pool = new();
@@ -58,12 +57,13 @@ public class PanelManager : MonoService
         {
             if (currentSceneIndex != sceneLoader.MainScene)
             {
-                QiutRequest?.Invoke();
                 notificationService.ShowDialog(
                     (bool closeScene) =>
                     {
                         if (closeScene)
                             sceneLoader.LoadMainScene(inverseLoadScreen: true);
+
+                        QuitReuqest?.Invoke(closeScene);
                     },
                     "Quit?",
                     "Return to Main",
@@ -71,7 +71,6 @@ public class PanelManager : MonoService
             }
             else
             {
-                QiutRequest?.Invoke();
                 notificationService.ShowDialog(
                     (bool closeApplication) =>
                     {

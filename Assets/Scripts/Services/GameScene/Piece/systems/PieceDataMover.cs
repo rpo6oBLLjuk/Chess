@@ -1,6 +1,6 @@
 using Zenject;
 
-public class PieceMover
+public class PieceDataMover
 {
     [Inject] GameManager gameManager;
 
@@ -10,6 +10,7 @@ public class PieceMover
         startCell.PieceRemoved();
         endCell.PiecePlaced(pieceHandler);
 
+        gameManager.Moves.Add(new Move(gameManager.Board[startCell.Index], startCell.Index, endCell.Index));
         MovePieceData(startCell.Index, endCell.Index);
     }
 

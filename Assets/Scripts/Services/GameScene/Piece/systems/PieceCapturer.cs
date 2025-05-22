@@ -1,3 +1,5 @@
+using ModestTree;
+using System.Linq;
 using Zenject;
 
 public class PieceCapturer
@@ -8,14 +10,35 @@ public class PieceCapturer
     {
     }
 
-    public void CapturePiece(CellHandler cellHandler)
+    public void CapturePiece(PieceHandler capturer, CellHandler endCellHandler)
     {
-        if (PiecePacker.IsEqualType(gameManager.Board[cellHandler.Index], PieceType.None))
+        if (PiecePacker.IsEqualType(gameManager.Board[endCellHandler.Index], PieceType.None))
             return;
 
-        gameManager.Board[cellHandler.Index] = 0;
-        gameManager.Pieces[cellHandler.Index] = null;
+        gameManager.Captures.Add(new Capture(
+            (byte)gameManager.Moves.Count(),
+            capturer != null ? gameManager.Board[gameManager.Pieces.IndexOf(capturer)] : (byte)0,
+            gameManager.Board[endCellHandler.Index]));
 
-        cellHandler?.PieceRemoved();
+        gameManager.Board[endCellHandler.Index] = 0;
+        gameManager.Pieces[endCellHandler.Index] = null;
+
+        endCellHandler?.PieceRemoved();
+    }
+
+    public void DestroyPiece(CellHandler endCellHandler)
+    {
+        if (PiecePacker.IsEqualType(gameManager.Board[endCellHandler.Index], PieceType.None))
+            return;
+
+        gameManager.Captures.Add(new Capture(
+            (byte)gameManager.Moves.Count(),
+            0,
+            gameManager.Board[endCellHandler.Index]));
+
+        gameManager.Board[endCellHandler.Index] = 0;
+        gameManager.Pieces[endCellHandler.Index] = null;
+
+        endCellHandler?.PieceRemoved();
     }
 }

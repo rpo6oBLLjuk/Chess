@@ -3,96 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using Zenject;
 
-public class DeskSaverService : MonoService
+public class DeskSaverService : BaseSaver<SerializableArray>
 {
-    [Inject] NotificationService notificationService;
-    [SerializeField] private string saveDirectory = "Saves/Desk/";
-
-
-    public override void OnInstantiated()
-    {
-        string fullPath = Path.Combine(Application.persistentDataPath, saveDirectory);
-        if (!Directory.Exists(fullPath))
-            Directory.CreateDirectory(fullPath);
-    }
-
-    public bool? SaveBoard(byte[] pieces, string saveName)
-    {
-        if (string.IsNullOrWhiteSpace(saveName))
-        {
-            notificationService.ShowPopup("Имя сохранения не может быть пустым!", "Saver", PopupType.Error);
-
-            return false;
-        }
-
-        string fileName = saveName + ".json";
-        string fullPath = Path.Combine(Application.persistentDataPath, saveDirectory, fileName);
-
-        var data = new SerializableArray(pieces);
-
-        string json = JsonUtility.ToJson(data, true);
-
-        if (File.Exists(fullPath))
-        {
-            notificationService.ShowDialog((overwrite) => OverwriteSaveFile(overwrite, fullPath, json), "Перезаписать файл?", "Saver", DialogType.OkCancel);
-            return null;
-        }
-        else
-        {
-            File.WriteAllText(fullPath, json);
-            notificationService.ShowPopup($"Доска сохранена в {fullPath}", "Saver", PopupType.Info);
-            return true;
-        }
-    }
-    public byte[] LoadBoard(string saveName)
-    {
-        if (string.IsNullOrWhiteSpace(saveName))
-        {
-            notificationService.ShowPopup("Имя сохранения не может быть пустым!", "Saver", PopupType.Error);
-            return null;
-        }
-
-        string fileName = saveName + ".json";
-        string fullPath = Path.Combine(Application.persistentDataPath, saveDirectory, fileName);
-
-        if (!File.Exists(fullPath))
-        {
-            notificationService.ShowPopup($"Файл сохранения {saveName} не найден!", "Saver", PopupType.Error);
-            return null;
-        }
-
-        string json = File.ReadAllText(fullPath);
-
-        return JsonUtility.FromJson<SerializableArray>(json).array;
-    }
-    public bool DeleteBoard(string boardName)
-    {
-        if (string.IsNullOrWhiteSpace(boardName))
-        {
-            notificationService.ShowPopup("Имя сохранения не может быть пустым!", "Saver", PopupType.Error);
-            return false;
-        }
-
-        string fileName = boardName + ".json";
-        string fullPath = Path.Combine(Application.persistentDataPath, saveDirectory, fileName);
-
-        if (!File.Exists(fullPath))
-        {
-            notificationService.ShowPopup($"Файл сохранения {boardName} не найден!", "Saver", PopupType.Error);
-            return false;
-        }
-
-        File.Delete(fullPath);
-        notificationService.ShowPopup($"Файл сохранения {boardName} успешно удалён.", "Saver", PopupType.Info);
-
-        return true;
-    }
-
     public List<string> GetAllSaves()
     {
-        string fullPath = Path.Combine(Application.persistentDataPath, saveDirectory);
+        string fullPath = Path.Combine(Application.persistentDataPath, _baseDirectory);
         if (!Directory.Exists(fullPath))
             return null;
 
@@ -100,25 +16,12 @@ public class DeskSaverService : MonoService
                    .Select(Path.GetFileNameWithoutExtension)
                    .ToList();
     }
+}
 
-    private void OverwriteSaveFile(bool overwrite, string fullPath, string json)
-    {
-        if (overwrite)
-        {
-            File.WriteAllText(fullPath, json);
-            notificationService.ShowPopup("File is overwritten", "Saver", PopupType.Info);
-        }
-        else
-        {
-            notificationService.ShowPopup("File is not overwritten", "Saver", PopupType.Info);
-        }
-    }
+[Serializable]
+public struct SerializableArray
+{
+    public byte[] array;
 
-    [Serializable]
-    private struct SerializableArray
-    {
-        public byte[] array;
-
-        public SerializableArray(byte[] array) => this.array = array;
-    }
+    public SerializableArray(byte[] array) => this.array = array;
 }

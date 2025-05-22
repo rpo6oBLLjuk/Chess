@@ -1,72 +1,136 @@
-//using System.IO;
-//using UnityEngine;
-//using Zenject;
+using CustomInspector;
+using System.IO;
+using UnityEngine;
+using Zenject;
 
-//public class BaseSaver<T> : MonoService where T : class
-//{
-//    [Inject] NotificationService notificationService;
+public abstract class BaseSaver<T> : MonoService where T : struct
+{
+    [Inject] NotificationService notificationService;
 
-//    [SerializeField] protected string _saveDirectory = "Saves/";
-//    [SerializeField] protected string _fileName = "file.json";
+    [SerializeField] protected string _saverName = "Saver";
+    [SerializeField] protected string _baseDirectory = "Saves/";
+
+    [SerializeField] bool showNotification = false;
+    [SerializeField, ShowIf(nameof(showNotification))] protected string overwriteFileNotification = "Перезаписать файл?";
+    [SerializeField, ShowIf(nameof(showNotification))] protected string fileOverwritedNotification = "Файл перезаписан";
+    [SerializeField, ShowIf(nameof(showNotification))] protected string fileNotOverwritedNotification = "Файл не перезаписан";
+
+    [SerializeField, ShowIf(nameof(showNotification))] protected string fileSavedNotification = "Файл сохранён";
+
+    [SerializeField, ShowIf(nameof(showNotification))] protected string saveNotFoundNotification = "Файл сохранения {0} не найден";
+    [SerializeField, ShowIf(nameof(showNotification))] protected string saveLoadedNotification = "Файл сохранения {0} успешно загружен";
+    [SerializeField, ShowIf(nameof(showNotification))] protected string saveDeletedNotification = "Файл сохранения {0} успешно удалён";
+
+    [SerializeField, ShowIf(nameof(showNotification))] protected string emptySaveName = "Имя сохранения не может быть пустым";
 
 
-//    public void Save(T obj)
-//    {
 
-//    }
+    public virtual bool Save(T obj, string saveName, bool forceOverwrite = false)
+    {
+        if (!FileNameIsCorrect(saveName))
+            return false;
 
-//    public T Load(string fileName = default)
-//    {
-//        return T;
+        GetFullPath(saveName, out string fullPath);
+        ConvertDataToJson(obj, out string json);
 
-//    }
+        if (File.Exists(fullPath))
+        {
+            if (!forceOverwrite)
+            {
+                notificationService.ShowDialog((overwrite) => OverwriteFile(overwrite, fullPath, json), overwriteFileNotification, _saverName, DialogType.OkCancel);
+                return false;
+            }
+            else
+            {
+                OverwriteFile(true, fullPath, json);
+                return true;
+            }
+        }
+        else
+        {
+            File.WriteAllText(fullPath, json);
+            ShowNotification(fileSavedNotification, PopupType.Info);
 
-//    public bool DeleteSave(string fileName = default)
-//    {
-//        string fileName = GetFileName(fileName);
+            return true;
+        }
+    }
+    public virtual T Load(string saveName = default)
+    {
+        GetFullPath(saveName, out string fullPath);
 
-//        if (string.IsNullOrWhiteSpace(boardName))
-//        {
-//            notificationService.ShowPopup("Имя сохранения не может быть пустым!", "Saver", PopupType.Error);
-//            return false;
-//        }
+        if (!File.Exists(fullPath))
+        {
+            ShowNotification(string.Format(saveNotFoundNotification, saveName), PopupType.Error);
+            return default;
+        }
+        else
+        {
+            string json = File.ReadAllText(fullPath);
+            T data = ConvertJsonToData(json);
 
-//        string fileName = boardName + ".json";
-//        string fullPath = Path.Combine(Application.persistentDataPath, _saveDirectory, fileName);
+            ShowNotification(string.Format(saveLoadedNotification, saveName), PopupType.Info);
 
-//        if (!File.Exists(fullPath))
-//        {
-//            notificationService.ShowPopup($"Файл сохранения {boardName} не найден!", "Saver", PopupType.Error);
-//            return false;
-//        }
+            return data;
+        }
+    }
+    public virtual bool DeleteSave(string saveName)
+    {
+        if (!FileNameIsCorrect(saveName))
+            return false;
 
-//        File.Delete(fullPath);
-//        notificationService.ShowPopup($"Файл сохранения {boardName} успешно удалён.", "Saver", PopupType.Info);
+        GetFullPath(saveName, out string fullPath);
 
-//        return true;
-//    }
+        if (!File.Exists(fullPath))
+        {
+            ShowNotification(string.Format(saveNotFoundNotification, saveName), PopupType.Error);
+            return false;
+        }
+        else
+        {
+            File.Delete(fullPath);
+            ShowNotification(string.Format(saveDeletedNotification, saveName), PopupType.Info);
 
-//    private void OverwriteSaveFile(bool overwrite, string fullPath, string json)
-//    {
-//        if (overwrite)
-//        {
-//            File.WriteAllText(fullPath, json);
-//            notificationService.ShowPopup("File is overwritten", "Saver", PopupType.Info);
-//        }
-//        else
-//        {
-//            notificationService.ShowPopup("File is not overwritten", "Saver", PopupType.Info);
-//        }
-//    }
+            return true;
+        }
+    }
 
-//    private bool GetFileName(string fileName, out string newFileName)
-//    {
-//        if (string.IsNullOrWhiteSpace(fileName))
-//        {
-//            notificationService.ShowPopup("Имя сохранения не может быть пустым!", "Saver", PopupType.Error);
-//            if()
-//            return _fileName;
-//        }
-//        return false;
-//    }
-//}
+    protected void Awake()
+    {
+        string fullPath = Path.Combine(Application.persistentDataPath, _baseDirectory);
+        if (!Directory.Exists(fullPath))
+            Directory.CreateDirectory(fullPath);
+    }
+
+    protected void ConvertDataToJson(T data, out string json) => json = JsonUtility.ToJson(data, false);
+    protected T ConvertJsonToData(string json) => JsonUtility.FromJson<T>(json);
+
+    private void OverwriteFile(bool overwrite, string fullPath, string json)
+    {
+        if (overwrite)
+        {
+            File.WriteAllText(fullPath, json);
+            ShowNotification(fileOverwritedNotification, PopupType.Info);
+        }
+        else
+        {
+            ShowNotification(fileNotOverwritedNotification, PopupType.Info);
+        }
+    }
+
+    private bool FileNameIsCorrect(string fileName)
+    {
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            ShowNotification(emptySaveName, PopupType.Error);
+            return false;
+        }
+        return true;
+    }
+    private string GetFullPath(string saveName, out string fullPath) => fullPath = Path.Combine(Application.persistentDataPath, _baseDirectory, $"{saveName}.json");
+
+    private void ShowNotification(string notification, PopupType popupType)
+    {
+        if (showNotification)
+            notificationService.ShowPopup(notification, _saverName, popupType);
+    }
+}

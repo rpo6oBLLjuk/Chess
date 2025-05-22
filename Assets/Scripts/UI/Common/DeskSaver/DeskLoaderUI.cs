@@ -61,7 +61,7 @@ public class DeskLoaderUI : AnimatedPanel
 
     private void ApplyButtonClickCallback(string saveName)
     {
-        gameManager.SetCustomBoard(deskSaver.LoadBoard(saveName));
+        gameManager.SetCustomBoard(deskSaver.Load(saveName).array);
         AnimHide();
     }
 
@@ -71,8 +71,10 @@ public class DeskLoaderUI : AnimatedPanel
         {
             if (confirmed)
             {
+                pool.Remove(saveObj);
                 DestroyImmediate(saveObj);
-                deskSaver.DeleteBoard(savename);
+                
+                deskSaver.DeleteSave(savename);
 
                 if (pool.Count == 0)
                     AnimHide();

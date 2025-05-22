@@ -17,8 +17,13 @@ public class PieceService : MonoService
 
     [Header("Logging")]
     [SerializeField] PieceBuilder pieceBuilder;
-    [SerializeField] PieceMover pieceMover;
+    [SerializeField] PieceDataMover pieceDataMover;
     [SerializeField] PieceCapturer pieceCapturer;
+
+    [SerializeField] PieceMover pieceMover;
+
+    [SerializeField] PieceEffectManagerData data;
+    [SerializeField] PieceEffectManager pieceEffectManager;
 
     [SerializeField] bool logging = false;
 
@@ -28,16 +33,22 @@ public class PieceService : MonoService
         base.OnInstantiated();
 
         pieceBuilder = container.Instantiate<PieceBuilder>();
-        pieceMover = container.Instantiate<PieceMover>();
-        pieceCapturer = container.Instantiate<PieceCapturer>();
-
-        MoveChecker = container.Instantiate<MoveChecker>();
-        MovesGenerator = container.Instantiate<MovesGenerator>();
-
         pieceBuilder.Init(piecePrefabs);
+
+        pieceDataMover = container.Instantiate<PieceDataMover>();
+        pieceCapturer = container.Instantiate<PieceCapturer>();
         pieceCapturer.Init();
 
+        pieceMover = container.Instantiate<PieceMover>();
+        pieceMover.Init();
+
+        MoveChecker = container.Instantiate<MoveChecker>();
+
+        MovesGenerator = container.Instantiate<MovesGenerator>();
         MovesGenerator.Init(this);
+
+        pieceEffectManager = container.Instantiate<PieceEffectManager>();
+        pieceEffectManager.Init(data);
 
         gameManager.GameDataChanged += GameDataChanged;
     }
@@ -45,6 +56,8 @@ public class PieceService : MonoService
     private void OnDisable()
     {
         gameManager.GameDataChanged -= GameDataChanged;
+        pieceMover.OnDisable();
+        pieceEffectManager.OnDisable();
     }
 
     public void Setup()
@@ -56,7 +69,8 @@ public class PieceService : MonoService
     public void ClearBoard() => gameManager.Cells.Where(cellHandler => !PiecePacker.IsEqualType(gameManager.Board[cellHandler.Index], PieceType.None)).ToList().ForEach(cellHandler => gameManager.DestroyPiece(cellHandler));
 
     public void SpawnPiece(byte pieceData, CellHandler cellHandler) => pieceBuilder.Instantiate(pieceData, cellHandler);
-    public void CapturePiece(CellHandler cellHandler) => pieceCapturer.CapturePiece(cellHandler);
+    public void CapturePiece(PieceHandler capturer, CellHandler cellHandler) => pieceCapturer.CapturePiece(capturer, cellHandler);
+    public void DestroyPiece(CellHandler cellHandler) => gameManager.DestroyPiece(cellHandler);
 
     public bool IsMoveAllowed(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {
@@ -66,7 +80,7 @@ public class PieceService : MonoService
         return canMove;
     }
 
-    public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceMover.Move(pieceHandler, startCell, endCell);
+    public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceDataMover.Move(pieceHandler, startCell, endCell);
 
     private void GameDataChanged() => MovesGenerator.GenerateAllPossibleMoves(gameManager.GameTurnController.TurnColor);
 }

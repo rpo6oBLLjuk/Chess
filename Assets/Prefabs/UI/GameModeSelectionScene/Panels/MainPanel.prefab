@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42637e0694df9d949932ddfe62cfb7ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Hideable: 1
   hideButton: {fileID: 0}
   <CanvasGroup>k__BackingField: {fileID: 3755220358052127237}
   autoHideOnAwake: 0
@@ -305,13 +306,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 5194651644725435876}
   animStartData:
-    position: {x: 0, y: 500, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 27
     delay: 0
   animEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -319,13 +320,13 @@ MonoBehaviour:
   useLoopAnim: 0
   loopDuration: 1
   loopAnimEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
     delay: 0
   defaultData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -381,13 +382,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 6678117462220183637}
   animStartData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 0, y: 0, z: 0}
     easeType: 27
     delay: 0
   animEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -395,13 +396,13 @@ MonoBehaviour:
   useLoopAnim: 0
   loopDuration: 1
   loopAnimEndData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
     delay: 0
   defaultData:
-    position: {x: 0, y: 0, z: 0}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -439,7 +440,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 200}
   m_SizeDelta: {x: -400, y: -1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1555219819609422392

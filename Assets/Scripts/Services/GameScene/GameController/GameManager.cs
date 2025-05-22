@@ -15,17 +15,21 @@ public class GameManager : MonoService
 
     public event Action<CellHandler> CellClicked;
     public event Action<CellHandler> CellPressedDown;
-    
+
     public event Action<PieceHandler> PieceDragStarted;
     public event Action<PieceHandler, Vector3, CellHandler> PieceDragged;
-    public event Action<PieceHandler, Transform> PieceDragEnded;
+    public event Action<PieceHandler, CellHandler> PieceDragEnded;
 
     /// <summary>
-    /// First CellHandler: from cell, second CellHandler: to cell
+    /// Args: Moved Piece, from cell, to cell
     /// </summary>
     public event Action<PieceHandler, CellHandler, CellHandler> PieceMoved;
     /// <summary>
-    /// First arg: Capturer, second arg: captured piece, third arg: captured piece data
+    /// Args: Moved Piece, from cell, to cell
+    /// </summary>
+    public event Action<PieceHandler, CellHandler, CellHandler> PieceMoveBlocked;
+    /// <summary>
+    /// Args: Capturer, Captured piece, Captured piece data, End cell 
     /// </summary>
     public event Action<PieceHandler, PieceHandler, byte, CellHandler> PieceCaptured;
 
@@ -41,7 +45,12 @@ public class GameManager : MonoService
     [field: SerializeField] public byte[] Board { get; set; }
     [field: SerializeField] public PieceHandler[] Pieces { get; set; }
     [field: SerializeField] public CellHandler[] Cells { get; set; }
+
+    [Space]
     [field: SerializeField] public List<byte>[] PossibleMoves; //Field for ref-args
+
+    [field: Space, SerializeField] public List<Move> Moves { get; set; }
+    [field: SerializeField] public List<Capture> Captures { get; set; }
 
     [Header("Data")]
     public GameData GameData => gameData;
@@ -88,18 +97,18 @@ public class GameManager : MonoService
 
         PieceSpawned.Invoke(Pieces[cellHandler.Index], cellHandler);
     }
-    public void CapturePiece(PieceHandler pieceHandler, CellHandler cellHandler)
+    public void CapturePiece(PieceHandler capturer, CellHandler endCellHandler)
     {
-        byte capturedPieceData = Board[cellHandler.Index];
-        PieceHandler capturedPiece = Pieces[cellHandler.Index];
+        byte capturedPieceData = Board[endCellHandler.Index];
+        PieceHandler capturedPiece = Pieces[endCellHandler.Index];
 
-        pieceService.CapturePiece(cellHandler);
-        PieceCaptured?.Invoke(pieceHandler, capturedPiece, capturedPieceData, cellHandler);
+        pieceService.CapturePiece(capturer, endCellHandler);
+        PieceCaptured?.Invoke(capturer, capturedPiece, capturedPieceData, endCellHandler);
     }
     public void DestroyPiece(CellHandler cellHandler)
     {
         PieceHandler capturedPiece = Pieces[cellHandler.Index];
-        pieceService.CapturePiece(cellHandler);
+        pieceService.DestroyPiece(cellHandler);
 
         pieceService.MovesGenerator.GenerateAllPossibleMoves(GameTurnController.TurnColor);
 
@@ -116,13 +125,17 @@ public class GameManager : MonoService
 
         PieceMoved?.Invoke(pieceHandler, startCell, endCell);
     }
+    public void BlockPieceMove(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
+    {
+        PieceMoveBlocked?.Invoke(pieceHandler, startCell, endCell);
+    }
 
     public void ClickOnCell(CellHandler cellHandler) => CellClicked?.Invoke(cellHandler);
     public void PressDownOnCell(CellHandler cellHandler) => CellPressedDown?.Invoke(cellHandler);
 
     public void PieceStartDrag(PieceHandler piece) => PieceDragStarted?.Invoke(piece);
     public void PieceDragging(PieceHandler piece, Vector3 position, CellHandler downCell) => PieceDragged?.Invoke(piece, position, downCell);
-    public void PieceEndDrag(PieceHandler piece, Transform parent) => PieceDragEnded?.Invoke(piece, parent);
+    public void PieceEndDrag(PieceHandler piece, CellHandler endCell) => PieceDragEnded?.Invoke(piece, endCell);
 
     public void GameEnd(PieceColor pieceColor, bool pat) => GameEnded?.Invoke(pieceColor, pat);
 
@@ -181,3 +194,35 @@ public class GameManager : MonoService
         #endregion
     }
 }
+
+[Serializable]
+public struct Move
+{
+    public byte Piece;
+    public byte StartIndex;
+    public byte EndIndex;
+
+    public Move(byte piece, byte startIndex, byte endIndex)
+    {
+        Piece = piece;
+        StartIndex = startIndex;
+        EndIndex = endIndex;
+    }
+}
+
+[Serializable]
+public struct Capture
+{
+    public byte MoveIndex;
+    public byte CapturerPiece;
+    public byte CapturedPiece;
+
+    public Capture(byte moveIndex, byte capturerPiece, byte capturedPiece)
+    {
+        MoveIndex = moveIndex;
+        CapturerPiece = capturerPiece;
+        CapturedPiece = capturedPiece;
+    }
+}
+
+
