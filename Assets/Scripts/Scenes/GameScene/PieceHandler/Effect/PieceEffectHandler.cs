@@ -34,6 +34,13 @@ public class PieceEffectHandler : MonoBehaviour
         effectTweener.enabled = false;
     }
 
+    public void Burn(UIEffectPreset burnPreset)
+    {
+        uiEffect.LoadPreset(burnPreset);
+        effectTweener.enabled = true;
+        effectTweener.wrapMode = UIEffectTweener.WrapMode.Once;
+    }
+
     public void Destroy(float duration, AnimationCurve positionCurve)
     {
         gameObject.transform.SetParent(transform.root);

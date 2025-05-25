@@ -14,8 +14,9 @@ public class MovesGenerator
 
     public void Init(PieceService pieceService) => this.pieceService = pieceService;
 
-    public void GenerateAllPossibleMoves(PieceColor pieceColor) => GenerateAllPossibleMoves(gameManager.Board, out gameManager.PossibleMoves, pieceColor);
-    public void GenerateAllPossibleMoves(byte[] board, out List<byte>[] moves, PieceColor pieceColor, bool recursion = true)
+    public void GenerateAllPossibleMoves(PieceColor pieceColor) => GenerateAllPossibleMoves(gameManager.Board, out gameManager.PossibleMoves, pieceColor, gameManager.Moves.LastOrDefault());
+
+    private void GenerateAllPossibleMoves(byte[] board, out List<byte>[] moves, PieceColor pieceColor, Move lastMove = default, bool recursion = true)
     {
         moves = new List<byte>[64];
         if (!pieceService.MoveChecker.IsMovementAllowed())
@@ -27,7 +28,7 @@ public class MovesGenerator
             moves[index] = new();
             if (PiecePacker.IsDefaultPiece(board[index]) && (PiecePacker.IsEqualColor(board[index], pieceColor) || gameManager.GameData.IgnoreMoveColors))
             {
-                GeneratePossibleMovesForPiece(index, board, moves);
+                GeneratePossibleMovesForPiece(index, board, moves, lastMove);
             }
         }
 
@@ -36,7 +37,7 @@ public class MovesGenerator
             CorrectionMoves(board, moves, pieceColor);
     }
 
-    private void GeneratePossibleMovesForPiece(byte index, byte[] board, List<byte>[] moves)
+    private void GeneratePossibleMovesForPiece(byte index, byte[] board, List<byte>[] moves, Move lastMove = default)
     {
         if (gameManager.GameData.AllowMovement == AllowMovement.All)
         {
@@ -52,7 +53,7 @@ public class MovesGenerator
         switch (PiecePacker.GetType(board[index]))
         {
             case PieceType.Pawn:
-                GeneratePawnMoves(index, pieceColor, board, moves);
+                GeneratePawnMoves(index, pieceColor, board, moves, lastMove);
                 break;
             case PieceType.Knight:
                 GenerateKnightMoves(index, board, moves);
@@ -72,7 +73,7 @@ public class MovesGenerator
         }
     }
 
-    private void GeneratePawnMoves(byte index, PieceColor pieceColor, byte[] board, List<byte>[] moves)
+    private void GeneratePawnMoves(byte index, PieceColor pieceColor, byte[] board, List<byte>[] moves, Move lastMove = default)
     {
         if (pieceColor == PieceColor.White)
         {
@@ -101,6 +102,13 @@ public class MovesGenerator
             {
                 if (PiecePacker.IsDefaultPiece(board[index - 7]))
                     ApplyMove(index, (byte)(index - 7), board, moves);
+            }
+
+            if(PiecePacker.IsEqualType(lastMove.Piece, PieceType.Pawn) && PiecePacker.IsEqualColor(lastMove.Piece, pieceColor.Invert()))
+            {
+                Debug.Log("Last move is piece");
+                if (lastMove.EndIndex - lastMove.StartIndex == 16 && (lastMove.EndIndex - 1 == index || lastMove.EndIndex + 1 == index))
+                    ApplyMove(index, (byte)(lastMove.EndIndex - 8), board, moves);
             }
         }
         else //if (pieceColor == PieceColor.Black)
@@ -295,7 +303,7 @@ public class MovesGenerator
         PieceColor opponentColor = currentPlayerColor.Invert();
 
         byte[] fantomBoard = (byte[])board.Clone();
-        GenerateAllPossibleMoves(fantomBoard, out var opponentResponses, opponentColor, false);
+        GenerateAllPossibleMoves(fantomBoard, out var opponentResponses, opponentColor, recursion: false);
         if (IsKingUnderCheck(fantomBoard, opponentResponses, currentPlayerColor))
         {
             isChecked = true;
@@ -312,7 +320,7 @@ public class MovesGenerator
                 fantomBoard[move] = fantomBoard[i];
                 fantomBoard[i] = 0;
 
-                GenerateAllPossibleMoves(fantomBoard, out opponentResponses, opponentColor, false);
+                GenerateAllPossibleMoves(fantomBoard, out opponentResponses, opponentColor, recursion: false);
 
                 if (IsKingUnderCheck(fantomBoard, opponentResponses, currentPlayerColor))
                 {

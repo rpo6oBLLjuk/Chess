@@ -69,7 +69,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1355967933, guid: b277623a6b6185e48940a033ae824366, type: 3}
+  m_Sprite: {fileID: 2145688461, guid: b277623a6b6185e48940a033ae824366, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_GradationOffset: 0
   m_GradationScale: 1
   m_GradationRotation: 0
-  m_AllowToModifyMeshShape: 1
+  m_AllowToModifyMeshShape: 0
   m_EdgeMode: 0
   m_EdgeWidth: 0.5
   m_EdgeColorFilter: 4
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ac5d06c7b714c29a6b7b3b80e443a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CullingMask: 32
+  m_CullingMask: 40
   m_Direction: 0
   m_Curve:
     serializedVersion: 2

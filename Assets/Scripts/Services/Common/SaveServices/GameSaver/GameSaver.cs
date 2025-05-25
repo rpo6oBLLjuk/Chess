@@ -22,7 +22,7 @@ public class GameSaver : OneFileBaseSaver<GameSave>
         panelManager.QuitReuqest -= QuitListener;
     }
 
-    private void OnApplicationQuit() => SaveWrapper();
+    private void OnApplicationPause() => SaveWrapper();
 
     private void QuitListener(bool qiut)
     {

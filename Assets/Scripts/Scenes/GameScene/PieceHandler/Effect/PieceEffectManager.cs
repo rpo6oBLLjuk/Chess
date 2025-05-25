@@ -1,5 +1,6 @@
 using DG.Tweening;
 using ModestTree;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -17,6 +18,8 @@ public class PieceEffectManager
         gameManager.OnKingChecked += KingChecked;
         gameManager.OnCheckResolved += CheckResolved;
 
+        gameManager.GameEnded += GameEnd;
+
         gameManager.PieceSpawned += PieceSpawned;
         gameManager.PieceCaptured += PieceCaptured;
         gameManager.PieceDestroyed += PieceDestroyed;
@@ -31,6 +34,8 @@ public class PieceEffectManager
     {
         gameManager.OnKingChecked -= KingChecked;
         gameManager.OnCheckResolved -= CheckResolved;
+
+        gameManager.GameEnded -= GameEnd;
 
         gameManager.PieceDestroyed -= PieceSpawned;
         gameManager.PieceCaptured -= PieceCaptured;
@@ -58,7 +63,7 @@ public class PieceEffectManager
             pieceHandler.transform.position = position;
         }
     }
-    
+
     public void PieceMoved(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => MovePieceToCell(pieceHandler, endCell);
     public void PieceMoveBlocked(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => MovePieceToCell(pieceHandler, startCell);
 
@@ -68,6 +73,14 @@ public class PieceEffectManager
 
     public void KingChecked(PieceHandler pieceHandler) => pieceHandler.PieceEffectController.Check(gameManager.PiecesSkinData.gradationPreset);
     public void CheckResolved(PieceHandler pieceHandler) => pieceHandler.PieceEffectController.ResolveCheck(gameManager.PiecesSkinData.defaultPreset);
+
+    public void GameEnd(PieceColor pieceColor, bool pat)
+    {
+        if (pat)
+            FindKing(pieceColor).PieceEffectController.Burn(gameManager.PiecesSkinData.burnPreset);
+
+        FindKing(pieceColor.Invert()).PieceEffectController.Burn(gameManager.PiecesSkinData.burnPreset); //burn oppenent king
+    }
 
     private void MovePieceToCell(PieceHandler pieceHandler, CellHandler cellHandler)
     {
@@ -83,5 +96,19 @@ public class PieceEffectManager
             return true;
 
         return false;
+    }
+
+    private PieceHandler FindKing(PieceColor pieceColor)
+    {
+        for (int i = 0; i < gameManager.Board.Length; i++)
+        {
+            byte pieceData = gameManager.Board[i];
+            if (PiecePacker.IsEqualType(pieceData, PieceType.King) && PiecePacker.IsEqualColor(pieceData, pieceColor))
+            {
+                return gameManager.Pieces[i];
+            }
+        }
+
+        return null;
     }
 }

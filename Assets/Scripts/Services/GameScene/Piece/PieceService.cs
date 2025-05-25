@@ -70,7 +70,7 @@ public class PieceService : MonoService
 
     public void SpawnPiece(byte pieceData, CellHandler cellHandler) => pieceBuilder.Instantiate(pieceData, cellHandler);
     public void CapturePiece(PieceHandler capturer, CellHandler cellHandler) => pieceCapturer.CapturePiece(capturer, cellHandler);
-    public void DestroyPiece(CellHandler cellHandler) => gameManager.DestroyPiece(cellHandler);
+    public void DestroyPiece(CellHandler cellHandler) => pieceCapturer.DestroyPiece(cellHandler);
 
     public bool IsMoveAllowed(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell)
     {

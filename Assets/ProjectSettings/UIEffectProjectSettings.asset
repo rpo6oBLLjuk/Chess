@@ -17,6 +17,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 39fa4368328f2d94ebed80f3f82d1742, type: 2}
   - {fileID: 11400000, guid: 315600554cc22254bbdc3d0890d960ed, type: 2}
   - {fileID: 11400000, guid: 9e69a393d7c5a3b4a94d73de1a17cd9c, type: 2}
+  - {fileID: 11400000, guid: 3954c4da4a22ed649aa8c3c9a038b7e5, type: 2}
+  - {fileID: 11400000, guid: e1e41148407de894bbbd5c5f40ec94dd, type: 2}
+  - {fileID: 11400000, guid: 0588e566afd3de64fa5c3fe2f65a936e, type: 2}
   m_UseHDRColorPicker: 0
   m_ShaderVariantCollection: {fileID: 0}
   m_ShaderVariantRegistry:
@@ -73,5 +76,15 @@ ShaderVariantCollection:
         passType: 0
       - keywords: COLOR_FILTER TONE_SEPIA
         passType: 0
+      - keywords: COLOR_FILTER TRANSITION_BURN
+        passType: 0
+      - keywords: COLOR_FILTER TRANSITION_MASK
+        passType: 0
+      - keywords: COLOR_FILTER TRANSITION_MELT
+        passType: 0
+      - keywords: COLOR_FILTER TRANSITION_PATTERN
+        passType: 0
       - keywords: COLOR_FILTER TRANSITION_SHINY
+        passType: 0
+      - keywords: TRANSITION_MELT
         passType: 0

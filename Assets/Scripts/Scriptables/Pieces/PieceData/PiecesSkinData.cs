@@ -25,7 +25,7 @@ public class PiecesSkinData : ScriptableObject
 
     [field: SerializeField] public UIEffectPreset defaultPreset;
     [field: SerializeField] public UIEffectPreset gradationPreset;
-
+    [field: SerializeField] public UIEffectPreset burnPreset;
 
 
     public Sprite Get(byte pieceData) => Get(PiecePacker.GetType(pieceData), PiecePacker.GetColor(pieceData));
