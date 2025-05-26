@@ -16,4 +16,31 @@ public class SettingsData : ScriptableObject
 
     [field: HorizontalLine("Language")]
     [field: SerializeField] public string Language { get; private set; }
+
+
+    public void UpdateAudioSettings(float masterVolume, float musicVolume, float SoundVolume)
+    {
+        MasterVolume = masterVolume;
+        MusicVolume = musicVolume;
+        SoundsVolume = SoundVolume;
+    }
+
+    public void UpdateGraphicsSettings(bool vSync, int targetFrameRate, bool fullScreen)
+    {
+        VSync = vSync;
+        TargetFrameRate = targetFrameRate;
+        FullScreen = fullScreen;
+    }
+
+    public void UpdateLanguageSettings(string language)
+    {
+        Language = language;
+    }
+
+    public void UpdateFromOtherConfig(SettingsData otherConfig)
+    {
+        UpdateAudioSettings(otherConfig.MasterVolume, otherConfig.MusicVolume, otherConfig.SoundsVolume);
+        UpdateGraphicsSettings(otherConfig.VSync, otherConfig.TargetFrameRate, otherConfig.FullScreen);
+        UpdateLanguageSettings(otherConfig.Language);
+    }
 }

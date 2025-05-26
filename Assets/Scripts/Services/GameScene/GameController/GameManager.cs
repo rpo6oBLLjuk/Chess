@@ -70,8 +70,8 @@ public class GameManager : MonoService
 
     public void Setup()
     {
-        pieceService.OnInstantiated();
-        boardService.OnInstantiated();
+        pieceService.Initialize();
+        boardService.Initialize();
 
         LoadDefaultBoard();
 

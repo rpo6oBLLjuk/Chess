@@ -14,7 +14,7 @@ public class NotificationService : MonoService
     private DialogController dialogController;
 
 
-    public override void OnInstantiated()
+    public override void Initialize()
     {
         popupMessageController = new(popupData, popupParent);
         dialogController = container.Instantiate<DialogController>();

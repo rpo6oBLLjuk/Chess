@@ -1,9 +1,9 @@
 using UnityEngine;
 using Zenject;
 
-public class MonoService : MonoBehaviour
+public class MonoService : MonoBehaviour, IInitializable
 {
     [Inject] protected DiContainer container;
 
-    public virtual void OnInstantiated() { } //public because it is called externally during injection
+    public virtual void Initialize() { } //public because it is called externally during injection
 }

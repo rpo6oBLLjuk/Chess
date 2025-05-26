@@ -15,9 +15,9 @@ public class BoardService : MonoService
     BoardBuilder boardBuilder;
 
 
-    public override void OnInstantiated()
+    public override void Initialize()
     {
-        base.OnInstantiated();
+        base.Initialize();
 
         boardBuilder = container.Instantiate<BoardBuilder>();
         boardBuilder.Init(CellsSkinData, boardGridLayout, cellPrefab);

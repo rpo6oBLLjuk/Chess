@@ -28,9 +28,9 @@ public class PieceService : MonoService
     [SerializeField] bool logging = false;
 
 
-    public override void OnInstantiated()
+    public override void Initialize()
     {
-        base.OnInstantiated();
+        base.Initialize();
 
         pieceBuilder = container.Instantiate<PieceBuilder>();
         pieceBuilder.Init(piecePrefabs);
