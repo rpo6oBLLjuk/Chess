@@ -16,6 +16,9 @@ public class SnapButtonsController : MonoBehaviour
     [SerializeField] bool logging = false;
 
 
+    private void OnEnable() => snapScrollRect.IndexChanged += IndexChanged;
+    private void OnDisable() => snapScrollRect.IndexChanged -= IndexChanged;
+
     private void Awake()
     {
         defaultColor = menuButtons[0].GetComponent<Image>().color;
@@ -28,9 +31,7 @@ public class SnapButtonsController : MonoBehaviour
 
             button.onClick.AddListener(() =>
             {
-                foreach(Button b in menuButtons)
-                    b.GetComponent<Image>().color = defaultColor;
-                button.GetComponent<Image>().color = activeColor;
+                ActivateButton(button);
 
                 snapScrollRect.ScrollTo(index, index);
 
@@ -42,5 +43,17 @@ public class SnapButtonsController : MonoBehaviour
 
         if (autoSetFirstIndex)
             menuButtons[firstIndex].onClick.Invoke();
+    }
+
+    private void IndexChanged(Vector2Int index)
+    {
+        ActivateButton(menuButtons[index.x]);
+    }
+
+    private void ActivateButton(Button nextButton)
+    {
+        foreach (Button b in menuButtons)
+            b.GetComponent<Image>().color = defaultColor;
+        nextButton.GetComponent<Image>().color = activeColor;
     }
 }

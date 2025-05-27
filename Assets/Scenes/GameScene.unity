@@ -256,19 +256,7 @@ PrefabInstance:
       value: GameCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 6027047241942039452, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6027047241942039452, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6688030064519680254, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
-      propertyPath: m_Padding.m_Top
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6688030064519680254, guid: ae5d8510cd07c614bbede4699227e8f7, type: 3}
-      propertyPath: m_Padding.m_Bottom
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

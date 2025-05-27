@@ -49,13 +49,10 @@ public class PieceService : MonoService
 
         pieceEffectManager = container.Instantiate<PieceEffectManager>();
         pieceEffectManager.Init(data);
-
-        gameManager.GameDataChanged += GameDataChanged;
     }
 
     private void OnDisable()
     {
-        gameManager.GameDataChanged -= GameDataChanged;
         pieceMover.OnDisable();
         pieceEffectManager.OnDisable();
     }
@@ -81,6 +78,4 @@ public class PieceService : MonoService
     }
 
     public void MovePiece(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => pieceDataMover.Move(pieceHandler, startCell, endCell);
-
-    private void GameDataChanged() => MovesGenerator.GenerateAllPossibleMoves(gameManager.GameTurnController.TurnColor);
 }

@@ -1,17 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class GameManager : MonoService
 {
     public event Action<PieceColor, bool> GameEnded;
-
-    //Editor only
-    public event Action GameDataChanged
-    {
-        add => GameData.DataChanged += value;
-        remove => GameData.DataChanged -= value;
-    }
 
     public Action<PieceHandler> OnKingChecked;
     public Action<PieceHandler> OnCheckResolved;
@@ -64,8 +58,10 @@ public class GameManager : MonoService
     [SerializeField] private PieceService pieceService;
     [SerializeField] private BoardService boardService;
 
-    [Header("Data")]
+    [Header("Override Data")]
     [SerializeField] private GameData gameData;
+
+    [Inject] private GameData injectableGameData;
 
 
     public void Setup()
@@ -73,7 +69,14 @@ public class GameManager : MonoService
         pieceService.Initialize();
         boardService.Initialize();
 
-        LoadDefaultBoard();
+        gameData ??= injectableGameData;
+
+        Board = new byte[64];
+
+        if (GameData.LoadableBoard != null)
+            Board = GameData.GetBoard();
+        else
+            Board = GameData.GetDefaultBoard();
 
         SetupServices();
     }
@@ -143,6 +146,9 @@ public class GameManager : MonoService
     public void GameEnd(PieceColor pieceColor, bool pat) => GameEnded?.Invoke(pieceColor, pat);
 
 
+    private void OnEnable() => injectableGameData.BoardChanged += SetCustomBoard;
+    private void OnDisable() => injectableGameData.BoardChanged -= SetCustomBoard;
+
     private void SetupServices()
     {
         boardService.Setup();
@@ -150,52 +156,7 @@ public class GameManager : MonoService
 
         BoardLoaded?.Invoke();
     }
-    private void LoadDefaultBoard()
-    {
-        Board = new byte[64];
-
-        #region Rooks
-        Board[ArrayWrapper.ConvertCoordinateToIndex(0, 0)] = PiecePacker.PackPiece(PieceType.Rook, PieceColor.Black);
-        Board[ArrayWrapper.ConvertCoordinateToIndex(7, 0)] = PiecePacker.PackPiece(PieceType.Rook, PieceColor.Black);
-
-        Board[ArrayWrapper.ConvertCoordinateToIndex(0, 7)] = PiecePacker.PackPiece(PieceType.Rook, PieceColor.White);
-        Board[ArrayWrapper.ConvertCoordinateToIndex(7, 7)] = PiecePacker.PackPiece(PieceType.Rook, PieceColor.White);
-        #endregion
-
-        #region Knights
-        Board[ArrayWrapper.ConvertCoordinateToIndex(1, 0)] = PiecePacker.PackPiece(PieceType.Knight, PieceColor.Black);
-        Board[ArrayWrapper.ConvertCoordinateToIndex(6, 0)] = PiecePacker.PackPiece(PieceType.Knight, PieceColor.Black);
-
-        Board[ArrayWrapper.ConvertCoordinateToIndex(1, 7)] = PiecePacker.PackPiece(PieceType.Knight, PieceColor.White);
-        Board[ArrayWrapper.ConvertCoordinateToIndex(6, 7)] = PiecePacker.PackPiece(PieceType.Knight, PieceColor.White);
-        #endregion
-
-        #region Bishops
-        Board[ArrayWrapper.ConvertCoordinateToIndex(2, 0)] = PiecePacker.PackPiece(PieceType.Bishop, PieceColor.Black);
-        Board[ArrayWrapper.ConvertCoordinateToIndex(5, 0)] = PiecePacker.PackPiece(PieceType.Bishop, PieceColor.Black);
-
-        Board[ArrayWrapper.ConvertCoordinateToIndex(2, 7)] = PiecePacker.PackPiece(PieceType.Bishop, PieceColor.White);
-        Board[ArrayWrapper.ConvertCoordinateToIndex(5, 7)] = PiecePacker.PackPiece(PieceType.Bishop, PieceColor.White);
-        #endregion
-
-        #region Queens
-        Board[ArrayWrapper.ConvertCoordinateToIndex(3, 0)] = PiecePacker.PackPiece(PieceType.Queen, PieceColor.Black);
-        Board[ArrayWrapper.ConvertCoordinateToIndex(3, 7)] = PiecePacker.PackPiece(PieceType.Queen, PieceColor.White);
-        #endregion
-
-        #region Kings
-        Board[ArrayWrapper.ConvertCoordinateToIndex(4, 0)] = PiecePacker.PackPiece(PieceType.King, PieceColor.Black);
-        Board[ArrayWrapper.ConvertCoordinateToIndex(4, 7)] = PiecePacker.PackPiece(PieceType.King, PieceColor.White);
-        #endregion
-
-        #region Pawns
-        for (byte i = 0; i < 8; i++)
-        {
-            Board[ArrayWrapper.ConvertCoordinateToIndex(i, 1)] = PiecePacker.PackPiece(PieceType.Pawn, PieceColor.Black);
-            Board[ArrayWrapper.ConvertCoordinateToIndex(i, 6)] = PiecePacker.PackPiece(PieceType.Pawn, PieceColor.White);
-        }
-        #endregion
-    }
+    
 }
 
 [Serializable]

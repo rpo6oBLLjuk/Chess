@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 795067165364508535}
   - component: {fileID: 4183823900300627435}
   - component: {fileID: 356721020672671258}
+  - component: {fileID: 5396780734603203686}
   m_Layer: 5
   m_Name: DeskSaveLoadMenus
   m_TagString: Untagged
@@ -131,6 +132,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _saverName: Desk Saver
   _baseDirectory: Saves/Desk
+  showNotification: 0
+  overwriteFileNotification: "\u041F\u0435\u0440\u0435\u0437\u0430\u043F\u0438\u0441\u0430\u0442\u044C
+    \u0444\u0430\u0439\u043B?"
+  fileOverwritedNotification: "\u0424\u0430\u0439\u043B \u043F\u0435\u0440\u0435\u0437\u0430\u043F\u0438\u0441\u0430\u043D"
+  fileNotOverwritedNotification: "\u0424\u0430\u0439\u043B \u043D\u0435 \u043F\u0435\u0440\u0435\u0437\u0430\u043F\u0438\u0441\u0430\u043D"
+  fileSavedNotification: "\u0424\u0430\u0439\u043B \u0441\u043E\u0445\u0440\u0430\u043D\u0451\u043D"
+  saveNotFoundNotification: "\u0424\u0430\u0439\u043B \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D\u0438\u044F
+    {0} \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D"
+  saveLoadedNotification: "\u0424\u0430\u0439\u043B \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D\u0438\u044F
+    {0} \u0443\u0441\u043F\u0435\u0448\u043D\u043E \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043D"
+  saveDeletedNotification: "\u0424\u0430\u0439\u043B \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D\u0438\u044F
+    {0} \u0443\u0441\u043F\u0435\u0448\u043D\u043E \u0443\u0434\u0430\u043B\u0451\u043D"
+  emptySaveName: "\u0418\u043C\u044F \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D\u0438\u044F
+    \u043D\u0435 \u043C\u043E\u0436\u0435\u0442 \u0431\u044B\u0442\u044C \u043F\u0443\u0441\u0442\u044B\u043C"
+--- !u!114 &5396780734603203686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184233005688000624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 4183823900300627435}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1001 &2189087703719133851
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -421,6 +454,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5385571725061602547}
     m_Modifications:
+    - target: {fileID: 158363314419185735, guid: ab7af46745f51e54883db12fd6d83da1, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 158363314419185735, guid: ab7af46745f51e54883db12fd6d83da1, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 251288557161128882, guid: ab7af46745f51e54883db12fd6d83da1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 251288557161128882, guid: ab7af46745f51e54883db12fd6d83da1, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 251288557161128882, guid: ab7af46745f51e54883db12fd6d83da1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2847800611652209804, guid: ab7af46745f51e54883db12fd6d83da1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -504,6 +557,10 @@ PrefabInstance:
     - target: {fileID: 5564626767483736633, guid: ab7af46745f51e54883db12fd6d83da1, type: 3}
       propertyPath: m_Name
       value: SaverMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6180134972431471074, guid: ab7af46745f51e54883db12fd6d83da1, type: 3}
+      propertyPath: m_fontSize
+      value: 71.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
