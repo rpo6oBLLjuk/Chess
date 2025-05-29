@@ -177,6 +177,96 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &4125715908144233550
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1850797241329388729}
+  - component: {fileID: 7368757452684065449}
+  - component: {fileID: 7420625072650233722}
+  - component: {fileID: 749689434512575475}
+  m_Layer: 0
+  m_Name: DBService
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1850797241329388729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4125715908144233550}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 540, y: 1170, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4458576066046161860}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7368757452684065449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4125715908144233550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cc42fbf3d374044f9b2c2452864e2c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  service: {fileID: 7420625072650233722}
+--- !u!114 &7420625072650233722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4125715908144233550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b76534c4a2515864fad0a14dce3ca902, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Data>k__BackingField: {fileID: 11400000, guid: ad1c8a5a1cb2a4b4d92d61b9f55fdc0d, type: 2}
+  dBDataSaver: {fileID: 749689434512575475}
+--- !u!114 &749689434512575475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4125715908144233550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 826fa9c3998d4c140ab9fa46401a8583, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _saverName: DBDataSaver
+  _baseDirectory: Saves/DBData
+  showNotification: 0
+  overwriteFileNotification: "\u041F\u0435\u0440\u0435\u0437\u0430\u043F\u0438\u0441\u0430\u0442\u044C
+    \u0444\u0430\u0439\u043B?"
+  fileOverwritedNotification: "\u0424\u0430\u0439\u043B \u043F\u0435\u0440\u0435\u0437\u0430\u043F\u0438\u0441\u0430\u043D"
+  fileNotOverwritedNotification: "\u0424\u0430\u0439\u043B \u043D\u0435 \u043F\u0435\u0440\u0435\u0437\u0430\u043F\u0438\u0441\u0430\u043D"
+  fileSavedNotification: "\u0424\u0430\u0439\u043B \u0441\u043E\u0445\u0440\u0430\u043D\u0451\u043D"
+  saveNotFoundNotification: "\u0424\u0430\u0439\u043B \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D\u0438\u044F
+    {0} \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D"
+  saveLoadedNotification: "\u0424\u0430\u0439\u043B \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D\u0438\u044F
+    {0} \u0443\u0441\u043F\u0435\u0448\u043D\u043E \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043D"
+  saveDeletedNotification: "\u0424\u0430\u0439\u043B \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D\u0438\u044F
+    {0} \u0443\u0441\u043F\u0435\u0448\u043D\u043E \u0443\u0434\u0430\u043B\u0451\u043D"
+  emptySaveName: "\u0418\u043C\u044F \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D\u0438\u044F
+    \u043D\u0435 \u043C\u043E\u0436\u0435\u0442 \u0431\u044B\u0442\u044C \u043F\u0443\u0441\u0442\u044B\u043C"
+  _defaultSaveName: PlayerDBData
 --- !u!1 &5095549953161656200
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,6 +428,7 @@ Transform:
   - {fileID: 8415902419292977930}
   - {fileID: 7035444826986484847}
   - {fileID: 1521007529280562113}
+  - {fileID: 1850797241329388729}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1990199440348927641
@@ -359,6 +450,7 @@ MonoBehaviour:
   - {fileID: 2444810108279028124}
   - {fileID: 469860589141626050}
   - {fileID: 6534511185667206704}
+  - {fileID: 7368757452684065449}
   _installerPrefabs: []
   _parentNewObjectsUnderContext: 1
   _editorReflectionBakingCoverageMode: 0
