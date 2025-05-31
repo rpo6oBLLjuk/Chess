@@ -7,6 +7,7 @@ using Zenject;
 public class CapturedPiecesWidget : MonoBehaviour
 {
     [Inject] GameManager gameManager;
+    [Inject] SkinData skinData;
 
     [SerializeField] Transform whitePiecesContainer;
     [SerializeField] Transform blackPiecesContainer;
@@ -45,7 +46,7 @@ public class CapturedPiecesWidget : MonoBehaviour
         GameObject instance = Instantiate(pieceData.DefaultPiece, pieceData.Container);
         instance.SetActive(true);
 
-        instance.GetComponent<Image>().sprite = gameManager.PiecesSkinData.Get(capturedPieceData);
+        instance.GetComponent<Image>().sprite = skinData.piecesSkinData.Get(capturedPieceData);
         instance.GetComponent<UIEffect>().LoadPreset(pieceData.DefaiultUIEffectPreset);
     }
 }

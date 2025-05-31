@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
-using MySql.Data.MySqlClient;
-//using MySqlConnector; // Используем MySqlConnector вместо MySql.Data
+using MySqlConnector; // Используем MySqlConnector вместо MySql.Data
 using System;
 using System.Security.Cryptography;
 using System.Text;
@@ -26,15 +25,6 @@ public class DBService : MonoService
         SignInController = container.Instantiate<SignInController>();
         SignUpController = container.Instantiate<SignUpController>();
 
-        //_connectionBuilder = new MySqlConnectionStringBuilder(Data.ConnectionString)
-        //{
-        //    // Оптимальные настройки для Android
-        //    Pooling = false, // Пулинг может вызывать проблемы на мобильных устройствах
-        //    AllowUserVariables = true,
-        //    ConnectionTimeout = (uint)Data.timeoutSeconds,
-        //    SslMode = MySqlSslMode.Disabled // Для Android лучше отключать SSL
-        //};
-
         Data.SetUserData(dBDataSaver.Load());
     }
 
@@ -42,6 +32,7 @@ public class DBService : MonoService
     {
         var connection = new MySqlConnection(Data.ConnectionString);
 
+        await UniTask.SwitchToThreadPool();
         try
         {
             var cts = new CancellationTokenSource(TimeSpan.FromSeconds(Data.timeoutSeconds));

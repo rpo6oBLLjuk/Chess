@@ -7,9 +7,6 @@ public class PieceService : MonoService
     [Inject] GameManager gameManager;
     [Inject] NotificationService notificationService;
 
-    [field: Header("Data"), SerializeField]
-    public PiecesSkinData PiecesSkinData { get; private set; }
-
     [SerializeField] PiecePrefabs piecePrefabs;
 
     public MoveChecker MoveChecker { get; private set; }
@@ -22,7 +19,6 @@ public class PieceService : MonoService
 
     [SerializeField] PieceMover pieceMover;
 
-    [SerializeField] PieceEffectManagerData data;
     [SerializeField] PieceEffectManager pieceEffectManager;
 
     [SerializeField] bool logging = false;
@@ -48,7 +44,7 @@ public class PieceService : MonoService
         MovesGenerator.Init(this);
 
         pieceEffectManager = container.Instantiate<PieceEffectManager>();
-        pieceEffectManager.Init(data);
+        pieceEffectManager.Init();
     }
 
     private void OnDisable()

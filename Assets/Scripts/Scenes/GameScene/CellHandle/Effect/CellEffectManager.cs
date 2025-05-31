@@ -6,8 +6,7 @@ using Zenject;
 public class CellEffectManager : MonoBehaviour
 {
     [Inject] GameManager gameManager;
-
-    [SerializeField] CellEffectManagerData data;
+    [Inject] SkinData skinData;
 
 
     CellHandler selectedCell;
@@ -56,16 +55,16 @@ public class CellEffectManager : MonoBehaviour
         DisableSelectedCell();
         DisablePossibleMoveCells();
 
-        if (gameManager.PossibleMoves[cellHandler.Index].Count > 0 || data.SelectInactiveCells)
+        if (gameManager.PossibleMoves[cellHandler.Index].Count > 0 || skinData.cellEffectData.SelectInactiveCells)
         {
             EnableSelectedCell(cellHandler);
             EnablePossibleMoveCells(cellHandler.Index);
 
-            if (data.DisablePreviousMoveCellsBeforeSelect)
+            if (skinData.cellEffectData.DisablePreviousMoveCellsBeforeSelect)
             {
                 DisablePreviousCells();
             }
-            if (data.DisableCapturedCellsBeforeSelect)
+            if (skinData.cellEffectData.DisableCapturedCellsBeforeSelect)
             {
                 DisableCapturedCell();
             }

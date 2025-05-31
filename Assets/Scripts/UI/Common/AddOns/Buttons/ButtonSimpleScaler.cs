@@ -20,4 +20,6 @@ public class ButtonSimpleScaler : MonoBehaviour, IPointerDownHandler, IPointerEx
     public void OnPointerExit(PointerEventData eventData) => transform.DOScale(defaultScale, duration);
 
     protected virtual void OnDisable() => transform.DOKill();
+
+    private void Reset() => button = GetComponent<Button>();
 }

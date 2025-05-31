@@ -610,6 +610,7 @@ MonoBehaviour:
   patText: Pat
   winnerText: 'Winner: '
   exitButton: {fileID: 5395586285220599700}
+  afterGameEndDelay: 1
 --- !u!1 &4684255871330589601
 GameObject:
   m_ObjectHideFlags: 0
@@ -1033,7 +1034,7 @@ MonoBehaviour:
     easeType: 6
     delay: 0
   animEndData:
-    anchoredPosition: {x: 0, y: -1840}
+    anchoredPosition: {x: 0, y: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6

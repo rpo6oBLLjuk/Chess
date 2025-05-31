@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
 using UnityEngine;
 using Zenject;

@@ -1,16 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class BoardService : MonoService
 {
-    //[Inject] GameController gameManager;
-
     [Header("References")]
     [SerializeField] GridLayoutGroup boardGridLayout;
     [SerializeField] GameObject cellPrefab;
-
-    [field: Header("Data"), SerializeField]
-    public CellsSkinData CellsSkinData { get; private set; }
 
     BoardBuilder boardBuilder;
 
@@ -20,7 +16,7 @@ public class BoardService : MonoService
         base.Initialize();
 
         boardBuilder = container.Instantiate<BoardBuilder>();
-        boardBuilder.Init(CellsSkinData, boardGridLayout, cellPrefab);
+        boardBuilder.Init(boardGridLayout, cellPrefab);
     }
 
     public void Setup() => boardBuilder.SetupBoard();

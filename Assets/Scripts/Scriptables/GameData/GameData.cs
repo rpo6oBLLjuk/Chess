@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using Zenject;
 
 [CreateAssetMenu(fileName = "GameData", menuName = "Scriptable Objects/Game/GameData")]
 public class GameData : ScriptableObject

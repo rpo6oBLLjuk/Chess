@@ -32,8 +32,8 @@ public class AnimatedPanel : Panel
 
         EnableCanvasGroup();
 
-        CanvasGroup.DOFade(1, data.showDuration)
-            .From(0);
+        CanvasGroup.DOKill(true);
+        CanvasGroup.DOFade(1, data.showDuration);
 
         AnimatedWidgetElements.ForEach(element => element.Show(data.showDuration));
     }
@@ -43,8 +43,8 @@ public class AnimatedPanel : Panel
 
         DisableCanvasGroup();
 
-        CanvasGroup.DOFade(0, data.showDuration)
-            .From(1);
+        CanvasGroup.DOKill(true);
+        CanvasGroup.DOFade(0, data.showDuration);
 
         AnimatedWidgetElements.ForEach(element => element.Hide(data.showDuration));
     }
@@ -55,6 +55,7 @@ public class AnimatedPanel : Panel
 
         panelManager?.PanelShowed(this);
 
+        CanvasGroup.DOKill();
         AnimatedWidgetElements.ForEach(element => element.Show(forceShow: true));
     }
     public override void ForceHide()
@@ -63,6 +64,7 @@ public class AnimatedPanel : Panel
 
         panelManager?.PanelHided(this);
 
+        CanvasGroup.DOKill(true);
         AnimatedWidgetElements.ForEach(element => element.Hide(forceHide: true));
     }
 

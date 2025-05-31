@@ -29,6 +29,8 @@ public class AnimatedElement : MonoBehaviour
     [SerializeField] private AnimationData defaultData = new();
     [HideInInspector] Sequence loopSequence;
 
+    private Tween previousTween;
+
 
     public void Awake()
     {
@@ -41,7 +43,8 @@ public class AnimatedElement : MonoBehaviour
 
     public virtual Tween Show(float showDuration = 0, bool forceShow = false)
     {
-        Tween showTween = GetAnim(rectTransform,
+        previousTween.Kill();
+        previousTween = GetAnim(rectTransform,
             defaultData.anchoredPosition + animStartData.anchoredPosition, defaultData.anchoredPosition,
             animStartData.rotation, defaultData.rotation,
             animStartData.scale, defaultData.scale,
@@ -50,22 +53,22 @@ public class AnimatedElement : MonoBehaviour
             (forceShow) ? 0 : animStartData.delay);
 
         if (useLoopAnim)
-            showTween.OnComplete(PlayLoopAnim);
+            previousTween.OnComplete(PlayLoopAnim);
 
-        return showTween.Play();
+        return previousTween.Play();
     }
     public virtual Tween Hide(float hideDuration = 0, bool forceHide = false)
     {
-        //if (useLoopAnim)
-        //    rectTransform.DOKillAllTweens();
-
-        return GetAnim(rectTransform,
+        previousTween.Kill();
+        previousTween = GetAnim(rectTransform,
             defaultData.anchoredPosition, defaultData.anchoredPosition + animEndData.anchoredPosition,
             defaultData.rotation, animEndData.rotation,
             defaultData.scale, animEndData.scale,
             animEndData.easeType,
             (forceHide) ? 0 : hideDuration,
-            (forceHide) ? 0 : animEndData.delay).Play();
+            (forceHide) ? 0 : animEndData.delay);
+        
+        return previousTween.Play();
     }
 
     private Tween GetAnim(RectTransform rectTransform, Vector2 fromAnchoredPosition, Vector2 toAnchoredPosition, Quaternion fromRotation, Quaternion toRotation, Vector3 fromScale, Vector3 toScale, Ease easeType, float duration, float delay = 0)

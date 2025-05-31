@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b751d49ff841caf4e92cbf4620a21dac, type: 3}
+  m_Script: {fileID: 11500000, guid: cebec6101f77e3a4995dc8bc8bf266ba, type: 3}
   m_Name: GameDataInstaller
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameDataInstaller
   currentData: {fileID: 11400000, guid: 8626f98d91ca96d4cb2b85421ef03a83, type: 2}

@@ -7,6 +7,7 @@ using Zenject;
 public class CellEffectHandler : MonoBehaviour
 {
     [Inject] GameManager gameManager;
+    [Inject] SkinData skinData;
 
     [SerializeField] private Image targetImage;
     [SerializeField] private Image selectImage;
@@ -45,12 +46,12 @@ public class CellEffectHandler : MonoBehaviour
         (enableHovered ? (Action)EnableAnimHover : DisableAnimHover)();
     }
 
-    public void EnableAnimTarget() => SetAnimImageColor(gameManager.CellsSkinData.TargetCellData.Color, gameManager.CellsSkinData.AnimationData.TargetAnimationData.Duration, targetImage);
-    public void EnableAnimSelect() => SetAnimImageColor(gameManager.CellsSkinData.SelectCellData.Color, gameManager.CellsSkinData.AnimationData.SelectAnimationData.Duration, selectImage);
-    public void EnableAnimPossibleMove() => SetAnimImageColor(gameManager.CellsSkinData.PossibleMoveCellData.Color, gameManager.CellsSkinData.AnimationData.PossibleMoveAnimationData.Duration, possibleMoveImage);
-    public void EnableAnimCapture() => SetAnimImageColor(gameManager.CellsSkinData.CaptureCellData.Color, gameManager.CellsSkinData.AnimationData.CaptureAnimationData.Duration, captureImage);
-    public void EnableAnimPreviousMove() => SetAnimImageColor(gameManager.CellsSkinData.PreviousMoveCellData.Color, gameManager.CellsSkinData.AnimationData.PreviousMoveAnimationData.Duration, previousMoveImage);
-    public void EnableAnimHover() => SetAnimImageColor(gameManager.CellsSkinData.HoverCellData.Color, gameManager.CellsSkinData.AnimationData.HoverAnimationData.Duration, hoverImage);
+    public void EnableAnimTarget() => SetAnimImageColor(skinData.cellsSkinData.TargetCellData.Color, skinData.cellAnimationData.TargetAnimationData.Duration, targetImage);
+    public void EnableAnimSelect() => SetAnimImageColor(skinData.cellsSkinData.SelectCellData.Color, skinData.cellAnimationData.SelectAnimationData.Duration, selectImage);
+    public void EnableAnimPossibleMove() => SetAnimImageColor(skinData.cellsSkinData.PossibleMoveCellData.Color, skinData.cellAnimationData.PossibleMoveAnimationData.Duration, possibleMoveImage);
+    public void EnableAnimCapture() => SetAnimImageColor(skinData.cellsSkinData.CaptureCellData.Color, skinData.cellAnimationData.CaptureAnimationData.Duration, captureImage);
+    public void EnableAnimPreviousMove() => SetAnimImageColor(skinData.cellsSkinData.PreviousMoveCellData.Color, skinData.cellAnimationData.PreviousMoveAnimationData.Duration, previousMoveImage);
+    public void EnableAnimHover() => SetAnimImageColor(skinData.cellsSkinData.HoverCellData.Color, skinData.cellAnimationData.HoverAnimationData.Duration, hoverImage);
 
     public void DisableAnimTarget() => DisableAnimImage(targetImage);
     public void DisableAnimSelect() => DisableAnimImage(selectImage);
@@ -59,12 +60,12 @@ public class CellEffectHandler : MonoBehaviour
     public void DisableAnimPreviousMove() => DisableAnimImage(previousMoveImage);
     public void DisableAnimHover() => DisableAnimImage(hoverImage);
 
-    public void EnableTarget() => SetImageColor(gameManager.CellsSkinData.TargetCellData.Color, targetImage);
-    public void EnableSelect() => SetImageColor(gameManager.CellsSkinData.SelectCellData.Color, selectImage);
-    public void EnablePossibleMove() => SetImageColor(gameManager.CellsSkinData.PossibleMoveCellData.Color, possibleMoveImage);
-    public void EnableCapture() => SetImageColor(gameManager.CellsSkinData.CaptureCellData.Color, captureImage);
-    public void EnablePreviousMove() => SetImageColor(gameManager.CellsSkinData.PreviousMoveCellData.Color, previousMoveImage);
-    public void EnableHover() => SetImageColor(gameManager.CellsSkinData.HoverCellData.Color, hoverImage);
+    public void EnableTarget() => SetImageColor(skinData.cellsSkinData.TargetCellData.Color, targetImage);
+    public void EnableSelect() => SetImageColor(skinData.cellsSkinData.SelectCellData.Color, selectImage);
+    public void EnablePossibleMove() => SetImageColor(skinData.cellsSkinData.PossibleMoveCellData.Color, possibleMoveImage);
+    public void EnableCapture() => SetImageColor(skinData.cellsSkinData.CaptureCellData.Color, captureImage);
+    public void EnablePreviousMove() => SetImageColor(skinData.cellsSkinData.PreviousMoveCellData.Color, previousMoveImage);
+    public void EnableHover() => SetImageColor(skinData.cellsSkinData.HoverCellData.Color, hoverImage);
 
     public void DisableTarget() => SetImageColor(default, targetImage);
     public void DisableSelect() => SetImageColor(default, selectImage);

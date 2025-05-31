@@ -9,17 +9,15 @@ public class BoardBuilder
 {
     [Inject] DiContainer container;
     [Inject] GameManager gameManager;
+    [Inject] SkinData skinData;
 
     private GridLayoutGroup boardGridLayout;
     private GameObject cellPrefab;
 
-    private CellsSkinData cellsSkinData;
-
     private bool leftUpCellIsWhite = true;
 
-    public void Init(CellsSkinData cellsSkinData, GridLayoutGroup boardGridLayout, GameObject cellPrefab)
+    public void Init(GridLayoutGroup boardGridLayout, GameObject cellPrefab)
     {
-        this.cellsSkinData = cellsSkinData;
         this.boardGridLayout = boardGridLayout;
         this.cellPrefab = cellPrefab;
     }
@@ -47,14 +45,14 @@ public class BoardBuilder
 
                 GameObject instance = container.InstantiatePrefab(cellPrefab, boardGridLayout.transform);
                 instance.name = $"Cell [{x},{y}]";
-                instance.GetComponentInChildren<Image>().sprite = isWhite ? cellsSkinData.WhiteCell : cellsSkinData.BlackCell;
+                instance.GetComponentInChildren<Image>().sprite = isWhite ? skinData.cellsSkinData.WhiteCell : skinData.cellsSkinData.BlackCell;
 
                 CellHandler cellHandler = instance.GetComponent<CellHandler>();
 
                 int index = y * 8 + x;
                 gameManager.Cells[index] = cellHandler;
                 cellHandler.Init((byte)(y * 8 + x));
-                cellHandler.CellEffectController.Init(cellsSkinData);
+                cellHandler.CellEffectController.Init(skinData.cellsSkinData);
             }
         }
 

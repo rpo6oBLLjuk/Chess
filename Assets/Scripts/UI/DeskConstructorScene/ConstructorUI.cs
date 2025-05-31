@@ -9,6 +9,7 @@ public class ConstructorUI : MonoBehaviour
 {
     [Inject] NotificationService notificationService;
     [Inject] GameManager gameManager;
+    [Inject] SkinData skinData;
 
     [SerializeField, Dictionary] ReorderableDictionary<PieceType, Button> pieceButtons;
     [SerializeField] Button colorChangeButton;
@@ -90,7 +91,7 @@ public class ConstructorUI : MonoBehaviour
         {
             if (pieceType != PieceType.None && pieceType != PieceType.Other)
             {
-                pieceButtons[pieceType].transform.GetComponentInChildrenOnly<Image>().sprite = gameManager.PiecesSkinData.Get(pieceType, currectPieceColor);
+                pieceButtons[pieceType].transform.GetComponentInChildrenOnly<Image>().sprite = skinData.piecesSkinData.Get(pieceType, currectPieceColor);
             }
         }
     }

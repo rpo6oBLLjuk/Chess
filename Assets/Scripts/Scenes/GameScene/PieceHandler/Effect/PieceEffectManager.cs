@@ -1,20 +1,16 @@
 using DG.Tweening;
 using ModestTree;
-using System.Linq;
 using UnityEngine;
 using Zenject;
 
 public class PieceEffectManager
 {
     [Inject] GameManager gameManager;
+    [Inject] SkinData skinData;
 
-    [SerializeField] PieceEffectManagerData data;
 
-
-    public void Init(PieceEffectManagerData data)
+    public void Init()
     {
-        this.data = data;
-
         gameManager.OnKingChecked += KingChecked;
         gameManager.OnCheckResolved += CheckResolved;
 
@@ -52,7 +48,7 @@ public class PieceEffectManager
     {
         if (IsDragable(gameManager.Pieces.IndexOf(pieceHandler)))
         {
-            pieceHandler.transform.DOScale(Vector3.one * gameManager.PiecesSkinData.AnimationData.scaleMultiplier, gameManager.PiecesSkinData.AnimationData.scaleDuration);
+            pieceHandler.transform.DOScale(Vector3.one * skinData.pieceAnimationData.scaleMultiplier, skinData.pieceAnimationData.scaleDuration);
             pieceHandler.transform.SetParent(pieceHandler.GetComponentInParent<Canvas>().transform);
         }
     }
@@ -67,32 +63,32 @@ public class PieceEffectManager
     public void PieceMoved(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => MovePieceToCell(pieceHandler, endCell);
     public void PieceMoveBlocked(PieceHandler pieceHandler, CellHandler startCell, CellHandler endCell) => MovePieceToCell(pieceHandler, startCell);
 
-    public void PieceSpawned(PieceHandler pieceHandler, CellHandler cellHandler) => pieceHandler.PieceEffectController.OnInitialized(gameManager.PiecesSkinData.AnimationData.showTime);
-    public void PieceCaptured(PieceHandler capturerPiece, PieceHandler capturedPiece, byte capturedPieceData, CellHandler cellHandler) => capturedPiece.PieceEffectController.Destroy(gameManager.PiecesSkinData.AnimationData.destroyTime, gameManager.PiecesSkinData.AnimationData.destroyCurve);
-    public void PieceDestroyed(PieceHandler destroyedHandler, CellHandler cellHandler) => destroyedHandler.PieceEffectController.Destroy(gameManager.PiecesSkinData.AnimationData.destroyTime, gameManager.PiecesSkinData.AnimationData.destroyCurve);
+    public void PieceSpawned(PieceHandler pieceHandler, CellHandler cellHandler) => pieceHandler.PieceEffectController.OnInitialized(skinData.pieceAnimationData.showTime);
+    public void PieceCaptured(PieceHandler capturerPiece, PieceHandler capturedPiece, byte capturedPieceData, CellHandler cellHandler) => capturedPiece.PieceEffectController.Destroy(skinData.pieceAnimationData.destroyTime, skinData.pieceAnimationData.destroyCurve);
+    public void PieceDestroyed(PieceHandler destroyedHandler, CellHandler cellHandler) => destroyedHandler.PieceEffectController.Destroy(skinData.pieceAnimationData.destroyTime, skinData.pieceAnimationData.destroyCurve);
 
-    public void KingChecked(PieceHandler pieceHandler) => pieceHandler.PieceEffectController.Check(gameManager.PiecesSkinData.gradationPreset);
-    public void CheckResolved(PieceHandler pieceHandler) => pieceHandler.PieceEffectController.ResolveCheck(gameManager.PiecesSkinData.defaultPreset);
+    public void KingChecked(PieceHandler pieceHandler) => pieceHandler.PieceEffectController.Check(skinData.piecesSkinData.gradationPreset);
+    public void CheckResolved(PieceHandler pieceHandler) => pieceHandler.PieceEffectController.ResolveCheck(skinData.piecesSkinData.defaultPreset);
 
     public void GameEnd(PieceColor pieceColor, bool pat)
     {
         if (pat)
-            FindKing(pieceColor).PieceEffectController.Burn(gameManager.PiecesSkinData.burnPreset);
+            FindKing(pieceColor).PieceEffectController.Burn(skinData.piecesSkinData.burnPreset);
 
-        FindKing(pieceColor.Invert()).PieceEffectController.Burn(gameManager.PiecesSkinData.burnPreset); //burn oppenent king
+        FindKing(pieceColor.Invert()).PieceEffectController.Burn(skinData.piecesSkinData.burnPreset); //burn oppenent king
     }
 
     private void MovePieceToCell(PieceHandler pieceHandler, CellHandler cellHandler)
     {
         pieceHandler.transform.SetParent(pieceHandler.GetComponentInParent<Canvas>().transform);
-        pieceHandler.transform.DOMove(cellHandler.transform.position, gameManager.PiecesSkinData.AnimationData.magnetToCellDuration)
+        pieceHandler.transform.DOMove(cellHandler.transform.position, skinData.pieceAnimationData.magnetToCellDuration)
             .OnComplete(() => pieceHandler.transform.SetParent(cellHandler.transform));
 
-        pieceHandler.transform.DOScale(Vector3.one, gameManager.PiecesSkinData.AnimationData.scaleDuration);
+        pieceHandler.transform.DOScale(Vector3.one, skinData.pieceAnimationData.scaleDuration);
     }
     private bool IsDragable(int index)
     {
-        if (data.DragInactivePieces || gameManager.PossibleMoves[index].Count > 0)
+        if (skinData.pieceEffectData.DragInactivePieces || gameManager.PossibleMoves[index].Count > 0)
             return true;
 
         return false;

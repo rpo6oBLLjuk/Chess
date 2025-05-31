@@ -1,5 +1,6 @@
 using CustomInspector;
 using UnityEngine;
+using Zenject;
 
 [CreateAssetMenu(fileName = "SettingsData", menuName = "Scriptable Objects/Settings")]
 public class SettingsData : ScriptableObject

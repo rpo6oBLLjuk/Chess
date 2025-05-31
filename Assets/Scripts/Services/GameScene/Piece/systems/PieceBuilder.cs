@@ -8,6 +8,7 @@ public class PieceBuilder
 {
     [Inject] DiContainer container;
     [Inject] GameManager gameManager;
+    [Inject] SkinData skinData;
 
     PiecePrefabs piecesPrefabs;
 
@@ -38,7 +39,7 @@ public class PieceBuilder
     {
         GameObject instance = container.InstantiatePrefab(piecesPrefabs.Piece, cellHandler.transform);
         instance.name = $"Piece ({PiecePacker.GetFormattedData(pieceData)})";
-        instance.GetComponentInChildren<Image>().sprite = gameManager.PiecesSkinData.Get(pieceData);
+        instance.GetComponentInChildren<Image>().sprite = skinData.piecesSkinData.Get(pieceData);
 
         if (!instance.TryGetComponent(out PieceHandler pieceHandler))
             pieceHandler = instance.AddComponent<PieceHandler>();

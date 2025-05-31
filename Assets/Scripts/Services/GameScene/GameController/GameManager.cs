@@ -51,8 +51,6 @@ public class GameManager : MonoService
 
     [Header("Data")]
     public GameData GameData => gameData;
-    public PiecesSkinData PiecesSkinData => pieceService.PiecesSkinData;
-    public CellsSkinData CellsSkinData => boardService.CellsSkinData;
 
     [Header("Dependencies")]
     [SerializeField] private PieceService pieceService;

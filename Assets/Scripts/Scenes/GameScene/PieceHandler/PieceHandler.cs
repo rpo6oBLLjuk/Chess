@@ -8,6 +8,7 @@ using Zenject;
 public class PieceHandler : MonoBehaviour
 {
     [Inject] GameManager gameManager;
+    [Inject] SkinData skinData;
 
     [field: SerializeField]
     public PieceEffectHandler PieceEffectController { get; private set; }
@@ -55,7 +56,7 @@ public class PieceHandler : MonoBehaviour
     private void Drag()
     {
         GetCellUnderPiece(lastDragEventData, out CellHandler cellHandler);
-        Vector3 position = Vector3.Lerp(rectTransform.position, draggedPosition, gameManager.PiecesSkinData.AnimationData.magnetToMouseLerpValue * Time.unscaledDeltaTime);
+        Vector3 position = Vector3.Lerp(rectTransform.position, draggedPosition, skinData.pieceAnimationData.magnetToMouseLerpValue * Time.unscaledDeltaTime);
 
         gameManager.PieceDragging(this, position, cellHandler);
     }

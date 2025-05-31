@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
-using MySql.Data.MySqlClient;
-using System.Data;
+using MySqlConnector;
 using Zenject;
 
 public class SignInController
