@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -60,22 +61,29 @@ namespace UI.LoginScene
 
         private async void SigninOnClick()
         {
-            signinButton.interactable = false;
-            (bool success, string nickname, int playerId) = await dbService.SignInController.SignInAsync(signinLoginInputField.text, signinPasswordInputField.text);
-
-            if (success)
+            try
             {
-                dbService.SaveData(nickname, playerId);
-                Debug.Log($"SignIn with playerId: {dbService.Data.PlayerId}");
+                signinButton.interactable = false;
+                (bool success, string nickname, int playerId) = await dbService.SignInController.SignInAsync(signinLoginInputField.text, signinPasswordInputField.text);
 
-                notificationService.ShowDialog((_) => sceneLoader.LoadMainScene(), $"Hi, {dbService.Data.Username}");
+                if (success)
+                {
+                    dbService.SaveData(nickname, playerId);
+                    Debug.Log($"SignIn with playerId: {dbService.Data.PlayerId}");
+
+                    notificationService.ShowDialog((_) => sceneLoader.LoadMainScene(), $"Hi, {dbService.Data.Username}");
+                }
+                else
+                {
+                    Debug.Log("SignIn false");
+                }
+
+                signinButton.interactable = true;
             }
-            else
+            catch(Exception ex)
             {
-                Debug.Log("SignIn false");
+                notificationService.ShowPopup(ex.Message, popupType: PopupType.Error);
             }
-
-            signinButton.interactable = true;
         }
         private async void SignupOnClick()
         {

@@ -104,12 +104,12 @@ public class MovesGenerator
                     ApplyMove(index, (byte)(index - 7), board, moves);
             }
 
-            if(PiecePacker.IsEqualType(lastMove.Piece, PieceType.Pawn) && PiecePacker.IsEqualColor(lastMove.Piece, pieceColor.Invert()))
-            {
-                Debug.Log("Last move is piece");
-                if (lastMove.EndIndex - lastMove.StartIndex == 16 && (lastMove.EndIndex - 1 == index || lastMove.EndIndex + 1 == index))
-                    ApplyMove(index, (byte)(lastMove.EndIndex - 8), board, moves);
-            }
+            //if(PiecePacker.IsEqualType(lastMove.Piece, PieceType.Pawn) && PiecePacker.IsEqualColor(lastMove.Piece, pieceColor.Invert()))
+            //{
+            //    Debug.Log("Last move is piece");
+            //    if (lastMove.EndIndex - lastMove.StartIndex == 16 && (lastMove.EndIndex - 1 == index || lastMove.EndIndex + 1 == index))
+            //        ApplyMove(index, (byte)(lastMove.EndIndex - 8), board, moves);
+            //}
         }
         else //if (pieceColor == PieceColor.Black)
         {

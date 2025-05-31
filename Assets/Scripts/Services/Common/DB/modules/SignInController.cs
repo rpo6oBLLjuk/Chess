@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using MySql.Data.MySqlClient;
-using System;
 using System.Data;
 using Zenject;
 
@@ -12,14 +11,14 @@ public class SignInController
 
     public async UniTask<(bool success, string nickname, int playerId)> SignInAsync(string login, string password)
     {
-        int playerId = -1;
-        string nickname = string.Empty;
+        string log = string.Empty;
+        PopupType popupType = PopupType.None;
 
         // Проверка входных данных
         if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
         {
-            notificationService.ShowPopup("Логин и пароль обязательны", "SignIn Error", PopupType.Info);
-            return  (false, null, -1);
+            notificationService.ShowPopup("Логин и пароль обязательны", "Sing In", PopupType.Info);
+            return (false, null, -1);
         }
 
         var (success, connection) = await dbService.TryGetConnection();
@@ -38,7 +37,8 @@ public class SignInController
                 {
                     if (!reader.HasRows)
                     {
-                        notificationService.ShowPopup("Пользователь не найден", "SignIn Error", PopupType.Error);
+                        log = "Пользователь не найден";
+                        popupType = PopupType.Warning;
                         return (false, null, -1);
                     }
 
@@ -49,26 +49,32 @@ public class SignInController
 
                     if (!isPasswordValid)
                     {
-                        notificationService.ShowPopup("Неверный пароль", "SignIn Error", PopupType.Warning);
+                        log = "Неверный пароль";
+                        popupType = PopupType.Warning;
                         return (false, null, -1);
                     }
 
-                    nickname = reader.GetString("nickname");
-                    playerId = reader.GetInt32("player_id");
-
+                    string nickname = reader.GetString("nickname");
+                    int playerId = reader.GetInt32("player_id");
                     return (true, nickname, playerId);
                 }
             }
         }
         catch (MySqlException ex)
         {
-            notificationService.ShowPopup(ex.Message, "SignIn Error", PopupType.Error);
+            log = ex.Message;
+            popupType = PopupType.Error;
             return (false, null, -1);
         }
         finally
         {
             connection?.Close();
             await UniTask.SwitchToMainThread();
+
+            if (popupType != PopupType.None)
+            {
+                notificationService.ShowPopup(log, "Sing In", popupType);
+            }
         }
     }
 

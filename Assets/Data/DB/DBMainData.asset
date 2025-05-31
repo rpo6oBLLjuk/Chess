@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f59451473740049833ba848b2f9af7, type: 3}
   m_Name: DBMainData
   m_EditorClassIdentifier: 
-  <Username>k__BackingField: NewUser
-  <PlayerId>k__BackingField: 5
-  <ConnectionString>k__BackingField: server=wivpw.h.filess.io;user=Chess_noddedmean;database=Chess_noddedmean;port=61001;password=bd761374c77741e32c36ea2fa34308ac150f4a71;SslMode=None;
+  <Username>k__BackingField: 
+  <PlayerId>k__BackingField: 0
+  <ConnectionString>k__BackingField: server=wivpw.h.filess.io;user=Chess_noddedmean;database=Chess_noddedmean;port=61001;password=bd761374c77741e32c36ea2fa34308ac150f4a71;SslMode=None;ConnectionTimeout=5;AllowUserVariables=True;UseCompression=True;Pooling=False;
   timeoutSeconds: 5

@@ -12,6 +12,9 @@ public class SignUpController
 
     public async UniTask<(bool success, string nickname, int playerId)> SignUpAsync(string login, string password, string nickname)
     {
+        string log = string.Empty;
+        PopupType popupType = PopupType.None;
+
         // Валидация входных данных
         if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(nickname))
         {
@@ -27,7 +30,11 @@ public class SignUpController
         try
         {
             if (IsUserExists(connection, login, nickname))
+            {
+                log = "Логин или никнейм уже заняты!";
+                popupType = PopupType.Warning;
                 return (false, null, -1);
+            }
 
             string passwordHash = dbService.HashPassword(password);
 
@@ -64,7 +71,7 @@ public class SignUpController
             }
 
             Debug.Log($"Игрок {nickname} (ID: {playerId}) успешно зарегистрирован!");
-            return (false, nickname, playerId);
+            return (true, nickname, playerId);
         }
         catch (MySqlException ex)
         {
@@ -75,6 +82,11 @@ public class SignUpController
         {
             connection?.Close();
             await UniTask.SwitchToMainThread();
+
+            if (popupType != PopupType.None)
+            {
+                notificationService.ShowPopup(log, "Sing In", popupType);
+            }
         }
     }
 
@@ -92,7 +104,6 @@ public class SignUpController
 
             if (count > 0)
             {
-                notificationService.ShowPopup("Логин или никнейм уже заняты!", "SignUp Error", PopupType.Warning);
                 return true;
             }
         }
