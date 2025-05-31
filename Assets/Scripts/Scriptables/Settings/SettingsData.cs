@@ -44,4 +44,11 @@ public class SettingsData : ScriptableObject
         UpdateGraphicsSettings(otherConfig.VSync, otherConfig.TargetFrameRate, otherConfig.FullScreen);
         UpdateLanguageSettings(otherConfig.Language);
     }
+
+    public void ApplyGraphicsSettings()
+    {
+        QualitySettings.vSyncCount = VSync ? 1 : 0;
+        Application.targetFrameRate = TargetFrameRate;
+        Screen.fullScreen = FullScreen;
+    }
 }

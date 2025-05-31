@@ -6,5 +6,9 @@ public class SettingsDataInstaller : ScriptableObjectInstaller<SettingsDataInsta
 {
     [SerializeField] private SettingsData currentData;
 
-    public override void InstallBindings() => Container.Bind<SettingsData>().FromInstance(currentData).AsSingle();
+    public override void InstallBindings()
+    {
+        Container.Bind<SettingsData>().FromInstance(currentData).AsSingle();
+        currentData.ApplyGraphicsSettings();
+    }
 }
