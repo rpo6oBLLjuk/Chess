@@ -1,0 +1,52 @@
+using UnityEngine;
+
+public static class TransformExtensions
+{
+    /// <summary>
+    /// Recursive search for a child object by name at any nesting level.
+    /// </summary>
+    /// <param name="parent">Parent Transform.</param>
+    /// <param name="childName">The name of the object you are looking for.</param>
+    /// <returns>Transform the found object, or null if not found.</returns>
+    public static Transform FindDeepChild(this Transform parent, string childName)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == childName)
+                return child;
+
+            Transform found = child.FindDeepChild(childName);
+            if (found != null)
+                return found;
+        }
+        return null;
+    }
+
+    public static int GetChildCount(this Transform transform, bool countInactive = true)
+    {
+        if (countInactive)
+            return transform.childCount;
+        else
+        {
+            int childCount = 0;
+            foreach (Transform child in transform)
+            {
+                if(child.gameObject.activeInHierarchy)
+                    childCount++;
+            }
+
+            return childCount;
+        }
+    }
+
+    public static T GetComponentInChildrenOnly<T>(this Transform parent) where T : Component
+    {
+        for(int i = 0; i < parent.childCount; i++)
+        {
+            if(parent.GetChild(i).TryGetComponent(out T t))
+                return t;
+        }
+
+        return null;
+    }
+}

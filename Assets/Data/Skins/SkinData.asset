@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a4efd5f70d819e468d0a460a04f25ad, type: 3}
+  m_Name: SkinData
+  m_EditorClassIdentifier: 
+  piecesSkinData: {fileID: 11400000, guid: cac427bf486aec94fb7c4076ad0ec637, type: 2}
+  cellsSkinData: {fileID: 11400000, guid: 09c581c4e967c1b4ab8c20f499334b47, type: 2}
+  pieceAnimationData: {fileID: 11400000, guid: 2e6dd5c12e4ca6a4394142222724940d, type: 2}
+  cellAnimationData: {fileID: 11400000, guid: 3cb58402013cae44784251374081c394, type: 2}
+  pieceEffectData: {fileID: 11400000, guid: 8c753856286a49c49b52c0edb7353375, type: 2}
+  cellEffectData: {fileID: 11400000, guid: ee42276a9c784c9489f748c406970e9f, type: 2}
