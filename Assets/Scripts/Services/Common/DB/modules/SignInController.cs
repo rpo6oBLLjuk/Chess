@@ -8,21 +8,24 @@ public class SignInController
     [Inject] NotificationService notificationService;
 
 
-    public async UniTask<(bool success, string nickname, int playerId)> SignInAsync(string login, string password)
+    public async UniTask<bool> SignInAsync(string login, string password)
     {
         string log = string.Empty;
         PopupType popupType = PopupType.None;
 
-        // Проверка входных данных
+        int playerId = -1;
+        string nickname = "";
+        string passwordHash = "";
+
         if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
         {
             notificationService.ShowPopup("Логин и пароль обязательны", "Sing In", PopupType.Info);
-            return (false, null, -1);
+            return false;
         }
 
         var (success, connection) = await dbService.TryGetConnection();
         if (!success)
-            return (false, null, -1);
+            return false;
 
         try
         {
@@ -38,7 +41,7 @@ public class SignInController
                     {
                         log = "Пользователь не найден";
                         popupType = PopupType.Warning;
-                        return (false, null, -1);
+                        return false;
                     }
 
                     await reader.ReadAsync();
@@ -50,12 +53,18 @@ public class SignInController
                     {
                         log = "Неверный пароль";
                         popupType = PopupType.Warning;
-                        return (false, null, -1);
+                        return false;
+                    }
+                    else
+                    {
+                        passwordHash = dbService.HashPassword(password);
                     }
 
-                    string nickname = reader.GetString("nickname");
-                    int playerId = reader.GetInt32("player_id");
-                    return (true, nickname, playerId);
+                    nickname = reader.GetString("nickname");
+                    playerId = reader.GetInt32("player_id");
+
+                    await dbService.UpdateLastLogin(playerId);
+                    return true;
                 }
             }
         }
@@ -63,7 +72,7 @@ public class SignInController
         {
             log = ex.Message;
             popupType = PopupType.Error;
-            return (false, null, -1);
+            return false;
         }
         finally
         {
@@ -71,9 +80,9 @@ public class SignInController
             await UniTask.SwitchToMainThread();
 
             if (popupType != PopupType.None)
-            {
                 notificationService.ShowPopup(log, "Sing In", popupType);
-            }
+            else
+                dbService.SaveData(playerId, nickname, passwordHash);
         }
     }
 

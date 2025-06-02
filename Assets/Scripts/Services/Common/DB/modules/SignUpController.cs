@@ -10,22 +10,25 @@ public class SignUpController
     [Inject] NotificationService notificationService;
 
 
-    public async UniTask<(bool success, string nickname, int playerId)> SignUpAsync(string login, string password, string nickname)
+    public async UniTask<bool> SignUpAsync(string login, string password, string nickname)
     {
         string log = string.Empty;
         PopupType popupType = PopupType.None;
+
+        int playerId = -1;
+        string passwordHash = "";
 
         // Валидация входных данных
         if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(nickname))
         {
             notificationService.ShowPopup("Все поля должны быть заполнены!", "SignUp", PopupType.Info);
-            return (false, null, -1);
+            return false;
         }
 
         var (success, connection) = await dbService.TryGetConnection();
 
         if (!success)
-            return (false, null, -1);
+            return false;
 
         try
         {
@@ -33,10 +36,10 @@ public class SignUpController
             {
                 log = "Логин или никнейм уже заняты!";
                 popupType = PopupType.Warning;
-                return (false, null, -1);
+                return false;
             }
 
-            string passwordHash = dbService.HashPassword(password);
+            passwordHash = dbService.HashPassword(password);
 
             // Разделяем запросы и явно получаем ID
             string insertPlayerQuery = @"
@@ -44,7 +47,7 @@ public class SignUpController
                 VALUES (@login, @passwordHash, @nickname);
                 SELECT LAST_INSERT_ID();";
 
-            int playerId = -1;
+            playerId = -1;
 
             using (var cmd = new MySqlCommand(insertPlayerQuery, connection))
             {
@@ -52,17 +55,15 @@ public class SignUpController
                 cmd.Parameters.AddWithValue("@passwordHash", passwordHash);
                 cmd.Parameters.AddWithValue("@nickname", nickname);
 
-                // Явно получаем ID нового игрока
                 playerId = Convert.ToInt32(await cmd.ExecuteScalarAsync());
             }
 
             if (playerId <= 0)
             {
                 Debug.LogError("Не удалось получить ID нового игрока");
-                return (false, null, -1);
+                return false;
             }
 
-            // Добавляем запись в статистику
             string statsQuery = "INSERT INTO player_stats (player_id) VALUES (@playerId);";
             using (var cmd = new MySqlCommand(statsQuery, connection))
             {
@@ -71,12 +72,13 @@ public class SignUpController
             }
 
             Debug.Log($"Игрок {nickname} (ID: {playerId}) успешно зарегистрирован!");
-            return (true, nickname, playerId);
+            await dbService.UpdateLastLogin(playerId);
+            return true;
         }
         catch (MySqlException ex)
         {
             notificationService.ShowPopup(ex.Message, "SignUp Error", PopupType.Error);
-            return (false, null, -1);
+            return false;
         }
         finally
         {
@@ -84,9 +86,9 @@ public class SignUpController
             await UniTask.SwitchToMainThread();
 
             if (popupType != PopupType.None)
-            {
                 notificationService.ShowPopup(log, "Sing In", popupType);
-            }
+            else
+                dbService.SaveData(playerId, nickname, passwordHash);
         }
     }
 

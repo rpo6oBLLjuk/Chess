@@ -1018,13 +1018,13 @@ MonoBehaviour:
   useLoopAnim: 1
   loopDuration: 5
   loopAnimEndData:
-    anchoredPosition: {x: 0, y: 0}
+    anchoredPosition: {x: 0, y: -100}
     rotation: {x: 0, y: 0, z: -0.043619387, w: 0.99904823}
     scale: {x: 1.1, y: 1.1, z: 1}
     easeType: 7
     delay: 0
   defaultData:
-    anchoredPosition: {x: 0, y: 0}
+    anchoredPosition: {x: 0, y: -100}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6
@@ -1307,13 +1307,13 @@ MonoBehaviour:
   useLoopAnim: 1
   loopDuration: 5
   loopAnimEndData:
-    anchoredPosition: {x: 0, y: 0}
+    anchoredPosition: {x: 0, y: -100}
     rotation: {x: 0, y: 0, z: 0.043619387, w: 0.99904823}
     scale: {x: 1.1, y: 1.1, z: 1}
     easeType: 7
     delay: 0
   defaultData:
-    anchoredPosition: {x: 0, y: 0}
+    anchoredPosition: {x: 0, y: -100}
     rotation: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1}
     easeType: 6

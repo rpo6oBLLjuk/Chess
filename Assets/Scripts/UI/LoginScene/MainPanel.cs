@@ -14,6 +14,9 @@ namespace UI.LoginScene
 
         [SerializeField] Button swapButton;
 
+        [SerializeField] AnimatedPanel loadingScreen;
+        [SerializeField] TMP_Text loadingText;
+
         [Header("SingIn")]
         [SerializeField] AnimatedPanel signinPanel;
 
@@ -24,7 +27,7 @@ namespace UI.LoginScene
 
         [Header("SingUp")]
         [SerializeField] AnimatedPanel signupPanel;
-       
+
         [SerializeField] TMP_InputField nicknameInputField;
         [SerializeField] TMP_InputField signupLoginInputField;
         [SerializeField] TMP_InputField signupPasswordInputField;
@@ -40,8 +43,14 @@ namespace UI.LoginScene
             signinButton.onClick.AddListener(SigninOnClick);
             signupButton.onClick.AddListener(SignupOnClick);
 
-            if (dbService.Data.PlayerId > 0)
-                notificationService.ShowDialog((_) => sceneLoader.LoadMainScene(), $"Hi, {dbService.Data.Username}");
+            TryAutoAuth();
+        }
+
+        private void OnDisable()
+        {
+            swapButton.onClick.RemoveListener(SwapPanels);
+            signinButton.onClick.RemoveListener(SigninOnClick);
+            signupButton.onClick.RemoveListener(SignupOnClick);
         }
 
         private void SwapPanels()
@@ -59,49 +68,74 @@ namespace UI.LoginScene
             }
         }
 
+        private async void TryAutoAuth()
+        {
+            if (dbService.Data.PlayerId < 0)
+                return;
+
+            ShowLoadingScreen("Auto auth...");
+            signinButton.interactable = false;
+
+            bool success = await dbService.AutoAuthController.TryAutoLogin();
+            if (success)
+                ShowHiDialog();
+            else
+                loadingScreen.AnimHide();
+        }
         private async void SigninOnClick()
         {
-            try
+            ShowLoadingScreen("Sign In...");
+            signinButton.interactable = false;
+
+            bool success = await dbService.SignInController.SignInAsync(signinLoginInputField.text, signinPasswordInputField.text);
+
+            if (success)
             {
-                signinButton.interactable = false;
-                (bool success, string nickname, int playerId) = await dbService.SignInController.SignInAsync(signinLoginInputField.text, signinPasswordInputField.text);
-
-                if (success)
-                {
-                    dbService.SaveData(nickname, playerId);
-                    Debug.Log($"SignIn with playerId: {dbService.Data.PlayerId}");
-
-                    notificationService.ShowDialog((_) => sceneLoader.LoadMainScene(), $"Hi, {dbService.Data.Username}");
-                }
-                else
-                {
-                    Debug.Log("SignIn false");
-                }
-
-                signinButton.interactable = true;
+                Debug.Log($"SignIn with playerId: {dbService.Data.PlayerId}");
+                ShowHiDialog();
             }
-            catch(Exception ex)
+            else
             {
-                notificationService.ShowPopup(ex.Message, popupType: PopupType.Error);
+                Debug.Log("SignIn false, error id: {dbService.Data.PlayerId}");
+                signinButton.interactable = true;
+                loadingScreen.AnimHide();
             }
         }
         private async void SignupOnClick()
         {
-            signupButton.interactable= false;
-            (bool success, string nickname, int playerId) = await dbService.SignUpController.SignUpAsync(signupLoginInputField.text, signupPasswordInputField.text, nicknameInputField.text);
+            ShowLoadingScreen("Sign Up...");
+            signupButton.interactable = false;
+
+            bool success = await dbService.SignUpController.SignUpAsync(signupLoginInputField.text, signupPasswordInputField.text, nicknameInputField.text);
 
             if (success)
             {
-                dbService.SaveData(nickname, playerId);
                 Debug.Log($"SignUp with playerId: {dbService.Data.PlayerId}");
-
-                notificationService.ShowDialog((_) => sceneLoader.LoadMainScene(), $"Hi, {dbService.Data.Username}");
+                ShowHiDialog();
             }
             else
             {
                 Debug.Log($"SignUp false, error id: {dbService.Data.PlayerId}");
+                signupButton.interactable = true;
+                loadingScreen.AnimHide();
             }
-            signupButton.interactable = true;
+        }
+
+        private void ShowLoadingScreen(string loadingText)
+        {
+            loadingScreen.ForceHide();
+            loadingScreen.AnimShow();
+
+            this.loadingText.text = loadingText;
+        }
+        private async void ShowHiDialog()
+        {
+            ShowLoadingScreen("Loading userdata...");
+            
+            await dbService.AnalyticsController.LoadAnalyticsData();
+            
+            loadingScreen.AnimHide();
+            notificationService.ShowDialog((_) => sceneLoader.LoadMainScene(), $"Hi, {dbService.Data.Username}");
         }
     }
 }

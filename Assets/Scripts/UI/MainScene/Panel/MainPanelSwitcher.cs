@@ -20,8 +20,14 @@ public class MainPanelSwitcher : MonoBehaviour
     {
         foreach (PanelContainer panelContainer in widgets)
         {
-            if (panelContainer.panel == null)
+            if (panelContainer.panel == null || panelContainer.panel.gameObject.activeInHierarchy == false)
+            {
+                if (panelContainer.showButton != null)
+                    panelContainer.showButton.gameObject.SetActive(false);
                 continue;
+
+            }
+
 
             panelContainer.showButton?.onClick.AddListener(() =>
             {

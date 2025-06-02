@@ -43,7 +43,7 @@ public class AnimatedElement : MonoBehaviour
 
     public virtual Tween Show(float showDuration = 0, bool forceShow = false)
     {
-        previousTween.Kill();
+        previousTween.Kill(true);
         previousTween = GetAnim(rectTransform,
             defaultData.anchoredPosition + animStartData.anchoredPosition, defaultData.anchoredPosition,
             animStartData.rotation, defaultData.rotation,
@@ -59,7 +59,7 @@ public class AnimatedElement : MonoBehaviour
     }
     public virtual Tween Hide(float hideDuration = 0, bool forceHide = false)
     {
-        previousTween.Kill();
+        previousTween.Kill(true);
         previousTween = GetAnim(rectTransform,
             defaultData.anchoredPosition, defaultData.anchoredPosition + animEndData.anchoredPosition,
             defaultData.rotation, animEndData.rotation,
@@ -67,11 +67,11 @@ public class AnimatedElement : MonoBehaviour
             animEndData.easeType,
             (forceHide) ? 0 : hideDuration,
             (forceHide) ? 0 : animEndData.delay);
-        
+
         return previousTween.Play();
     }
 
-    private Tween GetAnim(RectTransform rectTransform, Vector2 fromAnchoredPosition, Vector2 toAnchoredPosition, Quaternion fromRotation, Quaternion toRotation, Vector3 fromScale, Vector3 toScale, Ease easeType, float duration, float delay = 0)
+    private Tween GetAnim(RectTransform rectTransform, Vector2 fromAnchoredPosition, Vector2 toAnchoredPosition, Quaternion fromRotation, Quaternion toRotation, Vector3 fromScale, Vector3 toScale, Ease easeType, float duration, float delay = -1)
     {
         Sequence sequence = DOTween.Sequence(rectTransform);
 
@@ -93,32 +93,51 @@ public class AnimatedElement : MonoBehaviour
                 .SetEase(easeType)
         );
 
-        sequence.SetDelay(delay);
+        if (delay > 0)
+            sequence.SetDelay(delay);
         return sequence;
     }
 
     private void PlayLoopAnim()
     {
-        if (useLoopAnim)
-        {
-            loopSequence?.Kill();
-            loopSequence = DOTween.Sequence(rectTransform);
+        if (!useLoopAnim)
+            return;
 
-            loopSequence.Append(GetAnim(rectTransform,
-                defaultData.anchoredPosition, defaultData.anchoredPosition + loopAnimEndData.anchoredPosition,
-                defaultData.rotation, loopAnimEndData.rotation,
-                defaultData.scale, loopAnimEndData.scale,
-                loopAnimEndData.easeType, loopDuration, loopAnimEndData.delay));
+        loopSequence?.Kill();
 
-            loopSequence.Append(GetAnim(rectTransform,
-                loopAnimEndData.anchoredPosition + defaultData.anchoredPosition, defaultData.anchoredPosition,
-                loopAnimEndData.rotation, defaultData.rotation,
-                loopAnimEndData.scale, defaultData.scale,
-                loopAnimEndData.easeType, loopDuration, loopAnimEndData.delay));
+        loopSequence = DOTween.Sequence();
 
-            loopSequence.SetLoops(-1);
-            loopSequence.PlayForward();
-        }
+        loopSequence.Append(
+            rectTransform.DOAnchorPos(defaultData.anchoredPosition + loopAnimEndData.anchoredPosition, loopDuration)
+                .From(defaultData.anchoredPosition)
+                .SetEase(loopAnimEndData.easeType)
+        );
+        loopSequence.Join(
+            rectTransform.DOLocalRotateQuaternion(loopAnimEndData.rotation, loopDuration)
+                .From(defaultData.rotation)
+                .SetEase(loopAnimEndData.easeType)
+        );
+        loopSequence.Join(
+            rectTransform.DOScale(loopAnimEndData.scale, loopDuration)
+                .From(defaultData.scale)
+                .SetEase(loopAnimEndData.easeType)
+        );
+
+        loopSequence.Append(
+            rectTransform.DOAnchorPos(defaultData.anchoredPosition, loopDuration)
+                .SetEase(loopAnimEndData.easeType)
+        );
+        loopSequence.Join(
+            rectTransform.DOLocalRotateQuaternion(defaultData.rotation, loopDuration)
+                .SetEase(loopAnimEndData.easeType)
+        );
+        loopSequence.Join(
+            rectTransform.DOScale(defaultData.scale, loopDuration)
+                .SetEase(loopAnimEndData.easeType)
+        );
+
+        loopSequence.SetLoops(-1);
+        loopSequence.Play();
     }
 
 

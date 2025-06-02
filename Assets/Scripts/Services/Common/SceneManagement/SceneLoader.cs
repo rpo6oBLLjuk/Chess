@@ -10,6 +10,7 @@ public class SceneLoader : MonoService
 {
     public event Action<int> SceneLoaded;
 
+    [field: SerializeField, Scene, Tab("Scenes")] public int AuthScene { get; private set; }
     [field: SerializeField, Scene, Tab("Scenes")] public int MainScene { get; private set; }
     [field: SerializeField, Scene, Tab("Scenes")] public int GameModeSelectionScene { get; private set; }
     [field: SerializeField, Scene, Tab("Scenes")] public int GameScene { get; private set; }
@@ -35,6 +36,7 @@ public class SceneLoader : MonoService
         loadingImage.localPosition = new Vector3(-canvasWidth, loadingImage.localPosition.y, loadingImage.localPosition.z);
     }
 
+    public void LoadAuthScene(IProgress<float> progress = null, bool inverseLoadScreen = false) => LoadScene(AuthScene, progress, inverseLoadScreen).Forget();
     public void LoadMainScene(IProgress<float> progress = null, bool inverseLoadScreen = false) => LoadScene(MainScene, progress, inverseLoadScreen).Forget();
     public void LoadGameModeSelectionScene(IProgress<float> progress = null, bool inverseLoadScreen = false) => LoadScene(GameModeSelectionScene, progress, inverseLoadScreen).Forget();
     public void LoadGameScene(IProgress<float> progress = null, bool inverseLoadScreen = false) => LoadScene(GameScene, progress, inverseLoadScreen).Forget();
